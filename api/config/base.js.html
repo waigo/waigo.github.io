@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" charset="utf-8">
+    <title>Waigo.js</title><!--[if IE]><link rel="shortcut icon" href="img/logo_32x32.ico" /><![endif]-->
+    <link rel="shortcut icon" href="/img/logo_114x114.png">
+    <meta name="msapplication-TileColor" content="#fff">
+    <meta name="msapplication-TileImage" content="/img/logo_144x144.png">
+    <link rel="stylesheet" media="screen" href="/style.css">
+  </head>
+  <body>
+    <header id="top" role="banner" class="navbar navbar-static-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" data-toggle="collapse" data-target=".topmenu-navbar-collapse" class="navbar-toggle"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button><a href="/" class="navbar-brand">Waigo</a>
+        </div>
+        <div role="navigation" class="collapse navbar-collapse topmenu-navbar-collapse">
+          <ul class="nav navbar-nav">
+            <li><a id="guideNavItem" href="/">Guide</a></li>
+            <li><a href="/api">API</a></li>
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="https://github.com/waigo/waigo">Github</a></li>
+          </ul>
+        </div>
+      </div>
+    </header>
+    <main id="content">
+      <div id="api">
+        <div class="container">
+          <div class="row">
+            <div role="complementary" class="col-md-3 waigo-api-index">
+              <ul class="nav hidden-sm hidden-xs">
+                <li><a href="../index.html">Main</a></li>
+                <li class="active"><a href="../config/base.js.html">config/base.js</a></li>
+                <li><a href="../config/development.js.html">config/development.js</a></li>
+                <li><a href="../config/index.js.html">config/index.js</a></li>
+                <li><a href="../controllers/main.js.html">controllers/main.js</a></li>
+                <li><a href="../routes.js.html">routes.js</a></li>
+                <li><a href="../server.js.html">server.js</a></li>
+                <li><a href="../support/db/mongoose.js.html">support/db/mongoose.js</a></li>
+                <li><a href="../support/errors.js.html">support/errors.js</a></li>
+                <li><a href="../support/logging/winston.js.html">support/logging/winston.js</a></li>
+                <li><a href="../support/middleware/errorHandler.js.html">support/middleware/errorHandler.js</a></li>
+                <li><a href="../support/middleware/outputFormats.js.html">support/middleware/outputFormats.js</a></li>
+                <li><a href="../support/middleware/responseTime.js.html">support/middleware/responseTime.js</a></li>
+                <li><a href="../support/middleware/sessions.js.html">support/middleware/sessions.js</a></li>
+                <li><a href="../support/outputFormats/html.js.html">support/outputFormats/html.js</a></li>
+                <li><a href="../support/outputFormats/json.js.html">support/outputFormats/json.js</a></li>
+                <li><a href="../support/routeMapper.js.html">support/routeMapper.js</a></li>
+                <li><a href="../support/session/store/mongo.js.html">support/session/store/mongo.js</a></li>
+              </ul>
+              <div class="visible-sm visible-xs">
+                <button type="button" data-toggle="collapse" data-target="#api-index-xs" class="btn btn-info">Show/hide API index</button>
+                <div id="api-index-xs">
+                  <ul class="nav">
+                    <li><a href="../index.html">Main</a></li>
+                    <li class="active"><a href="../config/base.js.html">config/base.js</a></li>
+                    <li><a href="../config/development.js.html">config/development.js</a></li>
+                    <li><a href="../config/index.js.html">config/index.js</a></li>
+                    <li><a href="../controllers/main.js.html">controllers/main.js</a></li>
+                    <li><a href="../routes.js.html">routes.js</a></li>
+                    <li><a href="../server.js.html">server.js</a></li>
+                    <li><a href="../support/db/mongoose.js.html">support/db/mongoose.js</a></li>
+                    <li><a href="../support/errors.js.html">support/errors.js</a></li>
+                    <li><a href="../support/logging/winston.js.html">support/logging/winston.js</a></li>
+                    <li><a href="../support/middleware/errorHandler.js.html">support/middleware/errorHandler.js</a></li>
+                    <li><a href="../support/middleware/outputFormats.js.html">support/middleware/outputFormats.js</a></li>
+                    <li><a href="../support/middleware/responseTime.js.html">support/middleware/responseTime.js</a></li>
+                    <li><a href="../support/middleware/sessions.js.html">support/middleware/sessions.js</a></li>
+                    <li><a href="../support/outputFormats/html.js.html">support/outputFormats/html.js</a></li>
+                    <li><a href="../support/outputFormats/json.js.html">support/outputFormats/json.js</a></li>
+                    <li><a href="../support/routeMapper.js.html">support/routeMapper.js</a></li>
+                    <li><a href="../support/session/store/mongo.js.html">support/session/store/mongo.js</a></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div role="main" class="col-md-7 waigo-api-content">
+              <section id="port">
+                <h1>port</h1>
+                <div class="description"><p>Server listening port.</p> </div>
+                <h5 class="subheader"></h5>
+                <p>
+                  <div class="label label-success radius ctx-type">property</div>
+                </p>
+              </section>
+              <pre><code class="language-javascript">exports.port = 3000;</code></pre>
+              <section id="baseURL">
+                <h1>baseURL</h1>
+                <div class="description"><p>Base web URL</p> </div>
+                <h5 class="subheader"></h5>
+                <p>
+                  <div class="label label-success radius ctx-type">property</div>
+                </p>
+              </section>
+              <pre><code class="language-javascript">exports.baseURL = 'http://localhost:' + exports.port;</code></pre>
+              <section id="db">
+                <h1>db</h1>
+                <div class="description"><p>Database connection.</p> </div>
+                <h5 class="subheader"></h5>
+                <p>
+                  <div class="label label-success radius ctx-type">property</div>
+                </p>
+              </section>
+              <pre><code class="language-javascript">exports.db = {
+  mongoose: {
+    host: '127.0.0.1',
+    port: '27017',
+    db: 'waigo'
+  }
+};</code></pre>
+              <section id="logging">
+                <h1>logging</h1>
+                <div class="description"><p>Logging config.</p> </div>
+                <h5 class="subheader"></h5>
+                <p>
+                  <div class="label label-success radius ctx-type">property</div>
+                </p>
+              </section>
+              <pre><code class="language-javascript">exports.logging = {
+  winston: {
+    // log to mongo db
+    mongo: {
+      // log level threshold
+      level: 'error',
+      collection: 'logs',
+      // whether to confirm writes to db log table
+      safe: false
+    }
+  }
+};</code></pre>
+              <section id="session">
+                <h1>session</h1>
+                <div class="description"><p>Session configuration.</p>
+
+<p>We don't provide default <code>keys</code> so as to encourage developers to provide a custom one for their app.</p> </div>
+                <h5 class="subheader"></h5>
+                <p>
+                  <div class="label label-success radius ctx-type">property</div>
+                </p>
+              </section>
+              <pre><code class="language-javascript">exports.session = {
+  // cookie signing keys - these are used for signing cookies (using Keygrip) and should be set for your app
+  // keys: ['use', 'your', 'own'],
+  // session cookie name
+  name: 'waigo',
+  // session storage
+  store: {
+    // session store type
+    type: 'mongo',
+    // session store config
+    config: {
+      url: 'mongodb://127.0.0.1:27017/waigo',
+      collection: 'sessions'
+    }
+  },
+  // more cookie options
+  cookie: {
+    // cookie expires in...
+    validForDays: 7,
+    // cookie valid for url path...
+    path: '/'
+  }
+};</code></pre>
+              <section id="outputFormats">
+                <h1>outputFormats</h1>
+                <div class="description"><p>Server responses to client requests can be in the formats specified here.</p> </div>
+                <h5 class="subheader"></h5>
+                <p>
+                  <div class="label label-success radius ctx-type">property</div>
+                </p>
+              </section>
+              <pre><code class="language-javascript">exports.outputFormats = {
+  // List of enabled formats along with options to pass to each formatter. */
+  formats: {
+    html: {
+      // Folder relative to application root folder, in which to look for view templates. */
+      folder: 'views',
+      // Default view template filename extension when not explicitly provided. */
+      ext: 'jade',
+      // Map file extension to rendering engine
+      engine: {
+        'jade': 'jade'
+      }
+    },
+    json: {}
+  },
+  // Use this URL query parameter to determine output format. */
+  paramName: 'format',
+  // Default format, in case URL query parameter which determines output format isn't provided. */
+  default: 'html'
+};</code></pre>
+              <section id="staticFolder">
+                <h1>staticFolder</h1>
+                <div class="description"><p>Static resources (relative to app root folder).</p> </div>
+                <h5 class="subheader"></h5>
+                <p>
+                  <div class="label label-success radius ctx-type">property</div>
+                </p>
+              </section>
+              <pre><code class="language-javascript">exports.staticFolder = '../public';</code></pre>
+              <section id="errorHandler">
+                <h1>errorHandler</h1>
+                <div class="description"><p>Config for request error handler.</p> </div>
+                <h5 class="subheader"></h5>
+                <p>
+                  <div class="label label-success radius ctx-type">property</div>
+                </p>
+              </section>
+              <pre><code class="language-javascript">exports.errorHandler = {
+  // whether to show stack traces in error output.
+  showStack: false
+};</code></pre>
+            </div>
+            <div class="col-md-2">
+              <div role="complementary" class="waigo-content-menu hidden-print">
+                <ul class="nav">
+                  <li><a href="#port"><span>port</span></a></li>
+                  <li><a href="#baseURL"><span>baseURL</span></a></li>
+                  <li><a href="#db"><span>db</span></a></li>
+                  <li><a href="#logging"><span>logging</span></a></li>
+                  <li><a href="#session"><span>session</span></a></li>
+                  <li><a href="#outputFormats"><span>outputFormats</span></a></li>
+                  <li><a href="#staticFolder"><span>staticFolder</span></a></li>
+                  <li><a href="#errorHandler"><span>errorHandler</span></a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+    <footer role="contentinfo"><p>Built by <a href="http://hiddentao.com">hiddentao</a></p>
+<p>This page was <a href="https://github.com/waigo/waigojs.com-generator">generated</a> on Mon, 24 Feb 2014 16:21:01 GMT</p>
+
+    </footer>
+    <script type="text/javascript" src="/scripts.js"></script>
+    <script type="text/javascript">
+      var _paq = _paq || [];
+      _paq.push(["setDomains", ["*.waigojs.com","*.waigo.github.io"]]);
+      _paq.push(["trackPageView"]);
+      _paq.push(["enableLinkTracking"]);
+      (function() {
+        var u=(("https:" == document.location.protocol) ? "https" : "http") + "://piwik.hiddentao.com/";
+        _paq.push(["setTrackerUrl", u+"piwik.php"]);
+        _paq.push(["setSiteId", "3"]);
+        var d=document, g=d.createElement("script"), s=d.getElementsByTagName("script")[0]; g.type="text/javascript";
+        g.defer=true; g.async=true; g.src=u+"piwik.js"; s.parentNode.insertBefore(g,s);
+      })();
+      
+    </script>
+  </body>
+</html>

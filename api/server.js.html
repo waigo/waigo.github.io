@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" charset="utf-8">
+    <title>Waigo.js</title><!--[if IE]><link rel="shortcut icon" href="img/logo_32x32.ico" /><![endif]-->
+    <link rel="shortcut icon" href="/img/logo_114x114.png">
+    <meta name="msapplication-TileColor" content="#fff">
+    <meta name="msapplication-TileImage" content="/img/logo_144x144.png">
+    <link rel="stylesheet" media="screen" href="/style.css">
+  </head>
+  <body>
+    <header id="top" role="banner" class="navbar navbar-static-top">
+      <div class="container">
+        <div class="navbar-header">
+          <button type="button" data-toggle="collapse" data-target=".topmenu-navbar-collapse" class="navbar-toggle"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button><a href="/" class="navbar-brand">Waigo</a>
+        </div>
+        <div role="navigation" class="collapse navbar-collapse topmenu-navbar-collapse">
+          <ul class="nav navbar-nav">
+            <li><a id="guideNavItem" href="/">Guide</a></li>
+            <li><a href="/api">API</a></li>
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="https://github.com/waigo/waigo">Github</a></li>
+          </ul>
+        </div>
+      </div>
+    </header>
+    <main id="content">
+      <div id="api">
+        <div class="container">
+          <div class="row">
+            <div role="complementary" class="col-md-3 waigo-api-index">
+              <ul class="nav hidden-sm hidden-xs">
+                <li><a href="index.html">Main</a></li>
+                <li><a href="config/base.js.html">config/base.js</a></li>
+                <li><a href="config/development.js.html">config/development.js</a></li>
+                <li><a href="config/index.js.html">config/index.js</a></li>
+                <li><a href="controllers/main.js.html">controllers/main.js</a></li>
+                <li><a href="routes.js.html">routes.js</a></li>
+                <li class="active"><a href="server.js.html">server.js</a></li>
+                <li><a href="support/db/mongoose.js.html">support/db/mongoose.js</a></li>
+                <li><a href="support/errors.js.html">support/errors.js</a></li>
+                <li><a href="support/logging/winston.js.html">support/logging/winston.js</a></li>
+                <li><a href="support/middleware/errorHandler.js.html">support/middleware/errorHandler.js</a></li>
+                <li><a href="support/middleware/outputFormats.js.html">support/middleware/outputFormats.js</a></li>
+                <li><a href="support/middleware/responseTime.js.html">support/middleware/responseTime.js</a></li>
+                <li><a href="support/middleware/sessions.js.html">support/middleware/sessions.js</a></li>
+                <li><a href="support/outputFormats/html.js.html">support/outputFormats/html.js</a></li>
+                <li><a href="support/outputFormats/json.js.html">support/outputFormats/json.js</a></li>
+                <li><a href="support/routeMapper.js.html">support/routeMapper.js</a></li>
+                <li><a href="support/session/store/mongo.js.html">support/session/store/mongo.js</a></li>
+              </ul>
+              <div class="visible-sm visible-xs">
+                <button type="button" data-toggle="collapse" data-target="#api-index-xs" class="btn btn-info">Show/hide API index</button>
+                <div id="api-index-xs">
+                  <ul class="nav">
+                    <li><a href="index.html">Main</a></li>
+                    <li><a href="config/base.js.html">config/base.js</a></li>
+                    <li><a href="config/development.js.html">config/development.js</a></li>
+                    <li><a href="config/index.js.html">config/index.js</a></li>
+                    <li><a href="controllers/main.js.html">controllers/main.js</a></li>
+                    <li><a href="routes.js.html">routes.js</a></li>
+                    <li class="active"><a href="server.js.html">server.js</a></li>
+                    <li><a href="support/db/mongoose.js.html">support/db/mongoose.js</a></li>
+                    <li><a href="support/errors.js.html">support/errors.js</a></li>
+                    <li><a href="support/logging/winston.js.html">support/logging/winston.js</a></li>
+                    <li><a href="support/middleware/errorHandler.js.html">support/middleware/errorHandler.js</a></li>
+                    <li><a href="support/middleware/outputFormats.js.html">support/middleware/outputFormats.js</a></li>
+                    <li><a href="support/middleware/responseTime.js.html">support/middleware/responseTime.js</a></li>
+                    <li><a href="support/middleware/sessions.js.html">support/middleware/sessions.js</a></li>
+                    <li><a href="support/outputFormats/html.js.html">support/outputFormats/html.js</a></li>
+                    <li><a href="support/outputFormats/json.js.html">support/outputFormats/json.js</a></li>
+                    <li><a href="support/routeMapper.js.html">support/routeMapper.js</a></li>
+                    <li><a href="support/session/store/mongo.js.html">support/session/store/mongo.js</a></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div role="main" class="col-md-7 waigo-api-content">
+              <section id="app">
+                <h1>app</h1>
+                <div class="description"><p>The Koa application object.</p> </div>
+                <h5 class="subheader"></h5>
+                <p>
+                  <div class="label label-success radius ctx-type">declaration</div>
+                </p>
+              </section>
+              <pre><code class="language-javascript">var app = module.exports = koa();
+require('koa-trie-router')(app);</code></pre>
+              <section id="loadConfig">
+                <h1>loadConfig</h1>
+                <div class="description"><p>Load in the application <a href="config/index.js.html">configuration</a>.</p> </div>
+                <h5 class="subheader"></h5>
+                <p>
+                  <div class="label label-info radius ctx-type">method</div>
+                </p>
+              </section>
+              <pre><code class="language-javascript">app.loadConfig = function*() {
+  app.config = waigo.load('config/index')();
+};</code></pre>
+              <section id="setupLogger">
+                <h1>setupLogger</h1>
+                <div class="description"><p>Setup logger.</p> </div>
+                <h5 class="subheader"></h5>
+                <p>
+                  <div class="label label-info radius ctx-type">method</div>
+                </p>
+              </section>
+              <pre><code class="language-javascript">app.setupLogger = function*() {
+  var appLoggerType = _.keys(app.config.logging).pop();
+  app.logger = waigo.load('support/logging/' + appLoggerType).create(app.config, app.config.logging[appLoggerType]);
+
+  process.on('uncaughtException', function(err) {
+    app.logger.error('Uncaught exception', err.stack);
+  });
+
+  app.on('error', function(err, ctx){
+    app.logger.error(err);
+  });
+};</code></pre>
+              <section id="setupDatabase">
+                <h1>setupDatabase</h1>
+                <div class="description"><p>Setup database connection.</p> </div>
+                <h5 class="subheader"></h5>
+                <p>
+                  <div class="label label-info radius ctx-type">method</div>
+                </p>
+              </section>
+              <pre><code class="language-javascript">app.setupDatabase = function*() {
+  if (app.config.db) {
+    var dbType = _.keys(app.config.db).pop();
+    app.db = waigo.load('support/db/' + dbType).create(app.config.db[dbType]);
+  }
+};</code></pre>
+              <section id="setupResponseTime">
+                <h1>setupResponseTime</h1>
+                <div class="description"><p>Setup middleware for generating X-Response-Time headers.</p> </div>
+                <h5 class="subheader"></h5>
+                <p>
+                  <div class="label label-info radius ctx-type">method</div>
+                </p>
+              </section>
+              <pre><code class="language-javascript">app.setupResponseTime = function*() {
+  app.use(waigo.load('support/middleware/responseTime')());
+};</code></pre>
+              <section id="setupErrorHandler">
+                <h1>setupErrorHandler</h1>
+                <div class="description"><p>Setup middleware for dealing with errors.</p> </div>
+                <h5 class="subheader"></h5>
+                <p>
+                  <div class="label label-info radius ctx-type">method</div>
+                </p>
+              </section>
+              <pre><code class="language-javascript">app.setupErrorHandler = function*() {
+  app.use(waigo.load('support/middleware/errorHandler')(app.config.errorHandler));
+};</code></pre>
+              <section id="setupSessions">
+                <h1>setupSessions</h1>
+                <div class="description"><p>Setup middleware for handling user sessions.</p> </div>
+                <h5 class="subheader"></h5>
+                <p>
+                  <div class="label label-info radius ctx-type">method</div>
+                </p>
+              </section>
+              <pre><code class="language-javascript">app.setupSessions = function*() {
+  var sessionConfig = app.config.session;
+  if (sessionConfig) {
+    if (!sessionConfig.keys) {
+      throw new Error('Please specify cookie signing keys (session.keys) in the config file.');
+    }
+    app.keys = sessionConfig.keys;
+    app.use(waigo.load('support/middleware/sessions')({
+      name: sessionConfig.name,
+      store: waigo.load('support/session/store/' + sessionConfig.store.type).create(app, sessionConfig.store.config),
+      cookie: {
+        expires: moment().add('days', sessionConfig.cookie.validForDays).toDate(),
+        path: sessionConfig.cookie.path
+      }
+    }));
+  }
+};</code></pre>
+              <section id="setupStaticResources">
+                <h1>setupStaticResources</h1>
+                <div class="description"><p>Setup middleware for serving static resources.</p> </div>
+                <h5 class="subheader"></h5>
+                <p>
+                  <div class="label label-info radius ctx-type">method</div>
+                </p>
+              </section>
+              <pre><code class="language-javascript">app.setupStaticResources = function*() {
+  app.use(waigo.load('support/middleware/staticResources')(app.config.staticFolder));
+};</code></pre>
+              <section id="setupOutputFormats">
+                <h1>setupOutputFormats</h1>
+                <div class="description"><p>Setup middleware for response output formats.</p> </div>
+                <h5 class="subheader"></h5>
+                <p>
+                  <div class="label label-info radius ctx-type">method</div>
+                </p>
+              </section>
+              <pre><code class="language-javascript">app.setupOutputFormats = function*() {
+  app.use(waigo.load('support/middleware/outputFormats')(app.config.outputFormats));
+};</code></pre>
+              <section id="setupRoutes">
+                <h1>setupRoutes</h1>
+                <div class="description"><p>Setup routes and router middleware.</p> </div>
+                <h5 class="subheader"></h5>
+                <p>
+                  <div class="label label-info radius ctx-type">method</div>
+                </p>
+              </section>
+              <pre><code class="language-javascript">app.setupRoutes = function*() {
+  app.routes = waigo.load('routes');
+  waigo.load('support/routeMapper').map(app, app.routes);
+  app.use(app.router);
+};</code></pre>
+              <section id="startServer">
+                <h1>startServer</h1>
+                <div class="description"><p>Start the HTTP server.</p> </div>
+                <h5 class="subheader"></h5>
+                <p>
+                  <div class="label label-info radius ctx-type">method</div>
+                </p>
+              </section>
+              <pre><code class="language-javascript">app.startServer = function*() {
+  app.listen(app.config.port);
+  app.logger.info('Server listening on port ' + app.config.port);
+};</code></pre>
+              <section id="start">
+                <h1>start</h1>
+                <div class="description"><p>Start the Koa application.</p>
+
+<p>This is a convenience method for initialising the various parts of the app and setting up the general middleware chain.</p> </div>
+                <h5 class="subheader"></h5>
+                <p>
+                  <div class="label label-info radius ctx-type">method</div>
+                </p>
+              </section>
+              <pre><code class="language-javascript">app.start = function*() {
+  yield* app.loadConfig();
+  yield* app.setupLogger();
+  yield* app.setupDatabase();
+
+  // middleware chain for every incoming request
+  yield* app.setupResponseTime();
+  yield* app.setupErrorHandler();
+  yield* app.setupSessions();
+  yield* app.setupStaticResources();
+  yield* app.setupOutputFormats();
+
+  yield* app.setupRoutes();
+  yield* app.startServer();    
+};</code></pre>
+            </div>
+            <div class="col-md-2">
+              <div role="complementary" class="waigo-content-menu hidden-print">
+                <ul class="nav">
+                  <li><a href="#app"><span>app</span></a></li>
+                  <li><a href="#loadConfig"><span>loadConfig()</span></a></li>
+                  <li><a href="#setupLogger"><span>setupLogger()</span></a></li>
+                  <li><a href="#setupDatabase"><span>setupDatabase()</span></a></li>
+                  <li><a href="#setupResponseTime"><span>setupResponseTime()</span></a></li>
+                  <li><a href="#setupErrorHandler"><span>setupErrorHandler()</span></a></li>
+                  <li><a href="#setupSessions"><span>setupSessions()</span></a></li>
+                  <li><a href="#setupStaticResources"><span>setupStaticResources()</span></a></li>
+                  <li><a href="#setupOutputFormats"><span>setupOutputFormats()</span></a></li>
+                  <li><a href="#setupRoutes"><span>setupRoutes()</span></a></li>
+                  <li><a href="#startServer"><span>startServer()</span></a></li>
+                  <li><a href="#start"><span>start()</span></a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+    <footer role="contentinfo"><p>Built by <a href="http://hiddentao.com">hiddentao</a></p>
+<p>This page was <a href="https://github.com/waigo/waigojs.com-generator">generated</a> on Mon, 24 Feb 2014 16:21:02 GMT</p>
+
+    </footer>
+    <script type="text/javascript" src="/scripts.js"></script>
+    <script type="text/javascript">
+      var _paq = _paq || [];
+      _paq.push(["setDomains", ["*.waigojs.com","*.waigo.github.io"]]);
+      _paq.push(["trackPageView"]);
+      _paq.push(["enableLinkTracking"]);
+      (function() {
+        var u=(("https:" == document.location.protocol) ? "https" : "http") + "://piwik.hiddentao.com/";
+        _paq.push(["setTrackerUrl", u+"piwik.php"]);
+        _paq.push(["setSiteId", "3"]);
+        var d=document, g=d.createElement("script"), s=d.getElementsByTagName("script")[0]; g.type="text/javascript";
+        g.defer=true; g.async=true; g.src=u+"piwik.js"; s.parentNode.insertBefore(g,s);
+      })();
+      
+    </script>
+  </body>
+</html>
