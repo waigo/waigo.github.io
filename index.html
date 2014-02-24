@@ -3,7 +3,7 @@
 <p>Waigo is a flexible MVC framework for building scalable and maintainable web applications.</p>
 <p>Based on <a href="http://koajs.com">koa</a>, it uses a clean mechanism for asynchronous programming, removing the 
 need for callbacks. Almost every aspect of the core framework can be easily extended or overridden.</p>
-<p><em>Waigo (and koa underneath it) makes extensive use of <a href="http://tobyho.com/2013/06/16/what-are-generators/">ES6 Generators</a>. It is important that you understand how they work if you wish to understand the source code.</em></p>
+<p>This documentation (along with API docs) is available at <a href="http://waigojs.com">waigojs.com</a>.</p>
 <h1 id="getting-started">Getting started</h1>
 <h2 id="installation">Installation</h2>
 <p>Waigo requires <strong>Node.js v0.11.10 or above</strong>. This along with the command-line <code>--harmony</code> flag will give us the ES6 features we need. An easy 
@@ -29,6 +29,10 @@ Promise.spawn(function*() {
   .then(function(err) {
     console.log(err);  
   });
+</code></pre>
+<p>Let&#39;s disable database connections and sesssions for now:</p>
+<pre><code class="lang-bash">$ mkdir -p src/config
+$ echo &quot;exports.session = null; exports.db = null;&quot; &gt; src/config/development.js
 </code></pre>
 <p>Finally, we need a template:</p>
 <pre><code class="lang-bash">$ mkdir -p src/views
@@ -129,6 +133,7 @@ looks for the following module files and loads them if present, in the following
 <li><code>config/test.www-data</code></li>
 </ol>
 <p>The base configuration object gets <em>extended</em> with each subsequently loaded config module file. This means that in each subsequent file you only need to override the configuration properties that differ.</p>
+<p>The current mode is stored in <code>app.config.mode</code> and the user id in <code>app.config.user</code>.</p>
 <h1 id="routing">Routing</h1>
 <p>Routes are specified as a mapping in the <code>routes</code> module file in the following format:</p>
 <pre><code class="lang-javascript">// in routes.js
@@ -215,7 +220,6 @@ exports.index = function*(next) {
   }
 };
 </code></pre>
-<p><em>Note: the default <code>development</code> mode configuration has sessions turned off to make it easier to get things running</em></p>
 <h1 id="views">Views</h1>
 <p>Views work the same as in other frameworks, with Jade as the default template language. But the view layer also supports the idea of different output formats.</p>
 <p>Having different output formats makes it easy to re-use your route handlers (i.e. controllers) for dfferent types of front-ends. For example, you may wish to build a single-page web app or a mobile app which interacts with your back-end in a similar fashion to your normal web interface. Being able to re-use your controllers to output JSON makes life a easier in such cases.</p>
@@ -260,7 +264,8 @@ exports.userProfile = function*(next) {
 <pre><code class="lang-javascript">{ id: 123 }
 </code></pre>
 <h1 id="logging">Logging</h1>
-<p>Waigo uses <a href="">winston</a> for its logging. The default logging target (see <code>config/base</code>) is a Mongo database. For <code>development</code> mode it&#39;s the console. All uncaught exceptions and <code>error</code> events emitted on the koa app object get logged in this way.</p>
+<p>Waigo provides support for <a href="https://github.com/flatiron/winston">winston</a> by default. The default Winston logging target (see <code>config/base</code>) is a Mongo database. For <code>development</code> mode it&#39;s set to the console. All uncaught exceptions and <code>error</code> events emitted on the koa app object get logged in this way.</p>
+<p>You may use any logging library you wish. The <code>app.config.logging</code> configuration object both specifies the name of a logger (to be loaded from the <code>support/logging</code> path) and configuration to pass to that logger.</p>
 <h2 id="error-handling">Error handling</h2>
 <p>The <code>support/middleware/errorHandler</code> middleware is responsible for handling all errors which get thrown during the request handling process. Errors get logged through the default logger as well as getting sent back to the client which made the original request. </p>
 <p>There are also a few built-in error classes inheriting from the base <code>Error</code> object. These can be found in <code>support/errors</code>. If you wish to create your own type of errors it is highly recommended that you sub-class <code>BaseError</code>. For example:</p>
@@ -283,7 +288,7 @@ throw new FileSystemError(&#39;Error reading image file&#39;);
 <p>Sometimes in order to fix a problem it&#39;s useful to know what&#39;s going on inside the framework.</p>
 <p>Waigo makes use of the <a href="https://github.com/visionmedia/debug">debug</a> utility internally in some parts. For instance, to debug the 
 <a href="#extend-and-override">loading system</a> run your app with the <code>DEBUG</code> environment variable as follows:</p>
-<pre><code class="lang-shell">$ DEBUG=waigo-loader node --harmony app.js
+<pre><code class="lang-bash">$ DEBUG=waigo-loader node --harmony app.js
   waigo-loader Getting plugin names... +0ms
   waigo-loader Plugins to load:  +15ms
   waigo-loader Module &quot;routes&quot; will be loaded from source &quot;waigo&quot; +10ms
