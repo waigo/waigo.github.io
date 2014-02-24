@@ -1,0 +1,302 @@
+<!DOCTYPE html><html lang="en"><head><title>Waigo.js</title><!-- favicons, tile images, etc--><!-- if IElink(rel="shortcut icon", href="img/logo_32x32.ico")--><link rel="shortcut icon" href="img/logo_114x114.png"><meta name="msapplication-TileColor" content="#fff"><meta name="msapplication-TileImage" content="img/logo_144x144.png"><link rel="stylesheet" media="screen" href="style.css"></head><body><header id="top" role="banner" class="navbar navbar-static-top"><div class="container"><div class="navbar-header"><button type="button" data-toggle="collapse" data-target=".topmenu-navbar-collapse" class="navbar-toggle"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button><a href="index.html" class="navbar-brand">Waigo</a></div><div role="navigation" class="collapse navbar-collapse topmenu-navbar-collapse"><ul class="nav navbar-nav"><li><a href="index.html#guide">Guide</a></li><li><a href="api.html">API</a></li></ul><ul class="nav navbar-nav navbar-right"><li><a href="https://github.com/hiddentao/waigo">Github</a></li></ul></div></div></header><main id="content"><section id="banner"><div class="container"><div class="waigo-intro-banner"><div class="rays">  </div><div class="text"><h1>W</h1><p>Next-gen MVC framework for Node.js</p><ul class="meta"><li>v0.2.1</li><li><a href="https://github.com/waigo/waigo">github</a></li><li><a href="https://twitter.com/hiddentao">twitter</a></li></ul></div></div></div></section><section id="guide"><div class="container"><div class="row"><div role="main" class="col-md-9 waigo-guide-content"><div><h1 id="what-is-waigo-">What is Waigo?</h1>
+<p><a href="http://travis-ci.org/waigo/waigo"><img src="https://secure.travis-ci.org/waigo/waigo.png" alt="Build Status"></a> <a href="https://npmjs.org/package/waigo"><img src="https://badge.fury.io/js/waigo.png" alt="NPM module"></a> <a href="https://codeclimate.com/github/waigo/waigo"><img src="https://codeclimate.com/github/waigo/waigo.png" alt="Code quality"></a></p>
+<p>Waigo is a flexible MVC framework for building scalable and maintainable web applications.</p>
+<p>Based on <a href="http://koajs.com">koa</a>, it uses a clean mechanism for asynchronous programming, removing the 
+need for callbacks. Almost every aspect of the core framework can be easily extended or overridden.</p>
+<p><em>Waigo (and koa underneath it) makes extensive use of <a href="http://tobyho.com/2013/06/16/what-are-generators/">ES6 Generators</a>. It is important that you understand how they work if you wish to understand the source code.</em></p>
+<h1 id="getting-started">Getting started</h1>
+<h2 id="installation">Installation</h2>
+<p>Waigo requires <strong>Node.js v0.11.10 or above</strong>. This along with the command-line <code>--harmony</code> flag will give us the ES6 features we need. An easy 
+way to manage multiples versions of Node.js is to use <a href="https://github.com/creationix/nvm">NVM</a>.</p>
+<p>Once Node is installed go ahead and install Waigo:</p>
+<pre><code class="lang-bash">$ npm install waigo
+</code></pre>
+<h2 id="hello-world">Hello world</h2>
+<p>We will use the <a href="https://github.com/petkaantonov/bluebird">bluebird</a> library to iterate through our generators:</p>
+<pre><code class="lang-bash">$ npm install bluebird
+</code></pre>
+<p>Create a new Javascript file (e.g. <code>app.js</code>) in your project folder with the following contents:</p>
+<pre><code class="lang-javascript">var Promise = require(&#39;bluebird&#39;),
+  waigo = require(&#39;waigo&#39;);
+
+// Generator co-routine
+Promise.spawn(function*() {
+  // Initialise waigo module loading system
+  yield* waigo.init();
+  // Start the server
+  yield* waigo.load(&#39;server&#39;).start();
+})
+  .then(function(err) {
+    console.log(err);  
+  });
+</code></pre>
+<p>Finally, we need a template:</p>
+<pre><code class="lang-bash">$ mkdir -p src/views
+$ echo &quot;p= title&quot; &gt; src/views/index.jade
+</code></pre>
+<p>Start the app:</p>
+<pre><code class="lang-bash">$ node --harmony app.js
+</code></pre>
+<p>Visit <a href="http://localhost:3000"><a href="http://localhost:3000">http://localhost:3000</a></a> and you should see the following HTML output: </p>
+<pre><code class="lang-html">&lt;p&gt;Hello world!&lt;/p&gt;
+</code></pre>
+<p>Waigo is designed to make it easy to re-use your URL routes as JSON APIs. Visit <a href="http://localhost:3000/?format=json"><a href="http://localhost:3000/?format=json">http://localhost:3000/?format=json</a></a> and you should see:</p>
+<pre><code class="lang-json">{
+  title: &quot;Hello world!&quot;
+}
+</code></pre>
+<p>This is all the data get which gets passed by the default controller to the <code>index.jade</code> template we created above. By default Waigo supports 
+HTML and JSON output, and more <a href="#views">output formats</a> can be easily added.</p>
+<h1 id="extend-and-override">Extend and Override</h1>
+<p>In the &quot;Hello World&quot; example above you will have noticed:</p>
+<pre><code class="lang-javascript">waigo.load(&#39;server&#39;)
+</code></pre>
+<p>When you want to use something provided by the framework you first have to load its module file through <code>waigo.load()</code>. This allows you to:</p>
+<ol>
+<li>Only load the parts of the framework you will actually use <em>(performance)</em>.</li>
+<li><strong>Override any framework module file with your own version</strong> <em>(extendability and customization)</em>.</li>
+</ol>
+<p>When you want to load the <code>server</code> module file (as above) the loader will look for it in the following locations:</p>
+<ol>
+<li><code>&lt;your app folder&gt;/src/server.js</code></li>
+<li><code>&lt;waigo npm module folder&gt;/src/server.js</code></li>
+</ol>
+<p><em>Note: if you have <a href="#plugins">plugins</a> installed their paths will also be searched.</em></p>
+<p>So if you provide a <code>server.js</code> within your app&#39;s folder tree then Waigo will use that instead of the default one provided by the framework. This rules applies to <strong>every</strong> module file within the framework. </p>
+<p>Thus if you don&#39;t like something provided by Waigo you can easily override it. But what if you specifically wanted the version of <code>server.js</code> provided by the framework? Just prefix <code>waigo:</code> to the module file name:</p>
+<pre><code class="lang-javascript">// this will load the version of server.js provided by Waigo, and not the one provided by your app
+waigo.load(&#39;waigo:server&#39;);
+</code></pre>
+<p>This also means you don&#39;t have to completely override the framework version. You can also <em>extend</em> it:</p>
+<pre><code class="lang-javascript">// in file: &lt;your app folder&gt;/src/server.js
+
+var waigo = require(&#39;waigo&#39;);
+
+// load in Waigo framework version of server.js
+module.exports = waigo.load(&#39;waigo:server&#39;);    
+
+// override start()
+exports.start = function*() {...}
+</code></pre>
+<p>Going back to the small &quot;Hello world&quot; example we built above, there is another call we make:</p>
+<pre><code class="lang-javascript">yield* waigo.init();
+</code></pre>
+<p>Waigo works out which module files are available in the call to <code>waigo.init()</code>. It does this so that:</p>
+<ol>
+<li>Subsequent calls to <code>waigo.load()</code> are fast <em>(since we already know what&#39;s available and where everything is)</em>.</li>
+<li>It can catch any <a href="#plugins">plugin conflicts</a> at startup <em>(rather than later on, when your app is already running)</em>.</li>
+</ol>
+<p><em>Note: This method takes an optional configuration parameter which tells it where to find the app&#39;s <code>src</code> folder and the names of plugins to load, etc. See <a href="http://waigojs.com/api.html">API docs</a> for more info.</em></p>
+<h2 id="plugins">Plugins</h2>
+<p>You may wish to re-use functionality between different Waigo-based apps. In which case you can place such code into an NPM module - this is essentially what a <em>plugin</em> is. </p>
+<p>To load a plugin at startup simply <code>npm install</code> it and then add it to one of either <code>dependencies</code>, <code>devDependencies</code> or <code>peerDependencies</code> within your <code>package.json</code> file. When <code>waigo.init()</code> is called Waigo will automatically scan <code>package.json</code> to get all plugins (by default it considers anything prefixed with <code>waigo-</code> as a plugin). It will then scan each plugin&#39;s <code>src</code> folder 
+tree for available module files and register them internally.</p>
+<p>Let&#39;s say you have a plugin - <code>waigo-mongo</code> - which enables the use of MongoDB database connections. And let&#39;s say it provides the following module file: <code>support/db/mongo.js</code>.</p>
+<p>One <code>waigo.init()</code> has been called, if you then call <code>waigo.load(&#39;support/db/mongo&#39;)</code> the system will load the module file from the plugin module&#39;s <code>src</code> folder. If you were to now create <code>support/db/mongo.js</code> within your app&#39;s <code>src</code> folder then the app version would take precendence over the plugin version. </p>
+<p>Strictly speaking, location precendence is as follows: <strong>App &gt; Plugins &gt; Waigo framework</strong>.</p>
+<p>What would happen if you had two plugins which both provided the same module file? in this case the call to <code>waigo.init()</code> would fail with 
+an error which looks like the following:</p>
+<pre><code class="lang-bash">Error: Module &quot;support/db/mongo&quot; has more than one plugin implementation to choose from: waigo-plugin1, waigo-plugin2, ...
+</code></pre>
+<p>If you don&#39;t want to remove one of the offending plugins then pick which plugin&#39;s implementation you want to use by providing a version of the module file within your app&#39;s folder tree. For example, if you wanted Waigo to use the implementation provided by <code>waigo-plugin1</code> then you would do:</p>
+<pre><code class="lang-javascript">// in file: &lt;your app folder&gt;/src/support/db/mongo.js
+
+var waigo = require(&#39;waigo&#39;);
+
+// use the implementation from waigo-plugin1
+module.exports = waigo.load(&#39;waigo-plugin1:support/db/mongo&#39;);
+</code></pre>
+<p><em>Note: See the <code>waigo-plugin1</code> prefix used in the call to <code>waigo.load()</code>? that basically tells the loader which module to load from.</em></p>
+<p>To create and publish your own plugin to the wider community please follow these guidelines:</p>
+<ul>
+<li>Ensure your plugin name is prefixed with <code>waigo-</code> so that it&#39;s easy to find.</li>
+<li>Write a good README.md for your plugin explaining what it&#39;s for and how to use it.</li>
+<li>Add tests for your plugin and hook them upto <a href="https://travis-ci.org/">Travis CI</a>.</li>
+<li>In your <code>package.json</code> tag your plugin with the <code>waigoplugin</code> keyword.</li>
+</ul>
+<p>To see a list of all available plugins visit <a href="https://www.npmjs.org/browse/keyword/waigoplugin"><a href="https://www.npmjs.org/browse/keyword/waigoplugin">https://www.npmjs.org/browse/keyword/waigoplugin</a></a>.</p>
+<h1 id="configuration">Configuration</h1>
+<p>Configuration info is loaded into the Koa app object and is always accessible at <code>app.config</code>.</p>
+<p>The <code>src/config</code> folder holds configuration files loaded by Waigo during app startup. The <code>base</code> module file gets loaded first. Additional configuration modules then get loaded in the following order:</p>
+<ol>
+<li><code>config/&lt;node environment&gt;</code></li>
+<li><code>config/&lt;node environment&gt;.&lt;current user&gt;</code></li>
+</ol>
+<p>Thus if node is running in <code>test</code> mode (i.e. <code>NODE_ENVIRONMENT=test</code>) and the user id of the process is <code>www-data</code> then the loader 
+looks for the following module files and loads them if present, in the following order:</p>
+<ol>
+<li><code>config/test</code></li>
+<li><code>config/test.www-data</code></li>
+</ol>
+<p>The base configuration object gets <em>extended</em> with each subsequently loaded config module file. This means that in each subsequent file you only need to override the configuration properties that differ.</p>
+<h1 id="routing">Routing</h1>
+<p>Routes are specified as a mapping in the <code>routes</code> module file in the following format:</p>
+<pre><code class="lang-javascript">// in routes.js
+
+module.exports = {
+  &#39;GET /&#39; : &#39;main.index&#39;,
+  &#39;PUT /newUser/:id&#39;: [&#39;sanitizeValue&#39;, &#39;checkRequestBodySize&#39;, &#39;main.newUser&#39;],
+  ...
+};
+</code></pre>
+<p>The key specifies the HTTP method (one of: <code>GET</code>, <code>POST</code>, <code>PUT</code>, <code>DEL</code>, <code>OPTIONS</code> and <code>HEAD</code>) and the route URL (relative to <code>app.config.baseURL</code>). Parameterized routing is supported thanks to <a href="https://github.com/koajs/trie-router">trie-router</a>.</p>
+<p>The value for each key specifies the middleware chain that will handle that route. If the middleware name has a period (<code>.</code>) within it it assumed to refer to a <code>controller.method</code>. Otherwise it is assumed to be the name of a <a href="#middleware">middleware</a> module file.</p>
+<p>For the above example, Waigo will process the a <code>PUT</code> request made to <code>/newUser</code> in the following order:</p>
+<ol>
+<li>Load <code>support/middleware/sanitizeValue</code> and pass request to its exported method</li>
+<li>Load <code>support/middleware/checkRequestBodySize</code> and pass request to its exported method</li>
+<li>Load <code>controllers/main</code> and pass request to its <code>newUser</code> method</li>
+</ol>
+<h2 id="middleware">Middleware</h2>
+<p>Waigo middleware works the same as Koa middleware. All middleware module files can be found under the <code>support/middleware</code> path. Additional middleware provided by your app and/or plugins should also sit under this path.</p>
+<p>A middleware module file is expected to <code>export</code> a function which, when called, returns a generator function to add to the Koa middleware layer. For example:</p>
+<pre><code class="lang-javascript">// in file: support/middleware/example.js
+
+module.exports = function() {
+  return function*(next) {
+    // do nothing and pass through
+    yield next;
+  };
+};
+</code></pre>
+<p>By default the following middleware is applied to all incoming requests:</p>
+<ul>
+<li><code>errorHandler</code> - catch and handle all errors thrown during request processing</li>
+<li><code>outputFormats</code> - setup the response <a href="#views">output format</a></li>
+<li><code>responseTime</code> - set the X-Response-Time header</li>
+<li><code>sessions</code> - create and retrieve the active client session</li>
+<li><code>staticResources</code> - handle requests made to static page resources, e.g. stylesheets, etc.</li>
+</ul>
+<h1 id="controllers">Controllers</h1>
+<p>Controllers provide middleware as generator functions. The default controller (<code>controllers/main</code>) simply has:</p>
+<pre><code class="lang-javascript">exports.index = function*(next) {
+  yield this.render(&#39;index&#39;, {
+    title: &#39;Hello world!&#39;
+  });
+};
+</code></pre>
+<p>A controller must either call <code>this.render()</code> or pass control to the <code>next</code> middleware in the request chain.</p>
+<h1 id="models">Models</h1>
+<p>At present Waigo does not provide a model layer in order to be as flexible as possible. Feel free to use an ORM, ODM, flat files or whatever type of model layer you want.</p>
+<p>The default configuration (<code>app.config.db</code>) does however create a Mongo database connection using <a href="http://mongoosejs.com/">mongoose</a>. This connection (once established) is available through <code>app.db</code>. All supported database connection types are stored in the path <code>support/db</code>.</p>
+<h2 id="sessions">Sessions</h2>
+<p>Sessions are available inside middleware using <code>this.session</code>:</p>
+<pre><code class="lang-javascript">// inside a controller
+
+exports.index = function*(next) {
+  yield this.render(&#39;index&#39;, {
+    name: this.session.userName
+  });
+};
+</code></pre>
+<p>Sessions are created and loaded by the <code>support/middleware/sessions</code> middleware, which internally uses <a href="https://github.com/hiddentao/koa-session-store">koa-session-store</a>.</p>
+<p>By default sessions are stored in a Mongo database (you can re-use the Mongoose database connection) and cookies are issued to clients to keep track of sessions. The session configuration (<code>app.config.session</code>) expects you to provide cookie signing keys for use by <a href="https://github.com/jed/keygrip">Keygrip</a>:</p>
+<pre><code class="lang-javascript">exports.session = {
+  // cookie signing keys - these are used for signing cookies (using Keygrip) and should be set for your app
+  // keys: [&#39;use&#39;, &#39;your&#39;, &#39;own&#39;],
+  // session cookie name
+  name: &#39;waigo&#39;,
+  // session storage
+  store: {
+    // session store type
+    type: &#39;mongo&#39;,
+    // session store config
+    config: {
+      url: &#39;mongodb://127.0.0.1:27017/waigo&#39;,
+      collection: &#39;sessions&#39;
+    }
+  },
+  // more cookie options
+  cookie: {
+    // cookie expires in...
+    validForDays: 7,
+    // cookie valid for url path...
+    path: &#39;/&#39;
+  }
+};
+</code></pre>
+<p><em>Note: the default <code>development</code> mode configuration has sessions turned off to make it easier to get things running</em></p>
+<h1 id="views">Views</h1>
+<p>Views work the same as in other frameworks, with Jade as the default template language. But the view layer also supports the idea of different output formats.</p>
+<p>Having different output formats makes it easy to re-use your route handlers (i.e. controllers) for dfferent types of front-ends. For example, you may wish to build a single-page web app or a mobile app which interacts with your back-end in a similar fashion to your normal web interface. Being able to re-use your controllers to output JSON makes life a easier in such cases.</p>
+<p>The relevant configuration section (<code>app.config.outputFormats</code>) looks like:</p>
+<pre><code class="lang-javascript">exports.outputFormats = {
+  // List of enabled formats along with options to pass to each formatter.
+  formats: {
+    html: {
+      // Folder relative to application root folder, in which to look for view templates.
+      folder: &#39;views&#39;,
+      // Default view template filename extension when not explicitly provided.
+      ext: &#39;jade&#39;
+      // Map file extension to rendering engine
+      engine: {
+        &#39;jade&#39;: &#39;jade&#39;
+      }
+    },
+    json: {}
+  },
+  // Use this URL query parameter to determine output format.
+  paramName: &#39;format&#39;,
+  // Default format, in case URL query parameter which determines output format isn&#39;t provided.
+  default: &#39;html&#39;
+};
+</code></pre>
+<p>As you can see, HTML and JSON output formats are supported by default, with the specific format chosen via a configurable URL query parameter. The actual implementations of each output format can be found in <code>support/outputFormats/*</code>. </p>
+<p>To add your own custom output format:</p>
+<ol>
+<li>Create a module file under <code>support/outputFormats/</code> with your format&#39;s name. </li>
+<li>Add your format&#39;s name into the <code>app.config.outputFormats</code> configuration object along with any necessary configuration info.</li>
+</ol>
+<p>The associated middleware which sets up the output format for a request is located in <code>support/middleware/outputFormats</code>. It adds a <code>render()</code> method to the middleware context object. You use this as as follows:</p>
+<pre><code class="lang-javascript">// in file: controllers/mycontroller.js
+
+exports.userProfile = function*(next) {
+  yield this.render(&#39;profile&#39;, {
+    id: this.params.userId
+  });
+};
+</code></pre>
+<p>If we were to call the URL mapped to this controller method and append the <code>format=json</code> query parameter then the output would be of JSON type. The default JSON output formatter simply outputs the attribute data passed to the template, i.e. the output for above (assuming <code>this.params.userId</code> is 123) would be:</p>
+<pre><code class="lang-javascript">{ id: 123 }
+</code></pre>
+<h1 id="logging">Logging</h1>
+<p>Waigo uses <a href="">winston</a> for its logging. The default logging target (see <code>config/base</code>) is a Mongo database. For <code>development</code> mode it&#39;s the console. All uncaught exceptions and <code>error</code> events emitted on the koa app object get logged in this way.</p>
+<h2 id="error-handling">Error handling</h2>
+<p>The <code>support/middleware/errorHandler</code> middleware is responsible for handling all errors which get thrown during the request handling process. Errors get logged through the default logger as well as getting sent back to the client which made the original request. </p>
+<p>There are also a few built-in error classes inheriting from the base <code>Error</code> object. These can be found in <code>support/errors</code>. If you wish to create your own type of errors it is highly recommended that you sub-class <code>BaseError</code>. For example:</p>
+<pre><code class="lang-javascript">var waigo = require(&#39;waigo&#39;),
+  errors = waigo.load(&#39;support/errors&#39;);
+
+var FileSystemError = errors.BaseError.createSubType(&#39;MyNewError&#39;, {
+  // default error message
+  message: &#39;Error accessing file system&#39;, 
+  // HTTP status code to set when this error is thrown
+  status: 500
+});
+
+...
+
+throw new FileSystemError(&#39;Error reading image file&#39;);
+</code></pre>
+<p><em>Note: Stack traces only get logged if the <code>app.config.errorHandler.showStack</code> flag is turned on</em></p>
+<h2 id="debugging">Debugging</h2>
+<p>Sometimes in order to fix a problem it&#39;s useful to know what&#39;s going on inside the framework.</p>
+<p>Waigo makes use of the <a href="https://github.com/visionmedia/debug">debug</a> utility internally in some parts. For instance, to debug the 
+<a href="#extend-and-override">loading system</a> run your app with the <code>DEBUG</code> environment variable as follows:</p>
+<pre><code class="lang-shell">$ DEBUG=waigo-loader node --harmony app.js
+  waigo-loader Getting plugin names... +0ms
+  waigo-loader Plugins to load:  +15ms
+  waigo-loader Module &quot;routes&quot; will be loaded from source &quot;waigo&quot; +10ms
+  waigo-loader Module &quot;server&quot; will be loaded from source &quot;waigo&quot; +0ms
+  waigo-loader Module &quot;config/base&quot; will be loaded from source &quot;waigo&quot; +0ms
+  ...
+  waigo-loader Loading module &quot;server&quot; from source &quot;waigo&quot; +0ms
+  ...
+</code></pre>
+<h1 id="contributing">Contributing</h1>
+<p>Suggestions, bug reports and pull requests are welcome. Please see <a href="https://github.com/waigo/waigo/blob/master/LICENSE.md">CONTRIBUTING.md</a> for guidelines.</p>
+<h1 id="license">License</h1>
+<p>MIT - see <a href="https://github.com/waigo/waigo/blob/master/LICENSE.md">LICENSE.md</a></p>
+</div></div><div class="col-md-3"><div role="complementary" class="waigo-guide-menu hidden-print"><ul class="nav"><li><a href="#what-is-waigo-">What is Waigo?</a></li><li><a href="#getting-started">Getting started</a><ul class="nav"><li><a href="#installation">Installation</a></li><li><a href="#hello-world">Hello world</a></li></ul></li><li><a href="#extend-and-override">Extend and Override</a><ul class="nav"><li><a href="#plugins">Plugins</a></li></ul></li><li><a href="#configuration">Configuration</a></li><li><a href="#routing">Routing</a><ul class="nav"><li><a href="#middleware">Middleware</a></li></ul></li><li><a href="#controllers">Controllers</a></li><li><a href="#models">Models</a><ul class="nav"><li><a href="#sessions">Sessions</a></li></ul></li><li><a href="#views">Views</a></li><li><a href="#logging">Logging</a><ul class="nav"><li><a href="#error-handling">Error handling</a></li><li><a href="#debugging">Debugging</a></li></ul></li><li><a href="#contributing">Contributing</a></li><li><a href="#license">License</a></li></ul><ul class="nav"><li class="back-to-top"><a href="#top">Back to top</a></li></ul></div></div></div></div></section></main><footer role="contentinfo"><p>Built by <a href="https://twitter.com/hiddentao">@hiddentao</a></p>
+<p>This website is <a href="https://github.com/waigo/waigojs.com">generated</a> from the Waigo module</p>
+</footer><script type="text/javascript" src="scripts.js"></script></body></html>
