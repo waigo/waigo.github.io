@@ -86,10 +86,10 @@ exports.start = function*() {...}
 </code></pre>
 <p>Waigo works out which module files are available in the call to <code>waigo.init()</code>. It does this so that:</p>
 <ol>
-<li>Subsequent calls to <code>waigo.load()</code> are fast <em>(since we already know what&#39;s available and where everything is)</em>.</li>
+<li>Subsequent calls to <code>waigo.load()</code> are fast <em>(node&#39;s <code>require()</code> already caches loaded modules but having this extra optimisation doesn&#39;t hurt)</em>.</li>
 <li>It can catch any <a href="#plugins">plugin conflicts</a> at startup <em>(rather than later on, when your app is already running)</em>.</li>
 </ol>
-<p><em>Note: This method takes an optional configuration parameter which tells it where to find your app&#39;s source folder and the names of plugins to load, etc. See <a href="http://waigojs.com/api">API docs</a> for more info.</em></p>
+<p><em>Note: The <code>.init()</code> method scanning for <code>.js</code> files in the folder trees of the framework, plugins as well as your app. It is thus recommended that your app&#39;s folder tree only contain code that will run in node. Place your front-end scrips in a different folder.</em></p>
 <h2 id="plugins">Plugins</h2>
 <p>You may wish to re-use functionality between different Waigo-based apps. In which case you can place such code into an NPM module - this is essentially what a <em>plugin</em> is. </p>
 <p>To load a plugin at startup simply <code>npm install</code> it and then add it to one of either <code>dependencies</code>, <code>devDependencies</code> or <code>peerDependencies</code> within your <code>package.json</code> file. When <code>waigo.init()</code> is called Waigo will automatically scan <code>package.json</code> to get all plugins (by default it considers anything prefixed with <code>waigo-</code> as a plugin). It will then scan each plugin&#39;s <code>src</code> folder 
@@ -302,7 +302,7 @@ throw new FileSystemError(&#39;Error reading image file&#39;);
 <h1 id="license">License</h1>
 <p>MIT - see <a href="https://github.com/waigo/waigo/blob/master/LICENSE.md">LICENSE.md</a></p>
 </div></div><div class="col-md-3"><div role="complementary" class="waigo-content-menu hidden-print"><ul class="nav"><li><a href="#what-is-waigo-">What is Waigo?</a></li><li><a href="#getting-started">Getting started</a><ul class="nav"><li><a href="#installation">Installation</a></li><li><a href="#hello-world">Hello world</a></li></ul></li><li><a href="#extend-and-override">Extend and Override</a><ul class="nav"><li><a href="#plugins">Plugins</a></li></ul></li><li><a href="#configuration">Configuration</a></li><li><a href="#routing">Routing</a><ul class="nav"><li><a href="#middleware">Middleware</a></li></ul></li><li><a href="#controllers">Controllers</a></li><li><a href="#models">Models</a><ul class="nav"><li><a href="#sessions">Sessions</a></li></ul></li><li><a href="#views">Views</a></li><li><a href="#logging">Logging</a><ul class="nav"><li><a href="#error-handling">Error handling</a></li><li><a href="#debugging">Debugging</a></li></ul></li><li><a href="#contributing">Contributing</a></li><li><a href="#license">License</a></li></ul><ul class="nav"><li class="back-to-top"><a href="#banner">Back to top</a></li></ul></div></div></div></div></section></main><footer role="contentinfo"><p>Built by <a href="http://hiddentao.com">hiddentao</a></p>
-<p>This page was <a href="https://github.com/waigo/waigojs.com-generator">generated</a> on Tue, 25 Feb 2014 02:43:50 GMT</p>
+<p>This page was <a href="https://github.com/waigo/waigojs.com-generator">generated</a> on Tue, 25 Feb 2014 04:43:20 GMT</p>
 </footer><script type="text/javascript" src="/scripts.js"></script><script type="text/javascript">var _paq = _paq || [];
 _paq.push(["setDomains", ["*.waigojs.com","*.waigo.github.io"]]);
 _paq.push(["trackPageView"]);
