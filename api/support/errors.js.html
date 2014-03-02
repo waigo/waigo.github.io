@@ -41,15 +41,20 @@
                 <li><a href="../server.js.html">server.js</a></li>
                 <li><a href="../support/db/mongoose.js.html">support/db/mongoose.js</a></li>
                 <li class="active"><a href="../support/errors.js.html">support/errors.js</a></li>
+                <li><a href="../support/forms/fields/field.js.html">support/forms/fields/field.js</a></li>
+                <li><a href="../support/forms/fields/text.js.html">support/forms/fields/text.js</a></li>
+                <li><a href="../support/forms/form.js.html">support/forms/form.js</a></li>
                 <li><a href="../support/logging/winston.js.html">support/logging/winston.js</a></li>
                 <li><a href="../support/middleware/errorHandler.js.html">support/middleware/errorHandler.js</a></li>
                 <li><a href="../support/middleware/outputFormats.js.html">support/middleware/outputFormats.js</a></li>
                 <li><a href="../support/middleware/responseTime.js.html">support/middleware/responseTime.js</a></li>
                 <li><a href="../support/middleware/sessions.js.html">support/middleware/sessions.js</a></li>
+                <li><a href="../support/mixins.js.html">support/mixins.js</a></li>
                 <li><a href="../support/outputFormats/html.js.html">support/outputFormats/html.js</a></li>
                 <li><a href="../support/outputFormats/json.js.html">support/outputFormats/json.js</a></li>
                 <li><a href="../support/routeMapper.js.html">support/routeMapper.js</a></li>
                 <li><a href="../support/session/store/mongo.js.html">support/session/store/mongo.js</a></li>
+                <li><a href="../support/viewObjects.js.html">support/viewObjects.js</a></li>
               </ul>
               <div class="visible-sm visible-xs">
                 <button type="button" data-toggle="collapse" data-target="#api-index-xs" class="btn btn-info">Show/hide API index</button>
@@ -65,15 +70,20 @@
                     <li><a href="../server.js.html">server.js</a></li>
                     <li><a href="../support/db/mongoose.js.html">support/db/mongoose.js</a></li>
                     <li class="active"><a href="../support/errors.js.html">support/errors.js</a></li>
+                    <li><a href="../support/forms/fields/field.js.html">support/forms/fields/field.js</a></li>
+                    <li><a href="../support/forms/fields/text.js.html">support/forms/fields/text.js</a></li>
+                    <li><a href="../support/forms/form.js.html">support/forms/form.js</a></li>
                     <li><a href="../support/logging/winston.js.html">support/logging/winston.js</a></li>
                     <li><a href="../support/middleware/errorHandler.js.html">support/middleware/errorHandler.js</a></li>
                     <li><a href="../support/middleware/outputFormats.js.html">support/middleware/outputFormats.js</a></li>
                     <li><a href="../support/middleware/responseTime.js.html">support/middleware/responseTime.js</a></li>
                     <li><a href="../support/middleware/sessions.js.html">support/middleware/sessions.js</a></li>
+                    <li><a href="../support/mixins.js.html">support/mixins.js</a></li>
                     <li><a href="../support/outputFormats/html.js.html">support/outputFormats/html.js</a></li>
                     <li><a href="../support/outputFormats/json.js.html">support/outputFormats/json.js</a></li>
                     <li><a href="../support/routeMapper.js.html">support/routeMapper.js</a></li>
                     <li><a href="../support/session/store/mongo.js.html">support/session/store/mongo.js</a></li>
+                    <li><a href="../support/viewObjects.js.html">support/viewObjects.js</a></li>
                   </ul>
                 </div>
               </div>
@@ -89,43 +99,35 @@
               </section>
               <pre><code class="language-javascript">var _ = require('lodash'),
   Promise = require('bluebird'),
-  util = require('util');</code></pre>
-              <section id="errorToViewObject">
-                <h1>errorToViewObject</h1>
-                <div class="description"><p>Convert given error to view object.</p> </div>
+  util = require('util');
+
+
+var waigo = require('../../'),
+  mixins = waigo.load('support/mixins');
+
+
+mixins.extend(Error, mixins.HasViewObject);</code></pre>
+              <section id="toViewObject">
+                <h1>toViewObject</h1>
+                <div class="description"><p>Get renderable representation of this error.</p>
+
+<p>You should use <code>BaseError</code>-derived error classes instead of one as they provide a number of useful features.</p> </div>
                 <h5 class="subheader"></h5>
                 <p>
-                  <div class="label label-success radius ctx-type">declaration</div><span class="symbolReturns">-> Promise</span>
+                  <div class="label label-info radius ctx-type">method</div><span class="symbolReturns">-> Object</span>
                 </p>
               </section>
-              <table class="params table table-bordered table-striped">
-                <thead>
-                  <tr>
-                    <th style="width:20%">Option</th>
-                    <th style="width:20%">Type</th>
-                    <th>Description</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td class="name">{Error}</td>
-                    <td class="type">error</td>
-                    <td class="description">error object. </td>
-                  </tr>
-                </tbody>
-              </table>
-              <pre><code class="language-javascript">var errorToViewObject = exports.toViewObject = function(error) {
-  if (_.isFunction(error.toViewObject)) {
-    return Promise.resolve(error.toViewObject());
-  } else {
-    return Promise.resolve({
-      msg: error.message
-    });
-  }
+              <pre><code class="language-javascript">Error.prototype.toViewObject = function*(ctx) {
+  return {
+    type: this.name || 'Error',
+    msg: this.message
+  };
 };</code></pre>
-              <section id="BaseError">
-                <h1>BaseError</h1>
-                <div class="description"><p>Base error class.</p> </div>
+              <section id="RuntimeError">
+                <h1>RuntimeError</h1>
+                <div class="description"><p>Runtime error.</p>
+
+<p>This represents an error which occurred. Always better to use this rather than <code>Error</code> since other error classes derive from this.</p> </div>
                 <h5 class="subheader"></h5>
                 <p>
                   <div class="label label-success radius ctx-type">declaration</div>
@@ -141,42 +143,86 @@
                 </thead>
                 <tbody>
                   <tr>
-                    <td class="name">{String}</td>
-                    <td class="type">msg</td>
-                    <td class="description">error message.</td>
+                    <td class="name">msg</td>
+                    <td class="type">String</td>
+                    <td class="description">Error message.</td>
                   </tr>
                   <tr>
-                    <td class="name">{Number}</td>
-                    <td class="type">status</td>
+                    <td class="name">status</td>
+                    <td class="type">Number</td>
                     <td class="description">HTTP return status code to set.</td>
                   </tr>
                 </tbody>
               </table>
-              <pre><code class="language-javascript">var BaseError = exports.BaseError = function(msg, status) {
-  Error.call(this, this.message);
-  this.name = 'BaseError';
+              <pre><code class="language-javascript">var RuntimeError = exports.RuntimeError = function(msg, status) {
+  Error.call(this);
+  this.name = 'RuntimeError';
   this.message = msg || 'An error occurred';
   this.status = status || 500;
-  Error.captureStackTrace(this, BaseError);
+  Error.captureStackTrace(this, RuntimeError);
 };
-util.inherits(BaseError, Error);</code></pre>
+util.inherits(RuntimeError, Error);</code></pre>
+              <section id="MultipleError">
+                <h1>MultipleError</h1>
+                <div class="description"><p>Multiple request errors grouped together.</p>
+
+<p>This error represents a group of related <code>Error</code> instances.</p> </div>
+                <h5 class="subheader"></h5>
+                <p>
+                  <div class="label label-success radius ctx-type">declaration</div>
+                </p>
+              </section>
+              <table class="params table table-bordered table-striped">
+                <thead>
+                  <tr>
+                    <th style="width:20%">Option</th>
+                    <th style="width:20%">Type</th>
+                    <th>Description</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="name">errors</td>
+                    <td class="type">Object</td>
+                    <td class="description">Map of errors, where each value is itself a `Error` instance.</td>
+                  </tr>
+                  <tr>
+                    <td class="name">status</td>
+                    <td class="type">Number</td>
+                    <td class="description">HTTP return status code to set.</td>
+                  </tr>
+                </tbody>
+              </table>
+              <pre><code class="language-javascript">var MultipleError = exports.MultipleError = function(msg, status, errors) {
+  RuntimeError.call(this, msg || 'Multiple errors occurred', status);
+  this.name = 'MultipleError';
+  this.errors = errors || {};
+  Error.captureStackTrace(this, MultipleError);
+};
+util.inherits(MultipleError, RuntimeError);</code></pre>
               <section id="toViewObject">
                 <h1>toViewObject</h1>
                 <div class="description"><p>Get renderable representation of this error.</p> </div>
                 <h5 class="subheader"></h5>
                 <p>
-                  <div class="label label-info radius ctx-type">method</div><span class="symbolReturns">-> Promise</span>
+                  <div class="label label-info radius ctx-type">method</div><span class="symbolReturns">-> Object</span>
                 </p>
               </section>
-              <pre><code class="language-javascript">BaseError.prototype.toViewObject = function() {
-  return Promise.resolve({
-    type: this.name,
-    msg: this.message
-  });
+              <pre><code class="language-javascript">MultipleError.prototype.toViewObject = function*(ctx) {
+  var ret = yield RuntimeError.prototype.toViewObject.call(this, ctx);
+  ret.errors = {};
+
+  for (var id in this.errors) {
+    ret.errors[id] = yield this.errors[id].toViewObject(ctx);
+  }
+
+  return ret;
 };</code></pre>
-              <section id="createSubType">
-                <h1>createSubType</h1>
-                <div class="description"><p>Create a subclass of this error type.</p> </div>
+              <section id="defineSubType">
+                <h1>defineSubType</h1>
+                <div class="description"><p>Create a subclass of given error class.</p>
+
+<p>This is a convenience method for quickly creating custom error classes which apply to a specific area of one's application.</p> </div>
                 <h5 class="subheader"></h5>
                 <p>
                   <div class="label label-info radius ctx-type">method</div><span class="symbolReturns">-> Function</span>
@@ -192,108 +238,36 @@ util.inherits(BaseError, Error);</code></pre>
                 </thead>
                 <tbody>
                   <tr>
-                    <td class="name">{String}</td>
-                    <td class="type">subTypeErrorName</td>
-                    <td class="description">name of this new error type.</td>
+                    <td class="name">baseClass</td>
+                    <td class="type">Class</td>
+                    <td class="description">The base class (should be a subtype of `Error`) to inherit from.</td>
                   </tr>
                   <tr>
-                    <td class="name">{Object}</td>
-                    <td class="type">options</td>
-                    <td class="description">additional options.</td>
-                  </tr>
-                  <tr>
-                    <td class="name">{Object}</td>
-                    <td class="type">options.message</td>
-                    <td class="description">default error message.</td>
-                  </tr>
-                  <tr>
-                    <td class="name">{Object}</td>
-                    <td class="type">options.status</td>
-                    <td class="description">default error status. </td>
+                    <td class="name">newClassName</td>
+                    <td class="type">String</td>
+                    <td class="description">Name of this new error class. </td>
                   </tr>
                 </tbody>
               </table>
-              <pre><code class="language-javascript">BaseError.createSubType = function(subTypeErrorName, options) {
-  options = options || {};
-
-  var newErrorClass = function(msg, status) {
-    BaseError.call(this, msg || options.message, status || options.status);
-    this.name = subTypeErrorName;
+              <pre><code class="language-javascript">exports.defineSubType = function(baseClass, newClassName) {
+  var newErrorClass = function() {
+    (baseClass).apply(this, arguments);
+    this.name = newClassName;
     Error.captureStackTrace(this, newErrorClass);
   };
-  util.inherits(newErrorClass, BaseError);
+  util.inherits(newErrorClass, (baseClass));
   return newErrorClass;
-};</code></pre>
-              <section id="MultipleError">
-                <h1>MultipleError</h1>
-                <div class="description"><p>Multiple errors grouped together.</p> </div>
-                <h5 class="subheader"></h5>
-                <p>
-                  <div class="label label-success radius ctx-type">declaration</div>
-                </p>
-              </section>
-              <table class="params table table-bordered table-striped">
-                <thead>
-                  <tr>
-                    <th style="width:20%">Option</th>
-                    <th style="width:20%">Type</th>
-                    <th>Description</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td class="name">{Object}</td>
-                    <td class="type">errors</td>
-                    <td class="description">key-value map of errors, where each value is itself an `Error` instance.</td>
-                  </tr>
-                  <tr>
-                    <td class="name">{Number}</td>
-                    <td class="type">status</td>
-                    <td class="description">HTTP return status code to set.</td>
-                  </tr>
-                </tbody>
-              </table>
-              <pre><code class="language-javascript">var MultipleError = exports.MultipleError = function(errors, status) {
-  BaseError.call(this, 'There were multiple errors', status);
-  this.name = 'MultipleError';
-  this.errors = errors || {};
-  Error.captureStackTrace(this, MultipleError);
-};
-util.inherits(MultipleError, BaseError);</code></pre>
-              <section id="toViewObject">
-                <h1>toViewObject</h1>
-                <div class="description"><p>@see BaseError#toViewObject</p> </div>
-                <h5 class="subheader"></h5>
-                <p>
-                  <div class="label label-info radius ctx-type">method</div>
-                </p>
-              </section>
-              <pre><code class="language-javascript">MultipleError.prototype.toViewObject = function() {
-  var self = this;
-
-  return Promise.props(
-      _.mapValues(self.errors, function(err) {
-        return errorToViewObject(err);
-      })
-    )
-    .then(function gotViewObjects(viewObjects) {
-      return {
-        type: self.name,
-        errors: viewObjects
-      };
-    });
 };</code></pre>
             </div>
             <div class="col-md-2">
               <div role="complementary" class="waigo-content-menu hidden-print">
                 <ul class="nav">
                   <li><a href="#_"><span>_</span></a></li>
-                  <li><a href="#errorToViewObject"><span>errorToViewObject</span></a></li>
-                  <li><a href="#BaseError"><span>BaseError</span></a></li>
                   <li><a href="#toViewObject"><span>toViewObject()</span></a></li>
-                  <li><a href="#createSubType"><span>createSubType()</span></a></li>
+                  <li><a href="#RuntimeError"><span>RuntimeError</span></a></li>
                   <li><a href="#MultipleError"><span>MultipleError</span></a></li>
                   <li><a href="#toViewObject"><span>toViewObject()</span></a></li>
+                  <li><a href="#defineSubType"><span>defineSubType()</span></a></li>
                 </ul>
               </div>
             </div>
@@ -301,7 +275,7 @@ util.inherits(MultipleError, BaseError);</code></pre>
         </div>
       </div>
     </main>
-    <footer role="contentinfo"><p>This page was <a href="https://github.com/waigo/waigojs.com-generator">generated</a> on Wed, 26 Feb 2014 11:13:01 GMT</p>
+    <footer role="contentinfo"><p>This page was <a href="https://github.com/waigo/waigojs.com-generator">generated</a> on Sun, 02 Mar 2014 04:44:22 GMT</p>
 
     </footer>
     <script type="text/javascript" src="/scripts.js"></script>

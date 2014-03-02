@@ -43,14 +43,14 @@
                 <li><a href="../../support/errors.js.html">support/errors.js</a></li>
                 <li><a href="../../support/forms/fields/field.js.html">support/forms/fields/field.js</a></li>
                 <li><a href="../../support/forms/fields/text.js.html">support/forms/fields/text.js</a></li>
-                <li><a href="../../support/forms/form.js.html">support/forms/form.js</a></li>
+                <li class="active"><a href="../../support/forms/form.js.html">support/forms/form.js</a></li>
                 <li><a href="../../support/logging/winston.js.html">support/logging/winston.js</a></li>
                 <li><a href="../../support/middleware/errorHandler.js.html">support/middleware/errorHandler.js</a></li>
                 <li><a href="../../support/middleware/outputFormats.js.html">support/middleware/outputFormats.js</a></li>
                 <li><a href="../../support/middleware/responseTime.js.html">support/middleware/responseTime.js</a></li>
                 <li><a href="../../support/middleware/sessions.js.html">support/middleware/sessions.js</a></li>
                 <li><a href="../../support/mixins.js.html">support/mixins.js</a></li>
-                <li class="active"><a href="../../support/outputFormats/html.js.html">support/outputFormats/html.js</a></li>
+                <li><a href="../../support/outputFormats/html.js.html">support/outputFormats/html.js</a></li>
                 <li><a href="../../support/outputFormats/json.js.html">support/outputFormats/json.js</a></li>
                 <li><a href="../../support/routeMapper.js.html">support/routeMapper.js</a></li>
                 <li><a href="../../support/session/store/mongo.js.html">support/session/store/mongo.js</a></li>
@@ -72,14 +72,14 @@
                     <li><a href="../../support/errors.js.html">support/errors.js</a></li>
                     <li><a href="../../support/forms/fields/field.js.html">support/forms/fields/field.js</a></li>
                     <li><a href="../../support/forms/fields/text.js.html">support/forms/fields/text.js</a></li>
-                    <li><a href="../../support/forms/form.js.html">support/forms/form.js</a></li>
+                    <li class="active"><a href="../../support/forms/form.js.html">support/forms/form.js</a></li>
                     <li><a href="../../support/logging/winston.js.html">support/logging/winston.js</a></li>
                     <li><a href="../../support/middleware/errorHandler.js.html">support/middleware/errorHandler.js</a></li>
                     <li><a href="../../support/middleware/outputFormats.js.html">support/middleware/outputFormats.js</a></li>
                     <li><a href="../../support/middleware/responseTime.js.html">support/middleware/responseTime.js</a></li>
                     <li><a href="../../support/middleware/sessions.js.html">support/middleware/sessions.js</a></li>
                     <li><a href="../../support/mixins.js.html">support/mixins.js</a></li>
-                    <li class="active"><a href="../../support/outputFormats/html.js.html">support/outputFormats/html.js</a></li>
+                    <li><a href="../../support/outputFormats/html.js.html">support/outputFormats/html.js</a></li>
                     <li><a href="../../support/outputFormats/json.js.html">support/outputFormats/json.js</a></li>
                     <li><a href="../../support/routeMapper.js.html">support/routeMapper.js</a></li>
                     <li><a href="../../support/session/store/mongo.js.html">support/session/store/mongo.js</a></li>
@@ -89,9 +89,67 @@
               </div>
             </div>
             <div role="main" class="col-md-7 waigo-api-content">
-              <section id="create">
-                <h1>create</h1>
-                <div class="description"><p>Create an instance of this output format.</p> </div>
+              <section id="FormValidationError">
+                <h1>FormValidationError</h1>
+                <div class="description"><p>@type {Error} A form validation error.</p> </div>
+                <h5 class="subheader"></h5>
+                <p>
+                  <div class="label label-success radius ctx-type">declaration</div>
+                </p>
+              </section>
+              <pre><code class="language-javascript">var FormValidationError = exports.FormValidationError = errors.defineSubType(errors.MultipleError, 'FormValidationError');</code></pre>
+              <section id="Form">
+                <h1>Form</h1>
+                <div class="description"><p>Construct a form.</p> </div>
+                <h5 class="subheader"></h5>
+                <p>
+                  <div class="label label-success radius ctx-type">declaration</div>
+                </p>
+              </section>
+              <table class="params table table-bordered table-striped">
+                <thead>
+                  <tr>
+                    <th style="width:20%">Option</th>
+                    <th style="width:20%">Type</th>
+                    <th>Description</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="name">config</td>
+                    <td class="type">Object</td>
+                    <td class="description">form configuration.</td>
+                  </tr>
+                </tbody>
+              </table>
+              <pre><code class="language-javascript">var Form = exports.Form = function(config) {
+  this.config = config || {};
+};
+mixins.extend(Form, mixins.HasViewObject);</code></pre>
+              <section id="getFields">
+                <h1>getFields</h1>
+                <div class="description"><p>Get the fields of this form.</p>
+
+<p>Fields will be returned as <code>Field</code> instances.</p> </div>
+                <h5 class="subheader"></h5>
+                <p>
+                  <div class="label label-info radius ctx-type">method</div><span class="symbolReturns">-> Object</span>
+                </p>
+              </section>
+              <pre><code class="language-javascript">Form.prototype.getFields = function*() {
+  if (!this.fields) {
+    this.fields = {};
+
+    for (let fieldName in this.config.fields) {
+      this.fields[fieldName] = Field.create(fieldName, this.config.fields[fieldName]);
+    }
+  }
+
+  return this.fields;
+};</code></pre>
+              <section id="setContents">
+                <h1>setContents</h1>
+                <div class="description"><p>Set the contents of this form.</p> </div>
                 <h5 class="subheader"></h5>
                 <p>
                   <div class="label label-info radius ctx-type">method</div>
@@ -107,30 +165,81 @@
                 </thead>
                 <tbody>
                   <tr>
-                    <td class="name">{Object}</td>
-                    <td class="type">config</td>
-                    <td class="description">configuration for this output format.</td>
+                    <td class="name">fieldContents</td>
+                    <td class="type">Object</td>
+                    <td class="description">Mapping from field name to field value.</td>
                   </tr>
                 </tbody>
               </table>
-              <pre><code class="language-javascript">exports.create = function(config) {
-  var render = views(path.join(waigo.getAppFolder(), config.folder), {
-    ext: config.ext,
-    map: config.engine || null
-  });
+              <pre><code class="language-javascript">Form.prototype.setContents = function*(formContents) {
+  var fields = yield this.getFields();
+
+  formContents = formContents || {};
+
+  for (let fieldName in fields) {
+    yield fields[fieldName].setValue(formContents[fieldName]);
+  }
+};</code></pre>
+              <section id="validate">
+                <h1>validate</h1>
+                <div class="description"><p>Validate the contents of this form.</p> </div>
+                <h5 class="subheader"></h5>
+                <p>
+                  <div class="label label-info radius ctx-type">method</div>
+                </p>
+              </section>
+              <pre><code class="language-javascript">Form.prototype.validate = function*() {
+  var fields = yield this.getFields(),
+    errors = null;
+
+  for (let fieldName in fields) {
+    try {
+      yield fields[fieldName].validate();
+    } catch (err) {
+      if (!errors) {
+        errors = {};
+      }
+
+      errors[fieldName] = err;
+    }
+  }
+
+  if (errors) {
+    throw new FormValidationError('Form validation failed', 400, errors);
+  }
+};</code></pre>
+              <section id="toViewObject">
+                <h1>toViewObject</h1>
+                <div class="description"><p>Get renderable representation of this form.</p> </div>
+                <h5 class="subheader"></h5>
+                <p>
+                  <div class="label label-info radius ctx-type">method</div>
+                </p>
+              </section>
+              <pre><code class="language-javascript">Form.prototype.toViewObject = function*() {
+  var fields = yield this.getFields(),
+    fieldViewObjects = {};
+
+  for (let fieldName in fields) {
+    fieldViewObjects[fieldName] = yield fields[fieldName].validate();
+  }
 
   return {
-    render: function*(view, locals) {
-      this.body = yield render(view, _.extend({}, locals, this.app.locals));
-      this.type = 'html';
-    }
-  };
+    id: this.config.id,
+    submitLabel: this.config.submitLabel || 'Submit',
+    fields: fieldViewObjects
+  }
 };</code></pre>
             </div>
             <div class="col-md-2">
               <div role="complementary" class="waigo-content-menu hidden-print">
                 <ul class="nav">
-                  <li><a href="#create"><span>create()</span></a></li>
+                  <li><a href="#FormValidationError"><span>FormValidationError</span></a></li>
+                  <li><a href="#Form"><span>Form</span></a></li>
+                  <li><a href="#getFields"><span>getFields()</span></a></li>
+                  <li><a href="#setContents"><span>setContents()</span></a></li>
+                  <li><a href="#validate"><span>validate()</span></a></li>
+                  <li><a href="#toViewObject"><span>toViewObject()</span></a></li>
                 </ul>
               </div>
             </div>
@@ -138,7 +247,7 @@
         </div>
       </div>
     </main>
-    <footer role="contentinfo"><p>This page was <a href="https://github.com/waigo/waigojs.com-generator">generated</a> on Sun, 02 Mar 2014 04:44:24 GMT</p>
+    <footer role="contentinfo"><p>This page was <a href="https://github.com/waigo/waigojs.com-generator">generated</a> on Sun, 02 Mar 2014 04:44:22 GMT</p>
 
     </footer>
     <script type="text/javascript" src="/scripts.js"></script>

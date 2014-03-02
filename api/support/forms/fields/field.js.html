@@ -41,7 +41,7 @@
                 <li><a href="../../../server.js.html">server.js</a></li>
                 <li><a href="../../../support/db/mongoose.js.html">support/db/mongoose.js</a></li>
                 <li><a href="../../../support/errors.js.html">support/errors.js</a></li>
-                <li><a href="../../../support/forms/fields/field.js.html">support/forms/fields/field.js</a></li>
+                <li class="active"><a href="../../../support/forms/fields/field.js.html">support/forms/fields/field.js</a></li>
                 <li><a href="../../../support/forms/fields/text.js.html">support/forms/fields/text.js</a></li>
                 <li><a href="../../../support/forms/form.js.html">support/forms/form.js</a></li>
                 <li><a href="../../../support/logging/winston.js.html">support/logging/winston.js</a></li>
@@ -53,7 +53,7 @@
                 <li><a href="../../../support/outputFormats/html.js.html">support/outputFormats/html.js</a></li>
                 <li><a href="../../../support/outputFormats/json.js.html">support/outputFormats/json.js</a></li>
                 <li><a href="../../../support/routeMapper.js.html">support/routeMapper.js</a></li>
-                <li class="active"><a href="../../../support/session/store/mongo.js.html">support/session/store/mongo.js</a></li>
+                <li><a href="../../../support/session/store/mongo.js.html">support/session/store/mongo.js</a></li>
                 <li><a href="../../../support/viewObjects.js.html">support/viewObjects.js</a></li>
               </ul>
               <div class="visible-sm visible-xs">
@@ -70,7 +70,7 @@
                     <li><a href="../../../server.js.html">server.js</a></li>
                     <li><a href="../../../support/db/mongoose.js.html">support/db/mongoose.js</a></li>
                     <li><a href="../../../support/errors.js.html">support/errors.js</a></li>
-                    <li><a href="../../../support/forms/fields/field.js.html">support/forms/fields/field.js</a></li>
+                    <li class="active"><a href="../../../support/forms/fields/field.js.html">support/forms/fields/field.js</a></li>
                     <li><a href="../../../support/forms/fields/text.js.html">support/forms/fields/text.js</a></li>
                     <li><a href="../../../support/forms/form.js.html">support/forms/form.js</a></li>
                     <li><a href="../../../support/logging/winston.js.html">support/logging/winston.js</a></li>
@@ -82,56 +82,180 @@
                     <li><a href="../../../support/outputFormats/html.js.html">support/outputFormats/html.js</a></li>
                     <li><a href="../../../support/outputFormats/json.js.html">support/outputFormats/json.js</a></li>
                     <li><a href="../../../support/routeMapper.js.html">support/routeMapper.js</a></li>
-                    <li class="active"><a href="../../../support/session/store/mongo.js.html">support/session/store/mongo.js</a></li>
+                    <li><a href="../../../support/session/store/mongo.js.html">support/session/store/mongo.js</a></li>
                     <li><a href="../../../support/viewObjects.js.html">support/viewObjects.js</a></li>
                   </ul>
                 </div>
               </div>
             </div>
             <div role="main" class="col-md-7 waigo-api-content">
-              <section id="create">
-                <h1>create</h1>
-                <div class="description"><p>Create a new session store.</p> </div>
-                <h5 class="subheader"></h5>
-                <p>
-                  <div class="label label-info radius ctx-type">method</div><span class="symbolReturns">-> Object</span>
-                </p>
-              </section>
-              <table class="params table table-bordered table-striped">
-                <thead>
-                  <tr>
-                    <th style="width:20%">Option</th>
-                    <th style="width:20%">Type</th>
-                    <th>Description</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td class="name">{Object}</td>
-                    <td class="type">app</td>
-                    <td class="description">app.</td>
-                  </tr>
-                  <tr>
-                    <td class="name">{Object}</td>
-                    <td class="type">storeConfig</td>
-                    <td class="description">config.</td>
-                  </tr>
-                </tbody>
-              </table>
-              <pre><code class="language-javascript">exports.create = function(app, storeConfig) {
-  // re-use the app mongoose db connection?
-  if (storeConfig.useAppMongooseDbConn) {
-    app.logger.info('Session store will use app Mongoose db connection');
-    storeConfig.mongoose = app.db;
-  }
+              <pre><code class="language-javascript">// var _ = require('lodash'),
+//   async = require('async'),
+//   Promise = require('bluebird'),
+//   waigo = require('../../../../');
 
-  return mongoStore.create(storeConfig);
-};</code></pre>
+
+// /**
+//  * Create a form field.
+//  *
+//  * @param name {String} field name.
+//  * @param config {Object} field config.
+//  * @constructor
+//  */
+// var Field = function(name, config) {
+//   var self = this;
+
+//   self.name = name;
+//   self.config = config;
+//   self.value = undefined;
+
+//   self.validators = [];
+//   _.each(self.config.validators, function(v) {
+//     self.addValidator(waigo.load('support/validators/forms/fields/' + v));
+//   });
+// };
+
+
+// /**
+//  * Set the value of this field.
+//  *
+//  * @param val {*} the value.
+//  * @param cb {Function} callback.
+//  *
+//  * @return {Promise}
+//  */
+// Field.prototype.setValue = function(val, cb) {
+//   return Promise.reject(new Error('Not yet implemented')).nodeify(cb);
+// };
+
+
+
+// /**
+//  * Get render-able representation of this field.
+//  *
+//  * @param cb {Function} callback
+//  *
+//  * @return {Promise}
+//  */
+// Field.prototype.toViewObject = function(cb) {
+//   var self = this;
+
+//   var viewObject = _.extend({}, self.config);
+
+//   if (self.value) {
+//     viewObject.value = self.value;
+//   }
+
+//   return Promise.resolve(viewObject).nodeify(cb);
+// };
+
+
+// /**
+//  * Add a validator to this field.
+//  *
+//  * @param validator {Object} the validator to add.
+//  */
+// Field.prototype.addValidator = function(validator) {
+//   this.validators.push(validator);
+// };
+
+
+
+// /**
+//  * Validate this field's current value.
+//  *
+//  * @param cb {Function} callback
+//  *
+//  * @return {Promise}
+//  */
+// Field.prototype.validate = function(cb) {
+//   var self = this;
+
+//   var errors = [];
+
+//   async.forEachSeries(self.validators, function(validatorFn, done) {
+//     validatorFn.call(null, self, function (err) {
+//       if (err) {
+//         errors.push(err);
+//       }
+
+//       done();
+//     });
+//   }, function(/*err*/) {
+//     var err;
+
+//     // any errors
+//     if (0 &lt; errors.length) {
+//       // more than 1 error?
+//       if (1 &lt; errors.length) {
+//         err = new errorTypes.MultipleError(errors);
+//       }
+//       // just one
+//       else {
+//         err = errors[0];
+//       }
+//     }
+
+//     cb(err);
+//   });
+// };
+
+
+
+
+// // -----------------------------------------------------
+// // STATICS
+// // -----------------------------------------------------
+
+// /**
+//  * Default field validators.
+//  */
+// // TODO: unit test
+// Field.Validators = {
+//   /**
+//    * Check that the field's value is set.
+//    *
+//    * @param {Field} field
+//    * @param {Function} cb(err)
+//    */
+//   // TODO: unit test
+//   isRequired: function(field, cb) {
+//     if (!field.value || '' === field.value) {
+//       return cb(new Error('a value is required'));
+//     }
+
+//     cb();
+//   }
+// };
+
+
+
+// /**
+//  * Create a new field.
+//  *
+//  * @param {String} fieldName
+//  * @param {Object} fieldSpec
+//  * @param {Function} cb(err, Field)
+//  */
+// // TODO: unit test
+// Field.new = function(fieldName, fieldSpec, cb) {
+//   var FieldClass = loader.require('lib/forms/fields/' + fieldSpec.type);
+
+//   cb(null, new FieldClass(fieldName, fieldSpec));
+// };
+
+
+
+// // -----------------------------------------------------
+// // EXPORTS
+// // -----------------------------------------------------
+
+
+// module.exports = Field;</code></pre>
             </div>
             <div class="col-md-2">
               <div role="complementary" class="waigo-content-menu hidden-print">
                 <ul class="nav">
-                  <li><a href="#create"><span>create()</span></a></li>
                 </ul>
               </div>
             </div>
@@ -139,7 +263,7 @@
         </div>
       </div>
     </main>
-    <footer role="contentinfo"><p>This page was <a href="https://github.com/waigo/waigojs.com-generator">generated</a> on Sun, 02 Mar 2014 04:44:24 GMT</p>
+    <footer role="contentinfo"><p>This page was <a href="https://github.com/waigo/waigojs.com-generator">generated</a> on Sun, 02 Mar 2014 04:44:22 GMT</p>
 
     </footer>
     <script type="text/javascript" src="/scripts.js"></script>

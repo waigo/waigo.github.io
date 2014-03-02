@@ -41,15 +41,20 @@
                 <li class="active"><a href="server.js.html">server.js</a></li>
                 <li><a href="support/db/mongoose.js.html">support/db/mongoose.js</a></li>
                 <li><a href="support/errors.js.html">support/errors.js</a></li>
+                <li><a href="support/forms/fields/field.js.html">support/forms/fields/field.js</a></li>
+                <li><a href="support/forms/fields/text.js.html">support/forms/fields/text.js</a></li>
+                <li><a href="support/forms/form.js.html">support/forms/form.js</a></li>
                 <li><a href="support/logging/winston.js.html">support/logging/winston.js</a></li>
                 <li><a href="support/middleware/errorHandler.js.html">support/middleware/errorHandler.js</a></li>
                 <li><a href="support/middleware/outputFormats.js.html">support/middleware/outputFormats.js</a></li>
                 <li><a href="support/middleware/responseTime.js.html">support/middleware/responseTime.js</a></li>
                 <li><a href="support/middleware/sessions.js.html">support/middleware/sessions.js</a></li>
+                <li><a href="support/mixins.js.html">support/mixins.js</a></li>
                 <li><a href="support/outputFormats/html.js.html">support/outputFormats/html.js</a></li>
                 <li><a href="support/outputFormats/json.js.html">support/outputFormats/json.js</a></li>
                 <li><a href="support/routeMapper.js.html">support/routeMapper.js</a></li>
                 <li><a href="support/session/store/mongo.js.html">support/session/store/mongo.js</a></li>
+                <li><a href="support/viewObjects.js.html">support/viewObjects.js</a></li>
               </ul>
               <div class="visible-sm visible-xs">
                 <button type="button" data-toggle="collapse" data-target="#api-index-xs" class="btn btn-info">Show/hide API index</button>
@@ -65,15 +70,20 @@
                     <li class="active"><a href="server.js.html">server.js</a></li>
                     <li><a href="support/db/mongoose.js.html">support/db/mongoose.js</a></li>
                     <li><a href="support/errors.js.html">support/errors.js</a></li>
+                    <li><a href="support/forms/fields/field.js.html">support/forms/fields/field.js</a></li>
+                    <li><a href="support/forms/fields/text.js.html">support/forms/fields/text.js</a></li>
+                    <li><a href="support/forms/form.js.html">support/forms/form.js</a></li>
                     <li><a href="support/logging/winston.js.html">support/logging/winston.js</a></li>
                     <li><a href="support/middleware/errorHandler.js.html">support/middleware/errorHandler.js</a></li>
                     <li><a href="support/middleware/outputFormats.js.html">support/middleware/outputFormats.js</a></li>
                     <li><a href="support/middleware/responseTime.js.html">support/middleware/responseTime.js</a></li>
                     <li><a href="support/middleware/sessions.js.html">support/middleware/sessions.js</a></li>
+                    <li><a href="support/mixins.js.html">support/mixins.js</a></li>
                     <li><a href="support/outputFormats/html.js.html">support/outputFormats/html.js</a></li>
                     <li><a href="support/outputFormats/json.js.html">support/outputFormats/json.js</a></li>
                     <li><a href="support/routeMapper.js.html">support/routeMapper.js</a></li>
                     <li><a href="support/session/store/mongo.js.html">support/session/store/mongo.js</a></li>
+                    <li><a href="support/viewObjects.js.html">support/viewObjects.js</a></li>
                   </ul>
                 </div>
               </div>
@@ -98,6 +108,7 @@ require('koa-trie-router')(app);</code></pre>
                 </p>
               </section>
               <pre><code class="language-javascript">app.loadConfig = function*() {
+  debug('Loading configuration');
   app.config = waigo.load('config/index')();
 };</code></pre>
               <section id="setupLogger">
@@ -110,7 +121,8 @@ require('koa-trie-router')(app);</code></pre>
               </section>
               <pre><code class="language-javascript">app.setupLogger = function*() {
   var appLoggerType = _.keys(app.config.logging).pop();
-  app.logger = waigo.load('support/logging/' + appLoggerType).create(app.config, app.config.logging[appLoggerType]);
+  debug('Setting up logger: ' + appLoggerType);
+  app.logger = waigo.load('support/logging/' + appLoggerType).create(app.config.logging[appLoggerType]);
 
   process.on('uncaughtException', function(err) {
     app.logger.error('Uncaught exception', err.stack);
@@ -131,6 +143,7 @@ require('koa-trie-router')(app);</code></pre>
               <pre><code class="language-javascript">app.setupDatabase = function*() {
   if (app.config.db) {
     var dbType = _.keys(app.config.db).pop();
+    debug('Setting up database connection : ' + dbType);
     app.db = waigo.load('support/db/' + dbType).create(app.config.db[dbType]);
   }
 };</code></pre>
@@ -143,6 +156,7 @@ require('koa-trie-router')(app);</code></pre>
                 </p>
               </section>
               <pre><code class="language-javascript">app.setupResponseTime = function*() {
+  debug('Setting up X-Response-Time middleware');
   app.use(waigo.load('support/middleware/responseTime')());
 };</code></pre>
               <section id="setupErrorHandler">
@@ -154,6 +168,7 @@ require('koa-trie-router')(app);</code></pre>
                 </p>
               </section>
               <pre><code class="language-javascript">app.setupErrorHandler = function*() {
+  debug('Setting up error handler middleware');
   app.use(waigo.load('support/middleware/errorHandler')(app.config.errorHandler));
 };</code></pre>
               <section id="setupSessions">
@@ -170,6 +185,9 @@ require('koa-trie-router')(app);</code></pre>
     if (!sessionConfig.keys) {
       throw new Error('Please specify cookie signing keys (session.keys) in the config file.');
     }
+
+    debug('Setting up sessions');
+
     app.keys = sessionConfig.keys;
     app.use(waigo.load('support/middleware/sessions')({
       name: sessionConfig.name,
@@ -190,7 +208,8 @@ require('koa-trie-router')(app);</code></pre>
                 </p>
               </section>
               <pre><code class="language-javascript">app.setupStaticResources = function*() {
-  app.use(waigo.load('support/middleware/staticResources')(app.config.staticFolder));
+  debug('Setting up static resources');
+  app.use(waigo.load('support/middleware/staticResources')(app.config.staticResources));
 };</code></pre>
               <section id="setupOutputFormats">
                 <h1>setupOutputFormats</h1>
@@ -201,6 +220,7 @@ require('koa-trie-router')(app);</code></pre>
                 </p>
               </section>
               <pre><code class="language-javascript">app.setupOutputFormats = function*() {
+  debug('Setting up output formats');
   app.use(waigo.load('support/middleware/outputFormats')(app.config.outputFormats));
 };</code></pre>
               <section id="setupRoutes">
@@ -212,6 +232,7 @@ require('koa-trie-router')(app);</code></pre>
                 </p>
               </section>
               <pre><code class="language-javascript">app.setupRoutes = function*() {
+  debug('Setting up routes');
   app.routes = waigo.load('routes');
   waigo.load('support/routeMapper').map(app, app.routes);
   app.use(app.router);
@@ -225,8 +246,9 @@ require('koa-trie-router')(app);</code></pre>
                 </p>
               </section>
               <pre><code class="language-javascript">app.startServer = function*() {
+  debug('Starting HTTP server');
   app.listen(app.config.port);
-  app.logger.info('Server listening on port ' + app.config.port);
+  app.logger.info('Server listening in ' + app.config.mode + ' mode on port ' + app.config.port + ' (baseURL: ' + app.config.baseURL + ')');
 };</code></pre>
               <section id="start">
                 <h1>start</h1>
@@ -246,8 +268,8 @@ require('koa-trie-router')(app);</code></pre>
   // middleware chain for every incoming request
   yield* app.setupResponseTime();
   yield* app.setupErrorHandler();
-  yield* app.setupSessions();
   yield* app.setupStaticResources();
+  yield* app.setupSessions();
   yield* app.setupOutputFormats();
 
   yield* app.setupRoutes();
@@ -276,7 +298,7 @@ require('koa-trie-router')(app);</code></pre>
         </div>
       </div>
     </main>
-    <footer role="contentinfo"><p>This page was <a href="https://github.com/waigo/waigojs.com-generator">generated</a> on Wed, 26 Feb 2014 11:13:00 GMT</p>
+    <footer role="contentinfo"><p>This page was <a href="https://github.com/waigo/waigojs.com-generator">generated</a> on Sun, 02 Mar 2014 04:44:21 GMT</p>
 
     </footer>
     <script type="text/javascript" src="/scripts.js"></script>

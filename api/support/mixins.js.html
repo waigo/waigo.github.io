@@ -49,10 +49,10 @@
                 <li><a href="../support/middleware/outputFormats.js.html">support/middleware/outputFormats.js</a></li>
                 <li><a href="../support/middleware/responseTime.js.html">support/middleware/responseTime.js</a></li>
                 <li><a href="../support/middleware/sessions.js.html">support/middleware/sessions.js</a></li>
-                <li><a href="../support/mixins.js.html">support/mixins.js</a></li>
+                <li class="active"><a href="../support/mixins.js.html">support/mixins.js</a></li>
                 <li><a href="../support/outputFormats/html.js.html">support/outputFormats/html.js</a></li>
                 <li><a href="../support/outputFormats/json.js.html">support/outputFormats/json.js</a></li>
-                <li class="active"><a href="../support/routeMapper.js.html">support/routeMapper.js</a></li>
+                <li><a href="../support/routeMapper.js.html">support/routeMapper.js</a></li>
                 <li><a href="../support/session/store/mongo.js.html">support/session/store/mongo.js</a></li>
                 <li><a href="../support/viewObjects.js.html">support/viewObjects.js</a></li>
               </ul>
@@ -78,10 +78,10 @@
                     <li><a href="../support/middleware/outputFormats.js.html">support/middleware/outputFormats.js</a></li>
                     <li><a href="../support/middleware/responseTime.js.html">support/middleware/responseTime.js</a></li>
                     <li><a href="../support/middleware/sessions.js.html">support/middleware/sessions.js</a></li>
-                    <li><a href="../support/mixins.js.html">support/mixins.js</a></li>
+                    <li class="active"><a href="../support/mixins.js.html">support/mixins.js</a></li>
                     <li><a href="../support/outputFormats/html.js.html">support/outputFormats/html.js</a></li>
                     <li><a href="../support/outputFormats/json.js.html">support/outputFormats/json.js</a></li>
-                    <li class="active"><a href="../support/routeMapper.js.html">support/routeMapper.js</a></li>
+                    <li><a href="../support/routeMapper.js.html">support/routeMapper.js</a></li>
                     <li><a href="../support/session/store/mongo.js.html">support/session/store/mongo.js</a></li>
                     <li><a href="../support/viewObjects.js.html">support/viewObjects.js</a></li>
                   </ul>
@@ -89,31 +89,15 @@
               </div>
             </div>
             <div role="main" class="col-md-7 waigo-api-content">
-              <section id="_">
-                <h1>_</h1>
-                <div class="description"><p>Route -> Controller mapper.</p> </div>
+              <section id="HasViewObject">
+                <h1>HasViewObject</h1>
+                <div class="description"><p>Mixin for objects which are able to provide a representation of themselves suitable rendering in a response.</p> </div>
                 <h5 class="subheader"></h5>
                 <p>
                   <div class="label label-success radius ctx-type">declaration</div>
                 </p>
               </section>
-              <pre><code class="language-javascript">var _ = require('lodash'),
-  Promise = require('bluebird'),
-  route = require('koa-trie-router'),
-  util = require('util'),
-  waigo = require('../../');
-
-
-var errors = waigo.load('support/errors'),
-  RouteError = exports.RouteError = errors.defineSubType(errors.RuntimeError, 'RouteError');</code></pre>
-              <section id="parseMethodUrl">
-                <h1>parseMethodUrl</h1>
-                <div class="description"><p>Parse a route methodUrl string.</p> </div>
-                <h5 class="subheader"></h5>
-                <p>
-                  <div class="label label-info radius ctx-type">function</div><span class="symbolReturns">-> Object</span>
-                </p>
-              </section>
+              <pre><code class="language-javascript">var HasViewObject = exports.HasViewObject = {</code></pre>
               <table class="params table table-bordered table-striped">
                 <thead>
                   <tr>
@@ -124,29 +108,19 @@ var errors = waigo.load('support/errors'),
                 </thead>
                 <tbody>
                   <tr>
-                    <td class="name">{String}</td>
-                    <td class="type">str</td>
-                    <td class="description">in the form &quot;(httpMethod) (url)&quot;, e.g. &quot;GET /index&quot; </td>
+                    <td class="name">ctx</td>
+                    <td class="type">Object</td>
+                    <td class="description">The context within which this object will be rendered. This is usually the same as the koa application context and </td>
                   </tr>
                 </tbody>
               </table>
-              <pre><code class="language-javascript">var parseMethodUrl = function(str) {
-  var tokens = _.str.clean(str).split(' ');
-  if (2 !== tokens.length) {
-    throw new RouteError('Invalid route URL format: ' + str);
+              <pre><code class="language-javascript">toViewObject: function*(ctx) {
+    throw new Error('Not yet implemented');
   }
-  var result = {
-    method: tokens[0],
-    url: '/' + _.str.ltrim(tokens[1], '/')
-  };
-  if (-1 === _.indexOf(['GET', 'POST', 'DEL', 'DELETE', 'PUT', 'OPTIONS', 'HEAD'], result.method)) {
-    throw new RouteError('Unsupported route HTTP method: ' + result.method);
-  }
-  return result;
 };</code></pre>
-              <section id="map">
-                <h1>map</h1>
-                <div class="description"><p>Map given routes to controllers.</p> </div>
+              <section id="extend">
+                <h1>extend</h1>
+                <div class="description"><p>Extend given base class with mixins.</p> </div>
                 <h5 class="subheader"></h5>
                 <p>
                   <div class="label label-info radius ctx-type">method</div>
@@ -162,75 +136,34 @@ var errors = waigo.load('support/errors'),
                 </thead>
                 <tbody>
                   <tr>
-                    <td class="name">{Object}</td>
-                    <td class="type">app</td>
-                    <td class="description">the koa app to map routes on.</td>
+                    <td class="name">baseClass</td>
+                    <td class="type">Class</td>
+                    <td class="description">The base class to apply mixins to.</td>
                   </tr>
                   <tr>
-                    <td class="name">{Array}</td>
-                    <td class="type">routes</td>
-                    <td class="description">list of route definitions. </td>
+                    <td class="name">mixin</td>
+                    <td class="type">Class</td>
+                    <td class="description">The first mixin to apply (each argument following this is another mixin).</td>
                   </tr>
                 </tbody>
               </table>
-              <pre><code class="language-javascript">exports.map = function(app, routes) {
-  var controllers = app.controllers = {},
-    possibleMappings = [];
+              <pre><code class="language-javascript">exports.extend = function(baseClass, mixin) {
+  var mixins = _.toArray(arguments).slice(1);
 
-  _.each(routes, function(middleware, urlPath) {
-    if (!_.isArray(middleware)) {
-      middleware = [middleware];
-    }
-
-    var mapping = parseMethodUrl(urlPath);
-
-    // load all middleware
-    mapping.resolvedMiddleware = _.map(middleware, function(ref) {
-      // if reference is of form 'moduleName.methodName' then it's a controller reference
-      var dotPos = ref.indexOf('.');
-      if (0 &lt; dotPos) {
-        var tokens = ref.split('.'),
-          controllerName = tokens[0],
-          methodName = tokens[1];
-
-        // load controller if not already done so
-        if (!controllers[controllerName]) {
-          controllers[controllerName] = waigo.load('controllers/' + controllerName);
-        }
-
-        if (!_.isFunction(controllers[controllerName][methodName])) {
-          throw new RouteError('Unable to find method &quot;' + methodName + '&quot; on controller &quot;' + controllerName + '&quot;');
-        }
-
-        return controllers[controllerName][methodName];
-      }
-      // else it's a middleware reference
-      else {
-        return waigo.load('support/middleware/' + ref)();
+  _.each(mixins, function(mixin) {
+    _.each(mixin, function(prop, name) {
+      if (_.isFunction(prop) &amp;&amp; !((baseClass).prototype.hasOwnProperty(name)) ) {
+        (baseClass).prototype[name] = prop;
       }
     });
-
-    possibleMappings.push(mapping);
-  });
-
-  // now order by path (specific to general)
-  // put the routes into order (specific to general)
-  var orderedMappings = _.sortBy(possibleMappings, function(mapping) {
-    return mapping.url;
-  });
-
-  _.each(orderedMappings.reverse(), function(mapping) {
-    var route = app.route(mapping.url);
-    route[mapping.method.toLowerCase()].apply(route, mapping.resolvedMiddleware);
   });
 };</code></pre>
             </div>
             <div class="col-md-2">
               <div role="complementary" class="waigo-content-menu hidden-print">
                 <ul class="nav">
-                  <li><a href="#_"><span>_</span></a></li>
-                  <li><a href="#parseMethodUrl"><span>parseMethodUrl</span></a></li>
-                  <li><a href="#map"><span>map()</span></a></li>
+                  <li><a href="#HasViewObject"><span>HasViewObject</span></a></li>
+                  <li><a href="#extend"><span>extend()</span></a></li>
                 </ul>
               </div>
             </div>

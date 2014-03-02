@@ -41,15 +41,20 @@
                 <li><a href="../server.js.html">server.js</a></li>
                 <li><a href="../support/db/mongoose.js.html">support/db/mongoose.js</a></li>
                 <li><a href="../support/errors.js.html">support/errors.js</a></li>
+                <li><a href="../support/forms/fields/field.js.html">support/forms/fields/field.js</a></li>
+                <li><a href="../support/forms/fields/text.js.html">support/forms/fields/text.js</a></li>
+                <li><a href="../support/forms/form.js.html">support/forms/form.js</a></li>
                 <li><a href="../support/logging/winston.js.html">support/logging/winston.js</a></li>
                 <li><a href="../support/middleware/errorHandler.js.html">support/middleware/errorHandler.js</a></li>
                 <li><a href="../support/middleware/outputFormats.js.html">support/middleware/outputFormats.js</a></li>
                 <li><a href="../support/middleware/responseTime.js.html">support/middleware/responseTime.js</a></li>
                 <li><a href="../support/middleware/sessions.js.html">support/middleware/sessions.js</a></li>
+                <li><a href="../support/mixins.js.html">support/mixins.js</a></li>
                 <li><a href="../support/outputFormats/html.js.html">support/outputFormats/html.js</a></li>
                 <li><a href="../support/outputFormats/json.js.html">support/outputFormats/json.js</a></li>
                 <li><a href="../support/routeMapper.js.html">support/routeMapper.js</a></li>
                 <li><a href="../support/session/store/mongo.js.html">support/session/store/mongo.js</a></li>
+                <li><a href="../support/viewObjects.js.html">support/viewObjects.js</a></li>
               </ul>
               <div class="visible-sm visible-xs">
                 <button type="button" data-toggle="collapse" data-target="#api-index-xs" class="btn btn-info">Show/hide API index</button>
@@ -65,15 +70,20 @@
                     <li><a href="../server.js.html">server.js</a></li>
                     <li><a href="../support/db/mongoose.js.html">support/db/mongoose.js</a></li>
                     <li><a href="../support/errors.js.html">support/errors.js</a></li>
+                    <li><a href="../support/forms/fields/field.js.html">support/forms/fields/field.js</a></li>
+                    <li><a href="../support/forms/fields/text.js.html">support/forms/fields/text.js</a></li>
+                    <li><a href="../support/forms/form.js.html">support/forms/form.js</a></li>
                     <li><a href="../support/logging/winston.js.html">support/logging/winston.js</a></li>
                     <li><a href="../support/middleware/errorHandler.js.html">support/middleware/errorHandler.js</a></li>
                     <li><a href="../support/middleware/outputFormats.js.html">support/middleware/outputFormats.js</a></li>
                     <li><a href="../support/middleware/responseTime.js.html">support/middleware/responseTime.js</a></li>
                     <li><a href="../support/middleware/sessions.js.html">support/middleware/sessions.js</a></li>
+                    <li><a href="../support/mixins.js.html">support/mixins.js</a></li>
                     <li><a href="../support/outputFormats/html.js.html">support/outputFormats/html.js</a></li>
                     <li><a href="../support/outputFormats/json.js.html">support/outputFormats/json.js</a></li>
                     <li><a href="../support/routeMapper.js.html">support/routeMapper.js</a></li>
                     <li><a href="../support/session/store/mongo.js.html">support/session/store/mongo.js</a></li>
+                    <li><a href="../support/viewObjects.js.html">support/viewObjects.js</a></li>
                   </ul>
                 </div>
               </div>
@@ -193,15 +203,20 @@
   // Default format, in case URL query parameter which determines output format isn't provided. */
   default: 'html'
 };</code></pre>
-              <section id="staticFolder">
-                <h1>staticFolder</h1>
-                <div class="description"><p>Static resources (relative to app root folder).</p> </div>
+              <section id="staticResources">
+                <h1>staticResources</h1>
+                <div class="description"><p>Static resources.</p> </div>
                 <h5 class="subheader"></h5>
                 <p>
                   <div class="label label-success radius ctx-type">property</div>
                 </p>
               </section>
-              <pre><code class="language-javascript">exports.staticFolder = '../public';</code></pre>
+              <pre><code class="language-javascript">exports.staticResources = {
+  // relative to app folder
+  folder: '../public',
+  // see support/middleware/staticResources for options
+  options: {}
+};</code></pre>
               <section id="errorHandler">
                 <h1>errorHandler</h1>
                 <div class="description"><p>Config for request error handler.</p> </div>
@@ -224,7 +239,7 @@
                   <li><a href="#logging"><span>logging</span></a></li>
                   <li><a href="#session"><span>session</span></a></li>
                   <li><a href="#outputFormats"><span>outputFormats</span></a></li>
-                  <li><a href="#staticFolder"><span>staticFolder</span></a></li>
+                  <li><a href="#staticResources"><span>staticResources</span></a></li>
                   <li><a href="#errorHandler"><span>errorHandler</span></a></li>
                 </ul>
               </div>
@@ -233,7 +248,7 @@
         </div>
       </div>
     </main>
-    <footer role="contentinfo"><p>This page was <a href="https://github.com/waigo/waigojs.com-generator">generated</a> on Wed, 26 Feb 2014 11:13:00 GMT</p>
+    <footer role="contentinfo"><p>This page was <a href="https://github.com/waigo/waigojs.com-generator">generated</a> on Sun, 02 Mar 2014 04:44:20 GMT</p>
 
     </footer>
     <script type="text/javascript" src="/scripts.js"></script>
