@@ -47,8 +47,8 @@
                 <li><a href="../../support/forms/sanitizers/trim.js.html">support/forms/sanitizers/trim.js</a></li>
                 <li><a href="../../support/forms/validators/isEmailAddress.js.html">support/forms/validators/isEmailAddress.js</a></li>
                 <li><a href="../../support/forms/validators/notEmpty.js.html">support/forms/validators/notEmpty.js</a></li>
-                <li class="active"><a href="../../support/logging/winston.js.html">support/logging/winston.js</a></li>
-                <li><a href="../../support/middleware/bodyParser.js.html">support/middleware/bodyParser.js</a></li>
+                <li><a href="../../support/logging/winston.js.html">support/logging/winston.js</a></li>
+                <li class="active"><a href="../../support/middleware/bodyParser.js.html">support/middleware/bodyParser.js</a></li>
                 <li><a href="../../support/middleware/errorHandler.js.html">support/middleware/errorHandler.js</a></li>
                 <li><a href="../../support/middleware/outputFormats.js.html">support/middleware/outputFormats.js</a></li>
                 <li><a href="../../support/middleware/responseTime.js.html">support/middleware/responseTime.js</a></li>
@@ -79,8 +79,8 @@
                     <li><a href="../../support/forms/sanitizers/trim.js.html">support/forms/sanitizers/trim.js</a></li>
                     <li><a href="../../support/forms/validators/isEmailAddress.js.html">support/forms/validators/isEmailAddress.js</a></li>
                     <li><a href="../../support/forms/validators/notEmpty.js.html">support/forms/validators/notEmpty.js</a></li>
-                    <li class="active"><a href="../../support/logging/winston.js.html">support/logging/winston.js</a></li>
-                    <li><a href="../../support/middleware/bodyParser.js.html">support/middleware/bodyParser.js</a></li>
+                    <li><a href="../../support/logging/winston.js.html">support/logging/winston.js</a></li>
+                    <li class="active"><a href="../../support/middleware/bodyParser.js.html">support/middleware/bodyParser.js</a></li>
                     <li><a href="../../support/middleware/errorHandler.js.html">support/middleware/errorHandler.js</a></li>
                     <li><a href="../../support/middleware/outputFormats.js.html">support/middleware/outputFormats.js</a></li>
                     <li><a href="../../support/middleware/responseTime.js.html">support/middleware/responseTime.js</a></li>
@@ -95,12 +95,14 @@
               </div>
             </div>
             <div role="main" class="col-md-7 waigo-api-content">
-              <section id="create">
-                <h1>create</h1>
-                <div class="description"><p>Create a winston logger.</p> </div>
+              <section id="fn">
+                <h1>fn</h1>
+                <div class="description"><p>Build middleware for parsing request bodies.</p>
+
+<p>Once parsed the request body parameters are available in <code>this.request.body</code>.</p> </div>
                 <h5 class="subheader"></h5>
                 <p>
-                  <div class="label label-info radius ctx-type">method</div><span class="symbolReturns">-> Object</span>
+                  <div class="label label-success radius ctx-type">declaration</div><span class="symbolReturns">-> Function</span>
                 </p>
               </section>
               <table class="params table table-bordered table-striped">
@@ -113,47 +115,30 @@
                 </thead>
                 <tbody>
                   <tr>
-                    <td class="name">{Object}</td>
-                    <td class="type">winstonConfig</td>
-                    <td class="description">winston loggin configuration. </td>
+                    <td class="name">options</td>
+                    <td class="type">Object</td>
+                    <td class="description">Configuration options.</td>
+                  </tr>
+                  <tr>
+                    <td class="name">[options.limit]</td>
+                    <td class="type">String</td>
+                    <td class="description">The maximum allowed size of a request body. </td>
                   </tr>
                 </tbody>
               </table>
-              <pre><code class="language-javascript">exports.create = function(winstonConfig) {
-  var winstonTransports = [];
-
-  _.each(_.keys(winstonConfig), function(transportType) {
-    var transport = null;
-
-    switch (transportType) {
-      case 'console':
-        transport = new winston.transports.Console(winstonConfig[transportType]);
-        break;
-      case 'mongo':
-        transport = new winston.transports.MongoDB(winstonConfig[transportType]);
-
-        transport.on('error', function(err) {
-          console.log('Winston failed to log message to MongoDB', err);
-        });
-    }
-
-    if (transport) {
-      winstonTransports.push(transport);
-    }
-  });
-
-  // setup logger
-  var logger = new (winston.Logger)({
-    transports: winstonTransports
-  });
-
-  return logger;
-};</code></pre>
+              <pre><code class="language-javascript">var fn = module.exports = function(options) {
+  return function*(next) {
+    this.request.body = yield fn._bodyParser(this, options);
+    yield next;
+  };
+};
+// we attach actual parser to the function to make unit testing easier
+fn._bodyParser = require('co-body');</code></pre>
             </div>
             <div class="col-md-2">
               <div role="complementary" class="waigo-content-menu hidden-print">
                 <ul class="nav">
-                  <li><a href="#create"><span>create()</span></a></li>
+                  <li><a href="#fn"><span>fn</span></a></li>
                 </ul>
               </div>
             </div>

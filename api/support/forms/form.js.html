@@ -41,10 +41,14 @@
                 <li><a href="../../server.js.html">server.js</a></li>
                 <li><a href="../../support/db/mongoose.js.html">support/db/mongoose.js</a></li>
                 <li><a href="../../support/errors.js.html">support/errors.js</a></li>
-                <li><a href="../../support/forms/fields/field.js.html">support/forms/fields/field.js</a></li>
+                <li><a href="../../support/forms/field.js.html">support/forms/field.js</a></li>
                 <li><a href="../../support/forms/fields/text.js.html">support/forms/fields/text.js</a></li>
                 <li class="active"><a href="../../support/forms/form.js.html">support/forms/form.js</a></li>
+                <li><a href="../../support/forms/sanitizers/trim.js.html">support/forms/sanitizers/trim.js</a></li>
+                <li><a href="../../support/forms/validators/isEmailAddress.js.html">support/forms/validators/isEmailAddress.js</a></li>
+                <li><a href="../../support/forms/validators/notEmpty.js.html">support/forms/validators/notEmpty.js</a></li>
                 <li><a href="../../support/logging/winston.js.html">support/logging/winston.js</a></li>
+                <li><a href="../../support/middleware/bodyParser.js.html">support/middleware/bodyParser.js</a></li>
                 <li><a href="../../support/middleware/errorHandler.js.html">support/middleware/errorHandler.js</a></li>
                 <li><a href="../../support/middleware/outputFormats.js.html">support/middleware/outputFormats.js</a></li>
                 <li><a href="../../support/middleware/responseTime.js.html">support/middleware/responseTime.js</a></li>
@@ -54,7 +58,6 @@
                 <li><a href="../../support/outputFormats/json.js.html">support/outputFormats/json.js</a></li>
                 <li><a href="../../support/routeMapper.js.html">support/routeMapper.js</a></li>
                 <li><a href="../../support/session/store/mongo.js.html">support/session/store/mongo.js</a></li>
-                <li><a href="../../support/viewObjects.js.html">support/viewObjects.js</a></li>
               </ul>
               <div class="visible-sm visible-xs">
                 <button type="button" data-toggle="collapse" data-target="#api-index-xs" class="btn btn-info">Show/hide API index</button>
@@ -70,10 +73,14 @@
                     <li><a href="../../server.js.html">server.js</a></li>
                     <li><a href="../../support/db/mongoose.js.html">support/db/mongoose.js</a></li>
                     <li><a href="../../support/errors.js.html">support/errors.js</a></li>
-                    <li><a href="../../support/forms/fields/field.js.html">support/forms/fields/field.js</a></li>
+                    <li><a href="../../support/forms/field.js.html">support/forms/field.js</a></li>
                     <li><a href="../../support/forms/fields/text.js.html">support/forms/fields/text.js</a></li>
                     <li class="active"><a href="../../support/forms/form.js.html">support/forms/form.js</a></li>
+                    <li><a href="../../support/forms/sanitizers/trim.js.html">support/forms/sanitizers/trim.js</a></li>
+                    <li><a href="../../support/forms/validators/isEmailAddress.js.html">support/forms/validators/isEmailAddress.js</a></li>
+                    <li><a href="../../support/forms/validators/notEmpty.js.html">support/forms/validators/notEmpty.js</a></li>
                     <li><a href="../../support/logging/winston.js.html">support/logging/winston.js</a></li>
+                    <li><a href="../../support/middleware/bodyParser.js.html">support/middleware/bodyParser.js</a></li>
                     <li><a href="../../support/middleware/errorHandler.js.html">support/middleware/errorHandler.js</a></li>
                     <li><a href="../../support/middleware/outputFormats.js.html">support/middleware/outputFormats.js</a></li>
                     <li><a href="../../support/middleware/responseTime.js.html">support/middleware/responseTime.js</a></li>
@@ -83,7 +90,6 @@
                     <li><a href="../../support/outputFormats/json.js.html">support/outputFormats/json.js</a></li>
                     <li><a href="../../support/routeMapper.js.html">support/routeMapper.js</a></li>
                     <li><a href="../../support/session/store/mongo.js.html">support/session/store/mongo.js</a></li>
-                    <li><a href="../../support/viewObjects.js.html">support/viewObjects.js</a></li>
                   </ul>
                 </div>
               </div>
@@ -97,7 +103,7 @@
                   <div class="label label-success radius ctx-type">declaration</div>
                 </p>
               </section>
-              <pre><code class="language-javascript">var FormValidationError = exports.FormValidationError = errors.defineSubType(errors.MultipleError, 'FormValidationError');</code></pre>
+              <pre><code class="language-javascript">var FormValidationError = exports.FormValidationError = errors.define('FormValidationError', errors.MultipleError);</code></pre>
               <section id="Form">
                 <h1>Form</h1>
                 <div class="description"><p>Construct a form.</p> </div>
@@ -117,39 +123,80 @@
                 <tbody>
                   <tr>
                     <td class="name">config</td>
+                    <td class="type">Object,Form</td>
+                    <td class="description">form configuration or an existing `Form` instance.</td>
+                  </tr>
+                  <tr>
+                    <td class="name">[state]</td>
                     <td class="type">Object</td>
-                    <td class="description">form configuration.</td>
+                    <td class="description">The internal state to set for this form.</td>
                   </tr>
                 </tbody>
               </table>
-              <pre><code class="language-javascript">var Form = exports.Form = function(config) {
-  this.config = config || {};
-};
-mixins.extend(Form, mixins.HasViewObject);</code></pre>
-              <section id="getFields">
-                <h1>getFields</h1>
-                <div class="description"><p>Get the fields of this form.</p>
-
-<p>Fields will be returned as <code>Field</code> instances.</p> </div>
-                <h5 class="subheader"></h5>
-                <p>
-                  <div class="label label-info radius ctx-type">method</div><span class="symbolReturns">-> Object</span>
-                </p>
-              </section>
-              <pre><code class="language-javascript">Form.prototype.getFields = function*() {
-  if (!this.fields) {
-    this.fields = {};
-
-    for (let fieldName in this.config.fields) {
-      this.fields[fieldName] = Field.create(fieldName, this.config.fields[fieldName]);
+              <pre><code class="language-javascript">var Form = exports.Form = function(config, state) {
+  if (config instanceof Form) {
+    let existingForm = config;
+    this.config = existingForm.config;
+    this._fields = existingForm._fields;
+  } else {
+    this.config = config || {};
+    // initialise fields
+    this._fields = {};
+    for (let idx in this.config.fields) {
+      let def = this.config.fields[idx];
+      this._fields[def.name] = Field.new(this, def);
     }
   }
 
-  return this.fields;
-};</code></pre>
-              <section id="setContents">
-                <h1>setContents</h1>
-                <div class="description"><p>Set the contents of this form.</p> </div>
+  this.state = state || {};
+};
+mixins.applyTo(Form, mixins.HasViewObject);
+
+
+
+
+Object.defineProperty(Form.prototype, 'fields', {</code></pre>
+              <pre><code class="language-javascript">get: function() {
+    return this._fields;
+  }
+});
+
+
+
+
+Object.defineProperty(Form.prototype, 'state', {</code></pre>
+              <pre><code class="language-javascript">get: function() {
+    return this._state;
+  },</code></pre>
+              <table class="params table table-bordered table-striped">
+                <thead>
+                  <tr>
+                    <th style="width:20%">Option</th>
+                    <th style="width:20%">Type</th>
+                    <th>Description</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="name">state</td>
+                    <td class="type">Object</td>
+                    <td class="description">The new internal state to set for this form.</td>
+                  </tr>
+                </tbody>
+              </table>
+              <pre><code class="language-javascript">set: function(state) {
+    this._state = state || {};
+
+    for (let fieldName in this.fields) {
+      this._state[fieldName] = this._state[fieldName] || {
+        value: null
+      };
+    }
+  }
+});</code></pre>
+              <section id="setValues">
+                <h1>setValues</h1>
+                <div class="description"><p>Set field values.</p> </div>
                 <h5 class="subheader"></h5>
                 <p>
                   <div class="label label-info radius ctx-type">method</div>
@@ -165,19 +212,17 @@ mixins.extend(Form, mixins.HasViewObject);</code></pre>
                 </thead>
                 <tbody>
                   <tr>
-                    <td class="name">fieldContents</td>
+                    <td class="name">values</td>
                     <td class="type">Object</td>
                     <td class="description">Mapping from field name to field value.</td>
                   </tr>
                 </tbody>
               </table>
-              <pre><code class="language-javascript">Form.prototype.setContents = function*(formContents) {
-  var fields = yield this.getFields();
+              <pre><code class="language-javascript">Form.prototype.setValues = function*(values) {
+  values = values || {};
 
-  formContents = formContents || {};
-
-  for (let fieldName in fields) {
-    yield fields[fieldName].setValue(formContents[fieldName]);
+  for (let fieldName in this.fields) {
+    yield this.fields[fieldName].setSanitizedValue(values[fieldName]);
   }
 };</code></pre>
               <section id="validate">
@@ -189,12 +234,14 @@ mixins.extend(Form, mixins.HasViewObject);</code></pre>
                 </p>
               </section>
               <pre><code class="language-javascript">Form.prototype.validate = function*() {
-  var fields = yield this.getFields(),
+  var fields = this.fields,
     errors = null;
 
   for (let fieldName in fields) {
+    let field = fields[fieldName];
+
     try {
-      yield fields[fieldName].validate();
+      yield field.validate();
     } catch (err) {
       if (!errors) {
         errors = {};
@@ -216,18 +263,75 @@ mixins.extend(Form, mixins.HasViewObject);</code></pre>
                   <div class="label label-info radius ctx-type">method</div>
                 </p>
               </section>
-              <pre><code class="language-javascript">Form.prototype.toViewObject = function*() {
-  var fields = yield this.getFields(),
-    fieldViewObjects = {};
+              <pre><code class="language-javascript">Form.prototype.toViewObject = function*(ctx) {
+  var fields = this.fields,
+    fieldViewObjects = [];
 
-  for (let fieldName in fields) {
-    fieldViewObjects[fieldName] = yield fields[fieldName].validate();
+  for (let idx in this.config.fields) {
+    let def = this.config.fields[idx];
+      
+    fieldViewObjects.push(yield fields[def.name].toViewObject(ctx));
   }
 
-  return {
-    id: this.config.id,
-    submitLabel: this.config.submitLabel || 'Submit',
+  var ret = {
     fields: fieldViewObjects
+  }
+
+  if (this.config.id) {
+    ret.id = this.config.id
+  }
+
+  return ret;
+};
+
+
+
+// the form instance cache
+var cache = {};</code></pre>
+              <section id="new">
+                <h1>new</h1>
+                <div class="description"><p>Create an instance of the given form.</p>
+
+<p>The given id is used to load in the form definition from the <code>forms</code> file <br />path.</p>
+
+<p>An optional initial internal state can also be provided. This is useful to <br />e.g. restore the from and its fields to a previous state. If not provided <br />then the form will be set to the default internal state of a newly <br />constructed instance.</p> </div>
+                <h5 class="subheader"></h5>
+                <p>
+                  <div class="label label-info radius ctx-type">method</div><span class="symbolReturns">-> Form</span>
+                </p>
+              </section>
+              <table class="params table table-bordered table-striped">
+                <thead>
+                  <tr>
+                    <th style="width:20%">Option</th>
+                    <th style="width:20%">Type</th>
+                    <th>Description</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="name">id</td>
+                    <td class="type">String</td>
+                    <td class="description">The id of the form to load.</td>
+                  </tr>
+                  <tr>
+                    <td class="name">[state]</td>
+                    <td class="type">Object</td>
+                    <td class="description">The internal state to set for this form. </td>
+                  </tr>
+                </tbody>
+              </table>
+              <pre><code class="language-javascript">Form.new = function(id, state) {
+  var cachedInstance = cache[id];
+
+  if (!cachedInstance) {
+    let config = waigo.load('forms/' + id);
+    config.id = id;
+    cachedInstance = new Form(config, state);
+    cache[id] = cachedInstance;
+    return cachedInstance;
+  } else {
+    return new Form(cachedInstance, state);
   }
 };</code></pre>
             </div>
@@ -236,10 +340,10 @@ mixins.extend(Form, mixins.HasViewObject);</code></pre>
                 <ul class="nav">
                   <li><a href="#FormValidationError"><span>FormValidationError</span></a></li>
                   <li><a href="#Form"><span>Form</span></a></li>
-                  <li><a href="#getFields"><span>getFields()</span></a></li>
-                  <li><a href="#setContents"><span>setContents()</span></a></li>
+                  <li><a href="#setValues"><span>setValues()</span></a></li>
                   <li><a href="#validate"><span>validate()</span></a></li>
                   <li><a href="#toViewObject"><span>toViewObject()</span></a></li>
+                  <li><a href="#new"><span>new()</span></a></li>
                 </ul>
               </div>
             </div>
@@ -247,7 +351,7 @@ mixins.extend(Form, mixins.HasViewObject);</code></pre>
         </div>
       </div>
     </main>
-    <footer role="contentinfo"><p>This page was <a href="https://github.com/waigo/waigojs.com-generator">generated</a> on Sun, 02 Mar 2014 04:44:22 GMT</p>
+    <footer role="contentinfo"><p>This page was <a href="https://github.com/waigo/waigojs.com-generator">generated</a> on Fri, 07 Mar 2014 13:02:51 GMT</p>
 
     </footer>
     <script type="text/javascript" src="/scripts.js"></script>

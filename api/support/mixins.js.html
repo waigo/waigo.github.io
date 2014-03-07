@@ -41,10 +41,14 @@
                 <li><a href="../server.js.html">server.js</a></li>
                 <li><a href="../support/db/mongoose.js.html">support/db/mongoose.js</a></li>
                 <li><a href="../support/errors.js.html">support/errors.js</a></li>
-                <li><a href="../support/forms/fields/field.js.html">support/forms/fields/field.js</a></li>
+                <li><a href="../support/forms/field.js.html">support/forms/field.js</a></li>
                 <li><a href="../support/forms/fields/text.js.html">support/forms/fields/text.js</a></li>
                 <li><a href="../support/forms/form.js.html">support/forms/form.js</a></li>
+                <li><a href="../support/forms/sanitizers/trim.js.html">support/forms/sanitizers/trim.js</a></li>
+                <li><a href="../support/forms/validators/isEmailAddress.js.html">support/forms/validators/isEmailAddress.js</a></li>
+                <li><a href="../support/forms/validators/notEmpty.js.html">support/forms/validators/notEmpty.js</a></li>
                 <li><a href="../support/logging/winston.js.html">support/logging/winston.js</a></li>
+                <li><a href="../support/middleware/bodyParser.js.html">support/middleware/bodyParser.js</a></li>
                 <li><a href="../support/middleware/errorHandler.js.html">support/middleware/errorHandler.js</a></li>
                 <li><a href="../support/middleware/outputFormats.js.html">support/middleware/outputFormats.js</a></li>
                 <li><a href="../support/middleware/responseTime.js.html">support/middleware/responseTime.js</a></li>
@@ -54,7 +58,6 @@
                 <li><a href="../support/outputFormats/json.js.html">support/outputFormats/json.js</a></li>
                 <li><a href="../support/routeMapper.js.html">support/routeMapper.js</a></li>
                 <li><a href="../support/session/store/mongo.js.html">support/session/store/mongo.js</a></li>
-                <li><a href="../support/viewObjects.js.html">support/viewObjects.js</a></li>
               </ul>
               <div class="visible-sm visible-xs">
                 <button type="button" data-toggle="collapse" data-target="#api-index-xs" class="btn btn-info">Show/hide API index</button>
@@ -70,10 +73,14 @@
                     <li><a href="../server.js.html">server.js</a></li>
                     <li><a href="../support/db/mongoose.js.html">support/db/mongoose.js</a></li>
                     <li><a href="../support/errors.js.html">support/errors.js</a></li>
-                    <li><a href="../support/forms/fields/field.js.html">support/forms/fields/field.js</a></li>
+                    <li><a href="../support/forms/field.js.html">support/forms/field.js</a></li>
                     <li><a href="../support/forms/fields/text.js.html">support/forms/fields/text.js</a></li>
                     <li><a href="../support/forms/form.js.html">support/forms/form.js</a></li>
+                    <li><a href="../support/forms/sanitizers/trim.js.html">support/forms/sanitizers/trim.js</a></li>
+                    <li><a href="../support/forms/validators/isEmailAddress.js.html">support/forms/validators/isEmailAddress.js</a></li>
+                    <li><a href="../support/forms/validators/notEmpty.js.html">support/forms/validators/notEmpty.js</a></li>
                     <li><a href="../support/logging/winston.js.html">support/logging/winston.js</a></li>
+                    <li><a href="../support/middleware/bodyParser.js.html">support/middleware/bodyParser.js</a></li>
                     <li><a href="../support/middleware/errorHandler.js.html">support/middleware/errorHandler.js</a></li>
                     <li><a href="../support/middleware/outputFormats.js.html">support/middleware/outputFormats.js</a></li>
                     <li><a href="../support/middleware/responseTime.js.html">support/middleware/responseTime.js</a></li>
@@ -83,7 +90,6 @@
                     <li><a href="../support/outputFormats/json.js.html">support/outputFormats/json.js</a></li>
                     <li><a href="../support/routeMapper.js.html">support/routeMapper.js</a></li>
                     <li><a href="../support/session/store/mongo.js.html">support/session/store/mongo.js</a></li>
-                    <li><a href="../support/viewObjects.js.html">support/viewObjects.js</a></li>
                   </ul>
                 </div>
               </div>
@@ -91,7 +97,9 @@
             <div role="main" class="col-md-7 waigo-api-content">
               <section id="HasViewObject">
                 <h1>HasViewObject</h1>
-                <div class="description"><p>Mixin for objects which are able to provide a representation of themselves suitable rendering in a response.</p> </div>
+                <div class="description"><p>Mixin for objects which are able to provide a representation of themselves suitable rendering in a response.</p>
+
+<p>This must provide just one method for obtaining the renderable representation of an item.</p> </div>
                 <h5 class="subheader"></h5>
                 <p>
                   <div class="label label-success radius ctx-type">declaration</div>
@@ -118,9 +126,9 @@
     throw new Error('Not yet implemented');
   }
 };</code></pre>
-              <section id="extend">
-                <h1>extend</h1>
-                <div class="description"><p>Extend given base class with mixins.</p> </div>
+              <section id="applyTo">
+                <h1>applyTo</h1>
+                <div class="description"><p>Apply mixins to given base class.</p> </div>
                 <h5 class="subheader"></h5>
                 <p>
                   <div class="label label-info radius ctx-type">method</div>
@@ -147,7 +155,7 @@
                   </tr>
                 </tbody>
               </table>
-              <pre><code class="language-javascript">exports.extend = function(baseClass, mixin) {
+              <pre><code class="language-javascript">exports.applyTo = function(baseClass, mixin) {
   var mixins = _.toArray(arguments).slice(1);
 
   _.each(mixins, function(mixin) {
@@ -163,7 +171,7 @@
               <div role="complementary" class="waigo-content-menu hidden-print">
                 <ul class="nav">
                   <li><a href="#HasViewObject"><span>HasViewObject</span></a></li>
-                  <li><a href="#extend"><span>extend()</span></a></li>
+                  <li><a href="#applyTo"><span>applyTo()</span></a></li>
                 </ul>
               </div>
             </div>
@@ -171,7 +179,7 @@
         </div>
       </div>
     </main>
-    <footer role="contentinfo"><p>This page was <a href="https://github.com/waigo/waigojs.com-generator">generated</a> on Sun, 02 Mar 2014 04:44:24 GMT</p>
+    <footer role="contentinfo"><p>This page was <a href="https://github.com/waigo/waigojs.com-generator">generated</a> on Fri, 07 Mar 2014 13:02:53 GMT</p>
 
     </footer>
     <script type="text/javascript" src="/scripts.js"></script>

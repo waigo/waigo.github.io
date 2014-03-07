@@ -1,4 +1,4 @@
-<!DOCTYPE html><html lang="en"><head><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" charset="utf-8"><title>Waigo.js</title><!--[if IE]><link rel="shortcut icon" href="img/logo_32x32.ico" /><![endif]--><link rel="shortcut icon" href="/img/logo_114x114.png"><meta name="msapplication-TileColor" content="#fff"><meta name="msapplication-TileImage" content="/img/logo_144x144.png"><link rel="stylesheet" media="screen" href="/style.css"></head><body><header id="top" role="banner" class="navbar navbar-static-top"><div class="container"><div class="navbar-header"><button type="button" data-toggle="collapse" data-target=".topmenu-navbar-collapse" class="navbar-toggle"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button><a href="/" class="navbar-brand">Waigo</a></div><div role="navigation" class="collapse navbar-collapse topmenu-navbar-collapse"><ul class="nav navbar-nav"><li class="active"><a id="guideNavItem" href="/#guide">Guide</a></li><li><a href="/api">API</a></li></ul><ul class="nav navbar-nav navbar-right"><li><a href="https://github.com/waigo/waigo">Github</a></li></ul></div></div></header><main id="content"><section id="banner"><div class="container"><div class="waigo-intro-banner"><div class="rays">  </div><div class="text"><h1>W</h1><p>Next-gen MVC framework for Node.js</p><ul class="meta"><li>v0.4.3</li><li><a href="https://github.com/waigo/waigo">github</a></li><li><a href="https://twitter.com/hiddentao">twitter</a></li></ul></div></div></div></section><section id="guide"><div class="container"><div class="row"><div role="main" class="col-md-9 waigo-guide-content"><div><h1 id="what-is-waigo-">What is Waigo?</h1>
+<!DOCTYPE html><html lang="en"><head><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" charset="utf-8"><title>Waigo.js</title><!--[if IE]><link rel="shortcut icon" href="img/logo_32x32.ico" /><![endif]--><link rel="shortcut icon" href="/img/logo_114x114.png"><meta name="msapplication-TileColor" content="#fff"><meta name="msapplication-TileImage" content="/img/logo_144x144.png"><link rel="stylesheet" media="screen" href="/style.css"></head><body><header id="top" role="banner" class="navbar navbar-static-top"><div class="container"><div class="navbar-header"><button type="button" data-toggle="collapse" data-target=".topmenu-navbar-collapse" class="navbar-toggle"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button><a href="/" class="navbar-brand">Waigo</a></div><div role="navigation" class="collapse navbar-collapse topmenu-navbar-collapse"><ul class="nav navbar-nav"><li class="active"><a id="guideNavItem" href="/#guide">Guide</a></li><li><a href="/api">API</a></li></ul><ul class="nav navbar-nav navbar-right"><li><a href="https://github.com/waigo/waigo">Github</a></li></ul></div></div></header><main id="content"><section id="banner"><div class="container"><div class="waigo-intro-banner"><div class="rays">  </div><div class="text"><h1>W</h1><p>Next-gen MVC framework for Node.js</p><ul class="meta"><li>v0.4.4</li><li><a href="https://github.com/waigo/waigo">github</a></li><li><a href="https://twitter.com/hiddentao">twitter</a></li></ul></div></div></div></section><section id="guide"><div class="container"><div class="row"><div role="main" class="col-md-9 waigo-guide-content"><div><h1 id="what-is-waigo-">What is Waigo?</h1>
 <p><a href="http://travis-ci.org/waigo/waigo"><img src="https://secure.travis-ci.org/waigo/waigo.png" alt="Build Status"></a> <a href="https://npmjs.org/package/waigo"><img src="https://badge.fury.io/js/waigo.png" alt="NPM module"></a> <a href="https://codeclimate.com/github/waigo/waigo"><img src="https://codeclimate.com/github/waigo/waigo.png" alt="Code quality"></a></p>
 <p>Waigo is a flexible MVC framework for building scalable and maintainable web applications.</p>
 <p>Based on <a href="http://koajs.com">koa</a>, it uses <a href="http://tobyho.com/2013/06/16/what-are-generators/">generators</a> for asynchronous programming, removing the need for callbacks. Almost every aspect of the core framework can be easily extended or overridden.</p>
@@ -145,13 +145,23 @@ module.exports = {
 };
 </code></pre>
 <p>The key specifies the HTTP method (one of: <code>GET</code>, <code>POST</code>, <code>PUT</code>, <code>DEL</code>, <code>OPTIONS</code> and <code>HEAD</code>) and the route URL (relative to <code>app.config.baseURL</code>). Parameterized routing is supported thanks to <a href="https://github.com/koajs/trie-router">trie-router</a>.</p>
-<p>The value for each key specifies the middleware chain that will handle that route. If the middleware name has a period (<code>.</code>) within it it assumed to refer to a <code>controller.method</code>. Otherwise it is assumed to be the name of a <a href="#middleware">middleware</a> module file.</p>
+<p>The value for each key specifies the middleware chain that will handle that route. If the middleware name has a period (<code>.</code>) within it 
+then it assumed to refer to a <code>controller.method</code>. Otherwise it is assumed to be the name of a <a href="#middleware">middleware</a> module file. </p>
 <p>For the above example, Waigo will process the a <code>PUT</code> request made to <code>/newUser</code> in the following order:</p>
 <ol>
 <li>Load <code>support/middleware/sanitizeValue</code> and pass request to its exported method</li>
 <li>Load <code>support/middleware/checkRequestBodySize</code> and pass request to its exported method</li>
 <li>Load <code>controllers/main</code> and pass request to its <code>newUser</code> method</li>
 </ol>
+<p>If you wish to initialise a particular middleware with options then you can specify it as an <code>Object</code>. For example:</p>
+<pre><code class="lang-javascript">// in routes.js
+
+module.exports = {
+  &#39;POST /signup&#39; : [ { id: &#39;bodyParser&#39;, limit: &#39;1kb&#39; }, &#39;main.signup&#39; ]
+  ...
+};
+</code></pre>
+<p>In the above configuration the <code>bodyParser</code> get initialized with the request body size limit of <code>1KB</code>.</p>
 <h2 id="middleware">Middleware</h2>
 <p>Waigo middleware works the same as Koa middleware. All middleware module files can be found under the <code>support/middleware</code> path. Additional middleware provided by your app and/or plugins should also sit under this path.</p>
 <p>A middleware module file is expected to <code>export</code> a function which, when called, returns a generator function to add to the Koa middleware layer. For example:</p>
@@ -261,29 +271,273 @@ exports.userProfile = function*(next) {
 };
 </code></pre>
 <p>If we were to call the URL mapped to this controller method and append the <code>format=json</code> query parameter then the output would be of JSON type. The default JSON output formatter simply outputs the attribute data passed to the template, i.e. the output for above (assuming <code>this.params.userId</code> is 123) would be:</p>
-<pre><code class="lang-javascript">{ id: 123 }
+<pre><code class="lang-javascript">{ 
+  id: 123 
+}
 </code></pre>
-<h1 id="logging">Logging</h1>
-<p>Waigo provides support for <a href="https://github.com/flatiron/winston">winston</a> by default. The default Winston logging target (see <code>config/base</code>) is a Mongo database. For <code>development</code> mode it&#39;s set to the console. All uncaught exceptions and <code>error</code> events emitted on the koa app object get logged in this way.</p>
-<p>You may use any logging library you wish. The <code>app.config.logging</code> configuration object both specifies the name of a logger (to be loaded from the <code>support/logging</code> path) and configuration to pass to that logger.</p>
-<h2 id="error-handling">Error handling</h2>
-<p>The <code>support/middleware/errorHandler</code> middleware is responsible for handling all errors which get thrown during the request handling process. Errors get logged through the default logger as well as getting sent back to the client which made the original request. </p>
-<p>There are also a few built-in error classes inheriting from the base <code>Error</code> object. These can be found in <code>support/errors</code>. If you wish to create your own type of errors it is highly recommended that you sub-class <code>BaseError</code>. For example:</p>
+<h2 id="view-objects">View objects</h2>
+<p>When sending model data back to the user we may want to first modify it, e.g. format dates, remove parts of the data that the client does not need to see in the given context, etc. Waigo introduces the concept of <em>view objects</em> to support such functionality.</p>
+<p>A view object is simply a plain Javascript object of key-value pairs which can be rendered. The <code>render()</code> method provided by the <a href="#views">output formats</a> middleware checks the passed-in template attributes to see if view objects can be generated for them. An object can generate a view object representation of itself if it implements the <code>HasViewObject</code> mixin (see <code>support/mixins.js</code>). Applying this mixin to 
+a class requires you to implement a <code>toViewObject()</code> generator function for that class. This function takes a single argument - the context for the current request, allowing you to tailor the view object representation according to each individual request.</p>
+<p>For example, let&#39;s say we have a model instance which holds data wish to send to the client:</p>
 <pre><code class="lang-javascript">var waigo = require(&#39;waigo&#39;),
-  errors = waigo.load(&#39;support/errors&#39;);
+  mixins = waigo.load(&#39;support/mixins&#39;);
 
-var FileSystemError = errors.BaseError.createSubType(&#39;MyNewError&#39;, {
-  // default error message
-  message: &#39;Error accessing file system&#39;, 
-  // HTTP status code to set when this error is thrown
-  status: 500
-});
+var Model = function(name) {
+  this.name = name;
+  this.id = 234;
+};
+mixins.apply(Model, mixins.HasViewObject);
+
+Model.prototype.toViewObject = function*(ctx) {
+  customKey = ctx.req.header[&#39;x-custom-key&#39;];
+
+  if (&#39;test&#39; === customKey) {
+    return {
+      name: this.name,
+      id: this.id
+    };
+  } else {
+    return {
+      name: this.name
+    }
+  }
+};
+</code></pre>
+<p>In our controller we can easily pass this to the output format renderer:</p>
+<pre><code class="lang-javascript">// controllers/main.js
+
+exports.index = function*() {
+  this.render(&#39;index&#39;, {
+    person: new Model(&#39;John&#39;),
+    stats: {
+      age: 31,
+      score: 10
+    }
+  });
+}
+</code></pre>
+<p>The output (if we requested the JSON output format) will look like:</p>
+<pre><code class="lang-javascript">{
+  person: {
+    name: &#39;John&#39;
+  },
+  age: {
+    age: 31,
+    score: 10
+  }
+}
+</code></pre>
+<p>Notice how the renderer didn&#39;t output the <code>id</code> attribute of our model instance. Also notice how the <code>stats</code> key-value pair was output 
+just as it is. If a given attribute does not implement the <code>HasViewObject</code> mixin then it gets output as it is, unchanged.</p>
+<p>If we now make the request with the <code>x-custom-key: test</code> header set then we will instead get:</p>
+<pre><code class="lang-javascript">{
+  person: {
+    name: &#39;John&#39;,
+    id: 234
+  },
+  age: {
+    age: 31,
+    score: 10
+  }
+}
+</code></pre>
+<p>All built-in <a href="#errors">error</a> classes (including form <a href="#validation">validation</a> errors) can generate view object representations of themselves. In fact, when the error handler sends an error response to the client it uses the view object representation of the error.</p>
+<h1 id="forms">Forms</h1>
+<p>Forms are treated as first-class citizens in Waigo. Each form used unique id; its configuration and input fields are specified in a file under the <code>forms/</code> path, the file name being the id of the form. </p>
+<p>For example, here is how you might specify a simple signup form:</p>
+<pre><code class="lang-javascript">// in file: forms/signup.js
+
+module.exports = {
+  fields: [
+    {
+      name: &#39;email&#39;,
+      type: &#39;text&#39;,
+      label: &#39;Email address&#39;
+    },
+    {
+      name: &#39;password&#39;,
+      type: &#39;password&#39;,
+      label: &#39;Password&#39;
+    },
+    {
+      name: &#39;confirm_password&#39;,
+      type: &#39;password&#39;,
+      label: &#39;Confirm password&#39;
+    }
+  ]  
+};
+</code></pre>
+<p>The field <code>type</code> refers to the name of a module file under the <code>support/forms/fields/</code> path. So for the above form specification Waigo will expect the following paths to exist:</p>
+<ul>
+<li><code>support/forms/fields/text</code></li>
+<li><code>support/forms/fields/password</code></li>
+</ul>
+<p>All field type classes inherit from the base <code>Field</code> class (found in <code>support/forms/field</code>). </p>
+<p>To create an instance of the above form you would do:</p>
+<pre><code class="lang-javascript">var waigo = require(&#39;waigo&#39;),
+  Form = waigo.load(&#39;support/forms/form&#39;).Form;
+
+var form = Form.new(&#39;signup&#39;);
+</code></pre>
+<p>Waigo will automatically look under the <code>forms/</code> file path to see if a form specification for the given id exists. It so it will load in this specification and return a <code>Form</code> instance.</p>
+<h2 id="form-fields">Form fields</h2>
+<p>When a form gets constructed it constructs and holds references to <code>Field</code> instances (see <code>support/forms/field</code>) depending on its field specification. </p>
+<p>A naive implementation would have each <code>Field</code> instance stores its current field value. The problem with this approach is that 
+if we have, say, a 1000 clients all using the same form we would need a 1000 instances of each field in the form in order to store the data for each client separately. </p>
+<p>A better approach would be to store the data which differs from client to client in its own <code>Object</code> so that we can re-use <code>Field</code> instances across multiple <code>Form</code> instances. Waigo does this by storing all field values within a <code>state</code> property on the <code>Form</code> instance. The state can be get/set at any time and can also be passed in as a second parameter to the <code>Form</code> constructor:</p>
+<pre><code class="lang-javascript">// save the form state
+var form = Form.new(&#39;signup&#39;);
+yield form.setValues( /* user input values */ );
+this.session.formState = form.state;
 
 ...
 
-throw new FileSystemError(&#39;Error reading image file&#39;);
+// restore the form (and field values) to previous state
+var form = Form.new(&#39;signup&#39;);
+form.state = this.session.formState;
+
+// we could also set the state during construction
+var form = Form.new(&#39;signup&#39;, this.session.formState);
 </code></pre>
-<p><em>Note: Stack traces only get logged if the <code>app.config.errorHandler.showStack</code> flag is turned on</em></p>
+<p>Let&#39;s say we wish to create another &quot;signup&quot; form for another client. We would again call <code>Form.new()</code>:</p>
+<pre><code class="lang-javascript">var form2 = Form.new(&#39;signup&#39;);
+</code></pre>
+<p><code>Form.new()</code> will internally check the <code>Form</code> instance cache to see if a <code>signup</code> form has already been created. If so it passes that to the <code>Form</code> constructor which then copies the references to its <code>Field</code> instances and any other common data:</p>
+<pre><code class="lang-javascript">form2.fields === form.fields;   // true
+form2.state === form.state;     // false
+</code></pre>
+<h2 id="sanitization">Sanitization</h2>
+<p>When setting form field values Waigo first sanitizes them. Sanitization is specified on a per-field basis in the form configuration. Let&#39;s trim all user input to our signup form: </p>
+<pre><code class="lang-javascript">// in file: forms/signup.js
+
+module.exports = {
+  fields: [
+    {
+      name: &#39;email&#39;,
+      type: &#39;text&#39;,
+      label: &#39;Email address&#39;,
+      sanitizers: [ &#39;trim&#39; ]
+    },
+    {
+      name: &#39;password&#39;,
+      type: &#39;password&#39;,
+      label: &#39;Password&#39;,
+      sanitizers: [ &#39;trim&#39; ]
+    },
+    {
+      name: &#39;confirm_password&#39;,
+      type: &#39;password&#39;,
+      label: &#39;Confirm password&#39;,
+      sanitizers: [ &#39;trim&#39; ]
+    }
+  ]  
+};
+</code></pre>
+<p>Each item in the <code>sanitizers</code> array refers to the name of a module file under the <code>support/forms/sanitizers/</code> path. So for the above form specification Waigo will expect the following path to exist:</p>
+<ul>
+<li><code>support/forms/sanitizers/trim</code></li>
+</ul>
+<p>A sanitizer module exports a single function which should return a generator function (this performs the actual sanitization). For example, Waigo&#39;s built-in <code>trim</code> sanitizer looks like this:</p>
+<pre><code class="lang-javascript">var validatorSanitizer = require(&#39;validator&#39;);
+
+module.exports = function() {
+  return function*(form, field, value) {
+    return validatorSanitizer.trim(value);
+  }
+};
+</code></pre>
+<p>The actual sanitization function gets passed a <code>Form</code> and <code>Field</code> reference corresponding to the actual form and field it is operating on. This makes it possible to build complex sanitizers which can query other fields and the form itself. If sanitization fails then a <code>FieldSanitizationError</code> error gets thrown for the field for which it failed.</p>
+<p>Note that you can set field values without sanitization processing:</p>
+<pre><code class="lang-javascript">// without sanitization
+form.fields.email.value = &#39;me@univers.com&#39;;
+
+// with sanitization (this will set .value after sanitization is complete)
+yield form.fields.email.setSanitizedValue(&#39;ram@hiddentao.com&#39;);
+</code></pre>
+<p>Setting values for multiple fields:</p>
+<pre><code class="lang-javascript">// this calls Field.prototype.setSanitizedValue
+yield form.setValues({
+  email: &#39;ram@hiddentao.com&#39;,
+  password: &#39;test&#39;
+});
+</code></pre>
+<h2 id="validation">Validation</h2>
+<p>Once form field values have been set we can validate them by calling <code>Form.prototype.validate()</code>. Validation is specified on a per-field basis in the form configuration. Let&#39;s validate our signup form:</p>
+<pre><code class="lang-javascript">// in file: forms/signup.js
+
+module.exports = {
+  fields: [
+    {
+      name: &#39;email&#39;,
+      type: &#39;text&#39;,
+      label: &#39;Email address&#39;,
+      sanitizers: [ &#39;trim&#39; ],
+      validators: [ &#39;notEmpty&#39;, &#39;isEmailAddress&#39; ]
+    },
+    {
+      name: &#39;password&#39;,
+      type: &#39;password&#39;,
+      label: &#39;Password&#39;,
+      sanitizers: [ &#39;trim&#39; ],
+      validators: [ &#39;notEmpty&#39;, { id: &#39;isLength&#39;, min: 8 } ]
+    },
+    {
+      name: &#39;confirm_password&#39;,
+      type: &#39;password&#39;,
+      label: &#39;Confirm password&#39;,
+      sanitizers: [ &#39;trim&#39; ],
+      validators: [ { id: &#39;matchesField&#39;, field: &#39;password&#39; } ]
+    }
+  ]  
+};
+</code></pre>
+<p>Each item in the <code>validators</code> array refers to the name of a module file under the <code>support/forms/validators/</code> path. When a validator (or even sanitizer) is specified as an <code>Object</code> then its <code>id</code> attribute is assumed to be its module file name. The <code>Object</code> itself is assumed to be a set of options to pass to the module during initialisation.</p>
+<p>So for the above form specification Waigo will expect the following paths to exist:</p>
+<ul>
+<li><code>support/forms/validators/notEmpty</code></li>
+<li><code>support/forms/validators/isLength</code></li>
+<li><code>support/forms/validators/matchesField</code></li>
+</ul>
+<p>A validator module exports a single function which should return a generator function (this performs the actual validation). For example, Waigo&#39;s built-in <code>isEmailAddress</code> validator looks like this:</p>
+<pre><code class="lang-javascript">var validator = require(&#39;validator&#39;);
+
+module.exports = function() {
+  return function*(form, field, value) {
+    if (!validator.isEmail(value)) {
+      throw new Error(&#39;Must be an email address&#39;);
+    }
+  }
+};
+</code></pre>
+<p>The actual validation function gets passed a <code>Form</code> and <code>Field</code> reference corresponding to the actual form and field it is operating on. This makes it possible to build complex validators which can query other fields and the form itself.</p>
+<p>When <code>Form.prototype.validate()</code> is called <code>Field.prototype.validate()</code> gets called for each field belonging to the form. For each field every validator gets run and all validation errors are grouped together within a single <code>FieldValidationError</code> instance. In <code>Form.prototype.validate()</code> all field validation errors are grouped together within a single <code>FormValidationError</code> instance. In this way validaton error reporting is very comprehensive and makes it easy to show the end-user exactly what failed to validate and why.</p>
+<h1 id="logging">Logging</h1>
+<p>Waigo provides support for <a href="https://github.com/flatiron/winston">winston</a> by default. The default Winston logging target (see <code>config/base</code>) is a Mongo database. For <code>development</code> mode it&#39;s set to the console. All uncaught exceptions and <code>error</code> events emitted on the koa app object get logged in this way.</p>
+<p>You may use any logging library you wish. The <code>app.config.logging</code> configuration object both specifies the name of a logger (to be loaded from the <code>support/logging</code> path) and configuration to pass to that logger.</p>
+<h1 id="errors">Errors</h1>
+<p>The <code>support/middleware/errorHandler</code> middleware is responsible for handling all errors which get thrown during the request handling process. Errors get logged through the default logger as well as getting sent back to the client which made the original request. </p>
+<p>It is highly recommended that your define and use your own error classes rather than use the built-in <code>Error</code> class. The <code>support/errors</code> module provides functionality to do this - your new error class will inherit from <code>RuntimeError</code> which in turn inherits from <code>Error</code>. <code>RuntimeError</code> allows you to set a HTTP status code along with the error message. This status code is used by the error handling middleware. For example:</p>
+<pre><code class="lang-javascript">var waigo = require(&#39;waigo&#39;),
+  errors = waigo.load(&#39;support/errors&#39;);
+
+// FileSystemError will inherit from errors.RuntimeError
+var FileSystemError = errors.define(&#39;FileSystemError&#39;);
+
+// FileReadError will inherit from FileSystemError
+var FileReadError = errors.define(&#39;FileReadError&#39;, FileSystemError);
+
+...
+
+throw new FileReadError(&#39;Error reading image file&#39;, 500);
+// resulting error will be instance of: FileReadError, FileSystemError and Error and a HTTP status code of 500 will be returned to the client.
+</code></pre>
+<p><em>Note: Stack traces only get sent to the client if the <code>app.config.errorHandler.showStack</code> flag is turned on</em></p>
+<h2 id="multiple-errors">Multiple errors</h2>
+<p>Another built-in error class is <code>MultipleError</code>. Sometimes we may wish to report multiple errors related to a particular operation. 
+A <code>MultipleError</code> allows us to group <code>Error</code> instances together. When it gets sent to the client in an error response its own view object 
+representation and that of its &#39;child errors&#39; gets generated.</p>
+<p>The <a href="#validation">form and field validation errors</a> both derive from <code>MultipleError</code>, allowing Waigo to collect and report multiple validation failures back to the client in an elegant and efficient manner.</p>
 <h2 id="debugging">Debugging</h2>
 <p>Sometimes in order to fix a problem it&#39;s useful to know what&#39;s going on inside the framework.</p>
 <p>Waigo makes use of the <a href="https://github.com/visionmedia/debug">debug</a> utility internally in some parts. For instance, to debug the 
@@ -302,7 +556,7 @@ throw new FileSystemError(&#39;Error reading image file&#39;);
 <p>Suggestions, bug reports and pull requests are welcome. Please see <a href="https://github.com/waigo/waigo/blob/master/CONTRIBUTING.md">CONTRIBUTING.md</a> for guidelines.</p>
 <h1 id="license">License</h1>
 <p>MIT - see <a href="https://github.com/waigo/waigo/blob/master/LICENSE.md">LICENSE.md</a></p>
-</div></div><div class="col-md-3"><div role="complementary" class="waigo-content-menu hidden-print"><ul class="nav"><li><a href="#what-is-waigo-">What is Waigo?</a></li><li><a href="#getting-started">Getting started</a><ul class="nav"><li><a href="#installation">Installation</a></li><li><a href="#hello-world">Hello world</a></li></ul></li><li><a href="#extend-and-override">Extend and Override</a><ul class="nav"><li><a href="#plugins">Plugins</a></li></ul></li><li><a href="#configuration">Configuration</a></li><li><a href="#routing">Routing</a><ul class="nav"><li><a href="#middleware">Middleware</a></li></ul></li><li><a href="#controllers">Controllers</a></li><li><a href="#models">Models</a><ul class="nav"><li><a href="#sessions">Sessions</a></li></ul></li><li><a href="#views">Views</a></li><li><a href="#logging">Logging</a><ul class="nav"><li><a href="#error-handling">Error handling</a></li><li><a href="#debugging">Debugging</a></li></ul></li><li><a href="#contributing">Contributing</a></li><li><a href="#license">License</a></li></ul><ul class="nav"><li class="back-to-top"><a href="#banner">Back to top</a></li></ul></div></div></div></div></section></main><footer role="contentinfo"><p>This page was <a href="https://github.com/waigo/waigojs.com-generator">generated</a> on Sun, 02 Mar 2014 04:44:25 GMT</p>
+</div></div><div class="col-md-3"><div role="complementary" class="waigo-content-menu hidden-print"><ul class="nav"><li><a href="#what-is-waigo-">What is Waigo?</a></li><li><a href="#getting-started">Getting started</a><ul class="nav"><li><a href="#installation">Installation</a></li><li><a href="#hello-world">Hello world</a></li></ul></li><li><a href="#extend-and-override">Extend and Override</a><ul class="nav"><li><a href="#plugins">Plugins</a></li></ul></li><li><a href="#configuration">Configuration</a></li><li><a href="#routing">Routing</a><ul class="nav"><li><a href="#middleware">Middleware</a></li></ul></li><li><a href="#controllers">Controllers</a></li><li><a href="#models">Models</a><ul class="nav"><li><a href="#sessions">Sessions</a></li></ul></li><li><a href="#views">Views</a><ul class="nav"><li><a href="#view-objects">View objects</a></li></ul></li><li><a href="#forms">Forms</a><ul class="nav"><li><a href="#form-fields">Form fields</a></li><li><a href="#sanitization">Sanitization</a></li><li><a href="#validation">Validation</a></li></ul></li><li><a href="#logging">Logging</a></li><li><a href="#errors">Errors</a><ul class="nav"><li><a href="#multiple-errors">Multiple errors</a></li><li><a href="#debugging">Debugging</a></li></ul></li><li><a href="#contributing">Contributing</a></li><li><a href="#license">License</a></li></ul><ul class="nav"><li class="back-to-top"><a href="#banner">Back to top</a></li></ul></div></div></div></div></section></main><footer role="contentinfo"><p>This page was <a href="https://github.com/waigo/waigojs.com-generator">generated</a> on Fri, 07 Mar 2014 13:02:57 GMT</p>
 </footer><script type="text/javascript" src="/scripts.js"></script><script type="text/javascript">var _paq = _paq || [];
 _paq.push(["setDomains", ["*.waigojs.com","*.waigo.github.io"]]);
 _paq.push(["trackPageView"]);

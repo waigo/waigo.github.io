@@ -41,13 +41,13 @@
                 <li><a href="../../server.js.html">server.js</a></li>
                 <li><a href="../../support/db/mongoose.js.html">support/db/mongoose.js</a></li>
                 <li><a href="../../support/errors.js.html">support/errors.js</a></li>
-                <li><a href="../../support/forms/field.js.html">support/forms/field.js</a></li>
+                <li class="active"><a href="../../support/forms/field.js.html">support/forms/field.js</a></li>
                 <li><a href="../../support/forms/fields/text.js.html">support/forms/fields/text.js</a></li>
                 <li><a href="../../support/forms/form.js.html">support/forms/form.js</a></li>
                 <li><a href="../../support/forms/sanitizers/trim.js.html">support/forms/sanitizers/trim.js</a></li>
                 <li><a href="../../support/forms/validators/isEmailAddress.js.html">support/forms/validators/isEmailAddress.js</a></li>
                 <li><a href="../../support/forms/validators/notEmpty.js.html">support/forms/validators/notEmpty.js</a></li>
-                <li class="active"><a href="../../support/logging/winston.js.html">support/logging/winston.js</a></li>
+                <li><a href="../../support/logging/winston.js.html">support/logging/winston.js</a></li>
                 <li><a href="../../support/middleware/bodyParser.js.html">support/middleware/bodyParser.js</a></li>
                 <li><a href="../../support/middleware/errorHandler.js.html">support/middleware/errorHandler.js</a></li>
                 <li><a href="../../support/middleware/outputFormats.js.html">support/middleware/outputFormats.js</a></li>
@@ -73,13 +73,13 @@
                     <li><a href="../../server.js.html">server.js</a></li>
                     <li><a href="../../support/db/mongoose.js.html">support/db/mongoose.js</a></li>
                     <li><a href="../../support/errors.js.html">support/errors.js</a></li>
-                    <li><a href="../../support/forms/field.js.html">support/forms/field.js</a></li>
+                    <li class="active"><a href="../../support/forms/field.js.html">support/forms/field.js</a></li>
                     <li><a href="../../support/forms/fields/text.js.html">support/forms/fields/text.js</a></li>
                     <li><a href="../../support/forms/form.js.html">support/forms/form.js</a></li>
                     <li><a href="../../support/forms/sanitizers/trim.js.html">support/forms/sanitizers/trim.js</a></li>
                     <li><a href="../../support/forms/validators/isEmailAddress.js.html">support/forms/validators/isEmailAddress.js</a></li>
                     <li><a href="../../support/forms/validators/notEmpty.js.html">support/forms/validators/notEmpty.js</a></li>
-                    <li class="active"><a href="../../support/logging/winston.js.html">support/logging/winston.js</a></li>
+                    <li><a href="../../support/logging/winston.js.html">support/logging/winston.js</a></li>
                     <li><a href="../../support/middleware/bodyParser.js.html">support/middleware/bodyParser.js</a></li>
                     <li><a href="../../support/middleware/errorHandler.js.html">support/middleware/errorHandler.js</a></li>
                     <li><a href="../../support/middleware/outputFormats.js.html">support/middleware/outputFormats.js</a></li>
@@ -95,12 +95,30 @@
               </div>
             </div>
             <div role="main" class="col-md-7 waigo-api-content">
-              <section id="create">
-                <h1>create</h1>
-                <div class="description"><p>Create a winston logger.</p> </div>
+              <section id="FieldValidationError">
+                <h1>FieldValidationError</h1>
+                <div class="description"><p>@type {Error} A field validation error.</p> </div>
                 <h5 class="subheader"></h5>
                 <p>
-                  <div class="label label-info radius ctx-type">method</div><span class="symbolReturns">-> Object</span>
+                  <div class="label label-success radius ctx-type">declaration</div>
+                </p>
+              </section>
+              <pre><code class="language-javascript">var FieldValidationError = exports.FieldValidationError = errors.define('FieldValidationError', errors.MultipleError);</code></pre>
+              <section id="FieldSanitizationError">
+                <h1>FieldSanitizationError</h1>
+                <div class="description"><p>@type {Error} A field sanitization error.</p> </div>
+                <h5 class="subheader"></h5>
+                <p>
+                  <div class="label label-success radius ctx-type">declaration</div>
+                </p>
+              </section>
+              <pre><code class="language-javascript">var FieldSanitizationError = exports.FieldSanitizationError = errors.define('FieldSanitizationError');</code></pre>
+              <section id="Field">
+                <h1>Field</h1>
+                <div class="description"><p>A form field.</p> </div>
+                <h5 class="subheader"></h5>
+                <p>
+                  <div class="label label-success radius ctx-type">declaration</div>
                 </p>
               </section>
               <table class="params table table-bordered table-striped">
@@ -113,47 +131,197 @@
                 </thead>
                 <tbody>
                   <tr>
-                    <td class="name">{Object}</td>
-                    <td class="type">winstonConfig</td>
-                    <td class="description">winston loggin configuration. </td>
+                    <td class="name">form</td>
+                    <td class="type">Form</td>
+                    <td class="description">Parent form</td>
+                  </tr>
+                  <tr>
+                    <td class="name">config</td>
+                    <td class="type">Object</td>
+                    <td class="description">Configuration options</td>
                   </tr>
                 </tbody>
               </table>
-              <pre><code class="language-javascript">exports.create = function(winstonConfig) {
-  var winstonTransports = [];
+              <pre><code class="language-javascript">var Field = exports.Field = function(form, config) {
+  this.form = form;
+  this.config = config;
 
-  _.each(_.keys(winstonConfig), function(transportType) {
-    var transport = null;
+  this.sanitizers = _.map(config.sanitizers || [], function(def) {
+    var id = def,
+      options = {};
 
-    switch (transportType) {
-      case 'console':
-        transport = new winston.transports.Console(winstonConfig[transportType]);
-        break;
-      case 'mongo':
-        transport = new winston.transports.MongoDB(winstonConfig[transportType]);
-
-        transport.on('error', function(err) {
-          console.log('Winston failed to log message to MongoDB', err);
-        });
+    if (_.isObject(def)) {
+      id = def.id;
+      options = def;
     }
 
-    if (transport) {
-      winstonTransports.push(transport);
+    return {
+      id: id,
+      fn: waigo.load('support/forms/sanitizers/' + id)(options)
+    };
+  });
+
+  this.validators = _.map(config.validators || [], function(def) {
+    var id = def,
+      options = {};
+
+    if (_.isObject(def)) {
+      id = def.id;
+      options = def;
     }
-  });
 
-  // setup logger
-  var logger = new (winston.Logger)({
-    transports: winstonTransports
+    return {
+      id: id,
+      fn: waigo.load('support/forms/validators/' + id)(options)
+    };
   });
+};
+mixins.applyTo(Field, mixins.HasViewObject);
 
-  return logger;
+
+
+
+Object.defineProperty(Field.prototype, 'name', {</code></pre>
+              <pre><code class="language-javascript">get: function() {
+    return this.config.name;
+  }
+});
+
+
+
+Object.defineProperty(Field.prototype, 'value', {</code></pre>
+              <section id="setSanitizedValue">
+                <h1>setSanitizedValue</h1>
+                <div class="description"><p>Set the value of this field.</p>
+
+<p>This will run the given value through all available sanitizers prior to<br />actually setting it. Subclasses should override this method if they wish to<br />perform any additional processing of the value.</p> </div>
+                <h5 class="subheader"></h5>
+                <p>
+                  <div class="label label-info radius ctx-type">method</div>
+                </p>
+              </section>
+              <table class="params table table-bordered table-striped">
+                <thead>
+                  <tr>
+                    <th style="width:20%">Option</th>
+                    <th style="width:20%">Type</th>
+                    <th>Description</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="name">val</td>
+                    <td class="type">Any</td>
+                    <td class="description">The value.</td>
+                  </tr>
+                </tbody>
+              </table>
+              <pre><code class="language-javascript">Field.prototype.setSanitizedValue = function*(val) {
+  for (let idx in this.sanitizers) {
+    let sanitizerFn = this.sanitizers[idx].fn;
+
+    try {
+      val = yield sanitizerFn(this.form, this, val);
+    } catch (e) {
+      throw new FieldSanitizationError(e.message);
+    }
+  }
+
+  this.value = val;
+};</code></pre>
+              <section id="validate">
+                <h1>validate</h1>
+                <div class="description"><p>Validate this field's value.</p> </div>
+                <h5 class="subheader"></h5>
+                <p>
+                  <div class="label label-info radius ctx-type">method</div>
+                </p>
+              </section>
+              <pre><code class="language-javascript">Field.prototype.validate = function*() {
+  var errors = null;
+
+  for (let idx in this.validators) {
+    let validator = this.validators[idx];
+
+    try {
+      yield validator.fn(this.form, this, this.value);
+    } catch (err) {
+      if (!errors) {
+        errors = {};
+      }
+
+      errors[validator.id] = err;
+    }
+  }
+
+  if (errors) {
+    throw new FieldValidationError('Field validation failed', 400, errors);
+  }
+};</code></pre>
+              <section id="toViewObject">
+                <h1>toViewObject</h1>
+                <div class="description"><p>Get renderable representation of this field.</p> </div>
+                <h5 class="subheader"></h5>
+                <p>
+                  <div class="label label-info radius ctx-type">method</div>
+                </p>
+              </section>
+              <pre><code class="language-javascript">Field.prototype.toViewObject = function*() {
+  return {
+    type: this.config.type,
+    name: this.name,
+    label: this.config.label,
+    value: this.value
+  };
+};</code></pre>
+              <section id="new">
+                <h1>new</h1>
+                <div class="description"><p>Create a <code>Field</code> instance.</p>
+
+<p>This will load and intialise an instance of the correct <code>Field</code> subtype<br />according to the given field definition.</p> </div>
+                <h5 class="subheader"></h5>
+                <p>
+                  <div class="label label-info radius ctx-type">method</div><span class="symbolReturns">-> Field</span>
+                </p>
+              </section>
+              <table class="params table table-bordered table-striped">
+                <thead>
+                  <tr>
+                    <th style="width:20%">Option</th>
+                    <th style="width:20%">Type</th>
+                    <th>Description</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="name">form</td>
+                    <td class="type">Form</td>
+                    <td class="description">The parent form which holds this field's internal state.</td>
+                  </tr>
+                  <tr>
+                    <td class="name">config</td>
+                    <td class="type">Object</td>
+                    <td class="description">The field configuration.</td>
+                  </tr>
+                </tbody>
+              </table>
+              <pre><code class="language-javascript">Field.new = function(form, config) {
+  let type = config.type,
+    FieldClass = waigo.load('support/forms/fields/' + type).Field;
+
+  return new FieldClass(form, config);
 };</code></pre>
             </div>
             <div class="col-md-2">
               <div role="complementary" class="waigo-content-menu hidden-print">
                 <ul class="nav">
-                  <li><a href="#create"><span>create()</span></a></li>
+                  <li><a href="#FieldValidationError"><span>FieldValidationError</span></a></li>
+                  <li><a href="#FieldSanitizationError"><span>FieldSanitizationError</span></a></li>
+                  <li><a href="#Field"><span>Field</span></a></li>
+                  <li><a href="#setSanitizedValue"><span>setSanitizedValue()</span></a></li>
+                  <li><a href="#validate"><span>validate()</span></a></li>
+                  <li><a href="#toViewObject"><span>toViewObject()</span></a></li>
+                  <li><a href="#new"><span>new()</span></a></li>
                 </ul>
               </div>
             </div>
@@ -161,7 +329,7 @@
         </div>
       </div>
     </main>
-    <footer role="contentinfo"><p>This page was <a href="https://github.com/waigo/waigojs.com-generator">generated</a> on Fri, 07 Mar 2014 13:02:52 GMT</p>
+    <footer role="contentinfo"><p>This page was <a href="https://github.com/waigo/waigojs.com-generator">generated</a> on Fri, 07 Mar 2014 13:02:51 GMT</p>
 
     </footer>
     <script type="text/javascript" src="/scripts.js"></script>

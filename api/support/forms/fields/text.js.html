@@ -41,10 +41,14 @@
                 <li><a href="../../../server.js.html">server.js</a></li>
                 <li><a href="../../../support/db/mongoose.js.html">support/db/mongoose.js</a></li>
                 <li><a href="../../../support/errors.js.html">support/errors.js</a></li>
-                <li><a href="../../../support/forms/fields/field.js.html">support/forms/fields/field.js</a></li>
+                <li><a href="../../../support/forms/field.js.html">support/forms/field.js</a></li>
                 <li class="active"><a href="../../../support/forms/fields/text.js.html">support/forms/fields/text.js</a></li>
                 <li><a href="../../../support/forms/form.js.html">support/forms/form.js</a></li>
+                <li><a href="../../../support/forms/sanitizers/trim.js.html">support/forms/sanitizers/trim.js</a></li>
+                <li><a href="../../../support/forms/validators/isEmailAddress.js.html">support/forms/validators/isEmailAddress.js</a></li>
+                <li><a href="../../../support/forms/validators/notEmpty.js.html">support/forms/validators/notEmpty.js</a></li>
                 <li><a href="../../../support/logging/winston.js.html">support/logging/winston.js</a></li>
+                <li><a href="../../../support/middleware/bodyParser.js.html">support/middleware/bodyParser.js</a></li>
                 <li><a href="../../../support/middleware/errorHandler.js.html">support/middleware/errorHandler.js</a></li>
                 <li><a href="../../../support/middleware/outputFormats.js.html">support/middleware/outputFormats.js</a></li>
                 <li><a href="../../../support/middleware/responseTime.js.html">support/middleware/responseTime.js</a></li>
@@ -54,7 +58,6 @@
                 <li><a href="../../../support/outputFormats/json.js.html">support/outputFormats/json.js</a></li>
                 <li><a href="../../../support/routeMapper.js.html">support/routeMapper.js</a></li>
                 <li><a href="../../../support/session/store/mongo.js.html">support/session/store/mongo.js</a></li>
-                <li><a href="../../../support/viewObjects.js.html">support/viewObjects.js</a></li>
               </ul>
               <div class="visible-sm visible-xs">
                 <button type="button" data-toggle="collapse" data-target="#api-index-xs" class="btn btn-info">Show/hide API index</button>
@@ -70,10 +73,14 @@
                     <li><a href="../../../server.js.html">server.js</a></li>
                     <li><a href="../../../support/db/mongoose.js.html">support/db/mongoose.js</a></li>
                     <li><a href="../../../support/errors.js.html">support/errors.js</a></li>
-                    <li><a href="../../../support/forms/fields/field.js.html">support/forms/fields/field.js</a></li>
+                    <li><a href="../../../support/forms/field.js.html">support/forms/field.js</a></li>
                     <li class="active"><a href="../../../support/forms/fields/text.js.html">support/forms/fields/text.js</a></li>
                     <li><a href="../../../support/forms/form.js.html">support/forms/form.js</a></li>
+                    <li><a href="../../../support/forms/sanitizers/trim.js.html">support/forms/sanitizers/trim.js</a></li>
+                    <li><a href="../../../support/forms/validators/isEmailAddress.js.html">support/forms/validators/isEmailAddress.js</a></li>
+                    <li><a href="../../../support/forms/validators/notEmpty.js.html">support/forms/validators/notEmpty.js</a></li>
                     <li><a href="../../../support/logging/winston.js.html">support/logging/winston.js</a></li>
+                    <li><a href="../../../support/middleware/bodyParser.js.html">support/middleware/bodyParser.js</a></li>
                     <li><a href="../../../support/middleware/errorHandler.js.html">support/middleware/errorHandler.js</a></li>
                     <li><a href="../../../support/middleware/outputFormats.js.html">support/middleware/outputFormats.js</a></li>
                     <li><a href="../../../support/middleware/responseTime.js.html">support/middleware/responseTime.js</a></li>
@@ -83,39 +90,49 @@
                     <li><a href="../../../support/outputFormats/json.js.html">support/outputFormats/json.js</a></li>
                     <li><a href="../../../support/routeMapper.js.html">support/routeMapper.js</a></li>
                     <li><a href="../../../support/session/store/mongo.js.html">support/session/store/mongo.js</a></li>
-                    <li><a href="../../../support/viewObjects.js.html">support/viewObjects.js</a></li>
                   </ul>
                 </div>
               </div>
             </div>
             <div role="main" class="col-md-7 waigo-api-content">
-              <pre><code class="language-javascript">// TODO: unit test
-var TextField = function() {
-  FormField.apply(this, _.toArray(arguments));
+              <section id="Text">
+                <h1>Text</h1>
+                <div class="description"><p>Create a text field.</p> </div>
+                <h5 class="subheader"></h5>
+                <p>
+                  <div class="label label-success radius ctx-type">declaration</div>
+                </p>
+              </section>
+              <table class="params table table-bordered table-striped">
+                <thead>
+                  <tr>
+                    <th style="width:20%">Option</th>
+                    <th style="width:20%">Type</th>
+                    <th>Description</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="name">form</td>
+                    <td class="type">Form</td>
+                    <td class="description">Parent form</td>
+                  </tr>
+                  <tr>
+                    <td class="name">config</td>
+                    <td class="type">Object</td>
+                    <td class="description">Configuration options</td>
+                  </tr>
+                </tbody>
+              </table>
+              <pre><code class="language-javascript">var Text = exports.Field = function(form, config) {
+  Text.super_.apply(this, _.toArray(arguments));
 };
-TextField.inheritsFrom(FormField);
-
-
-
-// -----------------------------------------------------
-// STATICS
-// -----------------------------------------------------</code></pre>
-              <pre><code class="language-javascript">// TODO: unit test
-TextField.Validators = {
-
-};
-
-
-// -----------------------------------------------------
-// EXPORTS
-// -----------------------------------------------------
-
-
-module.exports = TextField;</code></pre>
+util.inherits(Text, Field);</code></pre>
             </div>
             <div class="col-md-2">
               <div role="complementary" class="waigo-content-menu hidden-print">
                 <ul class="nav">
+                  <li><a href="#Text"><span>Text</span></a></li>
                 </ul>
               </div>
             </div>
@@ -123,7 +140,7 @@ module.exports = TextField;</code></pre>
         </div>
       </div>
     </main>
-    <footer role="contentinfo"><p>This page was <a href="https://github.com/waigo/waigojs.com-generator">generated</a> on Sun, 02 Mar 2014 04:44:22 GMT</p>
+    <footer role="contentinfo"><p>This page was <a href="https://github.com/waigo/waigojs.com-generator">generated</a> on Fri, 07 Mar 2014 13:02:51 GMT</p>
 
     </footer>
     <script type="text/javascript" src="/scripts.js"></script>

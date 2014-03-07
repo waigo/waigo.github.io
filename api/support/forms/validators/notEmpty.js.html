@@ -46,7 +46,7 @@
                 <li><a href="../../../support/forms/form.js.html">support/forms/form.js</a></li>
                 <li><a href="../../../support/forms/sanitizers/trim.js.html">support/forms/sanitizers/trim.js</a></li>
                 <li><a href="../../../support/forms/validators/isEmailAddress.js.html">support/forms/validators/isEmailAddress.js</a></li>
-                <li><a href="../../../support/forms/validators/notEmpty.js.html">support/forms/validators/notEmpty.js</a></li>
+                <li class="active"><a href="../../../support/forms/validators/notEmpty.js.html">support/forms/validators/notEmpty.js</a></li>
                 <li><a href="../../../support/logging/winston.js.html">support/logging/winston.js</a></li>
                 <li><a href="../../../support/middleware/bodyParser.js.html">support/middleware/bodyParser.js</a></li>
                 <li><a href="../../../support/middleware/errorHandler.js.html">support/middleware/errorHandler.js</a></li>
@@ -57,7 +57,7 @@
                 <li><a href="../../../support/outputFormats/html.js.html">support/outputFormats/html.js</a></li>
                 <li><a href="../../../support/outputFormats/json.js.html">support/outputFormats/json.js</a></li>
                 <li><a href="../../../support/routeMapper.js.html">support/routeMapper.js</a></li>
-                <li class="active"><a href="../../../support/session/store/mongo.js.html">support/session/store/mongo.js</a></li>
+                <li><a href="../../../support/session/store/mongo.js.html">support/session/store/mongo.js</a></li>
               </ul>
               <div class="visible-sm visible-xs">
                 <button type="button" data-toggle="collapse" data-target="#api-index-xs" class="btn btn-info">Show/hide API index</button>
@@ -78,7 +78,7 @@
                     <li><a href="../../../support/forms/form.js.html">support/forms/form.js</a></li>
                     <li><a href="../../../support/forms/sanitizers/trim.js.html">support/forms/sanitizers/trim.js</a></li>
                     <li><a href="../../../support/forms/validators/isEmailAddress.js.html">support/forms/validators/isEmailAddress.js</a></li>
-                    <li><a href="../../../support/forms/validators/notEmpty.js.html">support/forms/validators/notEmpty.js</a></li>
+                    <li class="active"><a href="../../../support/forms/validators/notEmpty.js.html">support/forms/validators/notEmpty.js</a></li>
                     <li><a href="../../../support/logging/winston.js.html">support/logging/winston.js</a></li>
                     <li><a href="../../../support/middleware/bodyParser.js.html">support/middleware/bodyParser.js</a></li>
                     <li><a href="../../../support/middleware/errorHandler.js.html">support/middleware/errorHandler.js</a></li>
@@ -89,55 +89,32 @@
                     <li><a href="../../../support/outputFormats/html.js.html">support/outputFormats/html.js</a></li>
                     <li><a href="../../../support/outputFormats/json.js.html">support/outputFormats/json.js</a></li>
                     <li><a href="../../../support/routeMapper.js.html">support/routeMapper.js</a></li>
-                    <li class="active"><a href="../../../support/session/store/mongo.js.html">support/session/store/mongo.js</a></li>
+                    <li><a href="../../../support/session/store/mongo.js.html">support/session/store/mongo.js</a></li>
                   </ul>
                 </div>
               </div>
             </div>
             <div role="main" class="col-md-7 waigo-api-content">
-              <section id="create">
-                <h1>create</h1>
-                <div class="description"><p>Create a new session store.</p> </div>
+              <section id="exports">
+                <h1>exports</h1>
+                <div class="description"><p>Get the validator function.</p> </div>
                 <h5 class="subheader"></h5>
                 <p>
-                  <div class="label label-info radius ctx-type">method</div><span class="symbolReturns">-> Object</span>
+                  <div class="label label-info radius ctx-type">method</div><span class="symbolReturns">-> Function</span>
                 </p>
               </section>
-              <table class="params table table-bordered table-striped">
-                <thead>
-                  <tr>
-                    <th style="width:20%">Option</th>
-                    <th style="width:20%">Type</th>
-                    <th>Description</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td class="name">{Object}</td>
-                    <td class="type">app</td>
-                    <td class="description">app.</td>
-                  </tr>
-                  <tr>
-                    <td class="name">{Object}</td>
-                    <td class="type">storeConfig</td>
-                    <td class="description">config.</td>
-                  </tr>
-                </tbody>
-              </table>
-              <pre><code class="language-javascript">exports.create = function(app, storeConfig) {
-  // re-use the app mongoose db connection?
-  if (storeConfig.useAppMongooseDbConn) {
-    app.logger.info('Session store will use app Mongoose db connection');
-    storeConfig.mongoose = app.db;
+              <pre><code class="language-javascript">module.exports = function() {
+  return function*(form, field, value) {
+    if (validator.isNull(value) || !validator.isLength(value, 1)) {
+      throw new Error('Must not be empty');
+    }
   }
-
-  return mongoStore.create(storeConfig);
 };</code></pre>
             </div>
             <div class="col-md-2">
               <div role="complementary" class="waigo-content-menu hidden-print">
                 <ul class="nav">
-                  <li><a href="#create"><span>create()</span></a></li>
+                  <li><a href="#exports"><span>exports()</span></a></li>
                 </ul>
               </div>
             </div>
@@ -145,7 +122,7 @@
         </div>
       </div>
     </main>
-    <footer role="contentinfo"><p>This page was <a href="https://github.com/waigo/waigojs.com-generator">generated</a> on Fri, 07 Mar 2014 13:02:54 GMT</p>
+    <footer role="contentinfo"><p>This page was <a href="https://github.com/waigo/waigojs.com-generator">generated</a> on Fri, 07 Mar 2014 13:02:52 GMT</p>
 
     </footer>
     <script type="text/javascript" src="/scripts.js"></script>
