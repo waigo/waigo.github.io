@@ -32,13 +32,13 @@
             <div role="complementary" class="col-md-3 waigo-api-index">
               <ul class="nav hidden-sm hidden-xs">
                 <li><a href="../index.html">Main</a></li>
+                <li><a href="../app.js.html">app.js</a></li>
                 <li class="active"><a href="../config/base.js.html">config/base.js</a></li>
                 <li><a href="../config/development.js.html">config/development.js</a></li>
                 <li><a href="../config/index.js.html">config/index.js</a></li>
                 <li><a href="../controllers/main.js.html">controllers/main.js</a></li>
                 <li><a href="../loader.js.html">loader.js</a></li>
                 <li><a href="../routes.js.html">routes.js</a></li>
-                <li><a href="../server.js.html">server.js</a></li>
                 <li><a href="../support/db/mongoose.js.html">support/db/mongoose.js</a></li>
                 <li><a href="../support/errors.js.html">support/errors.js</a></li>
                 <li><a href="../support/forms/field.js.html">support/forms/field.js</a></li>
@@ -58,19 +58,24 @@
                 <li><a href="../support/outputFormats/json.js.html">support/outputFormats/json.js</a></li>
                 <li><a href="../support/routeMapper.js.html">support/routeMapper.js</a></li>
                 <li><a href="../support/session/store/mongo.js.html">support/session/store/mongo.js</a></li>
+                <li><a href="../support/startup/database.js.html">support/startup/database.js</a></li>
+                <li><a href="../support/startup/listener.js.html">support/startup/listener.js</a></li>
+                <li><a href="../support/startup/logging.js.html">support/startup/logging.js</a></li>
+                <li><a href="../support/startup/middleware.js.html">support/startup/middleware.js</a></li>
+                <li><a href="../support/startup/routes.js.html">support/startup/routes.js</a></li>
               </ul>
               <div class="visible-sm visible-xs">
                 <button type="button" data-toggle="collapse" data-target="#api-index-xs" class="btn btn-info">Show/hide API index</button>
                 <div id="api-index-xs" class="collapse">
                   <ul class="nav">
                     <li><a href="../index.html">Main</a></li>
+                    <li><a href="../app.js.html">app.js</a></li>
                     <li class="active"><a href="../config/base.js.html">config/base.js</a></li>
                     <li><a href="../config/development.js.html">config/development.js</a></li>
                     <li><a href="../config/index.js.html">config/index.js</a></li>
                     <li><a href="../controllers/main.js.html">controllers/main.js</a></li>
                     <li><a href="../loader.js.html">loader.js</a></li>
                     <li><a href="../routes.js.html">routes.js</a></li>
-                    <li><a href="../server.js.html">server.js</a></li>
                     <li><a href="../support/db/mongoose.js.html">support/db/mongoose.js</a></li>
                     <li><a href="../support/errors.js.html">support/errors.js</a></li>
                     <li><a href="../support/forms/field.js.html">support/forms/field.js</a></li>
@@ -90,6 +95,11 @@
                     <li><a href="../support/outputFormats/json.js.html">support/outputFormats/json.js</a></li>
                     <li><a href="../support/routeMapper.js.html">support/routeMapper.js</a></li>
                     <li><a href="../support/session/store/mongo.js.html">support/session/store/mongo.js</a></li>
+                    <li><a href="../support/startup/database.js.html">support/startup/database.js</a></li>
+                    <li><a href="../support/startup/listener.js.html">support/startup/listener.js</a></li>
+                    <li><a href="../support/startup/logging.js.html">support/startup/logging.js</a></li>
+                    <li><a href="../support/startup/middleware.js.html">support/startup/middleware.js</a></li>
+                    <li><a href="../support/startup/routes.js.html">support/startup/routes.js</a></li>
                   </ul>
                 </div>
               </div>
@@ -112,7 +122,14 @@
                   <div class="label label-success radius ctx-type">property</div>
                 </p>
               </section>
-              <pre><code class="language-javascript">exports.baseURL = 'http://localhost:' + exports.port;</code></pre>
+              <pre><code class="language-javascript">exports.baseURL = 'http://localhost:' + exports.port;
+
+
+
+
+// ---------------------------
+// STARTUP
+// ---------------------------</code></pre>
               <section id="db">
                 <h1>db</h1>
                 <div class="description"><p>Database connection.</p> </div>
@@ -148,8 +165,32 @@
     }
   }
 };</code></pre>
-              <section id="session">
-                <h1>session</h1>
+              <section id="startupSteps">
+                <h1>startupSteps</h1>
+                <div class="description"><p>The steps to execute as part of the application startup process.</p>
+
+<p>Each of these corresponds to a module file under the <code>startup/</code> route.</p> </div>
+                <h5 class="subheader"></h5>
+                <p>
+                  <div class="label label-success radius ctx-type">property</div>
+                </p>
+              </section>
+              <pre><code class="language-javascript">exports.startupSteps = [
+  'logging',
+  'database',
+  'middleware',
+  'routes',
+  'listener'
+];
+
+
+
+
+// ---------------------------
+// MIDDLEWARE
+// ---------------------------</code></pre>
+              <section id="sessions">
+                <h1>sessions</h1>
                 <div class="description"><p>Session configuration.</p>
 
 <p>We don't provide default <code>keys</code> so as to encourage developers to provide a custom one for their app.</p> </div>
@@ -158,9 +199,9 @@
                   <div class="label label-success radius ctx-type">property</div>
                 </p>
               </section>
-              <pre><code class="language-javascript">exports.session = {
-  // cookie signing keys - these are used for signing cookies (using Keygrip) and should be set for your app
-  // keys: ['use', 'your', 'own'],
+              <pre><code class="language-javascript">exports.sessions = {
+  // cookie signing keys - these are used for signing cookies (using Keygrip) and should be customised for your app
+  keys: ['use', 'your', 'own'],
   // session cookie name
   name: 'waigo',
   // session storage
@@ -235,6 +276,35 @@
   // whether to show stack traces in error output.
   showStack: false
 };</code></pre>
+              <section id="middleware">
+                <h1>middleware</h1>
+                <div class="description"><p>Middleware for all requests. </p> </div>
+                <h5 class="subheader"></h5>
+                <p>
+                  <div class="label label-success radius ctx-type">property</div>
+                </p>
+              </section>
+              <pre><code class="language-javascript">exports.middleware = [
+  {
+    id: 'responseTime'
+  },
+  {
+    id: 'errorHandler',
+    options: exports.errorHandler
+  },
+  {
+    id: 'staticResources',
+    options: exports.staticResources
+  },
+  {
+    id: 'sessions',
+    options: exports.sessions
+  },
+  {
+    id: 'outputFormats',
+    options: exports.outputFormats
+  }
+];</code></pre>
             </div>
             <div class="col-md-2">
               <div role="complementary" class="waigo-content-menu hidden-print">
@@ -243,10 +313,12 @@
                   <li><a href="#baseURL"><span>baseURL</span></a></li>
                   <li><a href="#db"><span>db</span></a></li>
                   <li><a href="#logging"><span>logging</span></a></li>
-                  <li><a href="#session"><span>session</span></a></li>
+                  <li><a href="#startupSteps"><span>startupSteps</span></a></li>
+                  <li><a href="#sessions"><span>sessions</span></a></li>
                   <li><a href="#outputFormats"><span>outputFormats</span></a></li>
                   <li><a href="#staticResources"><span>staticResources</span></a></li>
                   <li><a href="#errorHandler"><span>errorHandler</span></a></li>
+                  <li><a href="#middleware"><span>middleware</span></a></li>
                 </ul>
               </div>
             </div>
@@ -254,7 +326,7 @@
         </div>
       </div>
     </main>
-    <footer role="contentinfo"><p>This page was <a href="https://github.com/waigo/waigojs.com-generator">generated</a> on Sun, 09 Mar 2014 04:03:33 GMT</p>
+    <footer role="contentinfo"><p>This page was <a href="https://github.com/waigo/waigojs.com-generator">generated</a> on Sat, 15 Mar 2014 05:17:32 GMT</p>
 
     </footer>
     <script type="text/javascript" src="/scripts.js"></script>
