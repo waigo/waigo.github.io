@@ -32,14 +32,13 @@
             <div role="complementary" class="col-md-3 waigo-api-index">
               <ul class="nav hidden-sm hidden-xs">
                 <li><a href="../index.html">Main</a></li>
-                <li><a href="../app.js.html">app.js</a></li>
+                <li><a href="../application.js.html">application.js</a></li>
                 <li class="active"><a href="../config/base.js.html">config/base.js</a></li>
                 <li><a href="../config/development.js.html">config/development.js</a></li>
                 <li><a href="../config/index.js.html">config/index.js</a></li>
                 <li><a href="../controllers/main.js.html">controllers/main.js</a></li>
                 <li><a href="../loader.js.html">loader.js</a></li>
                 <li><a href="../routes.js.html">routes.js</a></li>
-                <li><a href="../support/db/mongoose.js.html">support/db/mongoose.js</a></li>
                 <li><a href="../support/errors.js.html">support/errors.js</a></li>
                 <li><a href="../support/forms/field.js.html">support/forms/field.js</a></li>
                 <li><a href="../support/forms/fields/text.js.html">support/forms/fields/text.js</a></li>
@@ -56,7 +55,7 @@
                 <li><a href="../support/outputFormats/html.js.html">support/outputFormats/html.js</a></li>
                 <li><a href="../support/outputFormats/json.js.html">support/outputFormats/json.js</a></li>
                 <li><a href="../support/routeMapper.js.html">support/routeMapper.js</a></li>
-                <li><a href="../support/session/store/mongo.js.html">support/session/store/mongo.js</a></li>
+                <li><a href="../support/session/store/cookie.js.html">support/session/store/cookie.js</a></li>
                 <li><a href="../support/startup/database.js.html">support/startup/database.js</a></li>
                 <li><a href="../support/startup/listener.js.html">support/startup/listener.js</a></li>
                 <li><a href="../support/startup/logging.js.html">support/startup/logging.js</a></li>
@@ -68,14 +67,13 @@
                 <div id="api-index-xs" class="collapse">
                   <ul class="nav">
                     <li><a href="../index.html">Main</a></li>
-                    <li><a href="../app.js.html">app.js</a></li>
+                    <li><a href="../application.js.html">application.js</a></li>
                     <li class="active"><a href="../config/base.js.html">config/base.js</a></li>
                     <li><a href="../config/development.js.html">config/development.js</a></li>
                     <li><a href="../config/index.js.html">config/index.js</a></li>
                     <li><a href="../controllers/main.js.html">controllers/main.js</a></li>
                     <li><a href="../loader.js.html">loader.js</a></li>
                     <li><a href="../routes.js.html">routes.js</a></li>
-                    <li><a href="../support/db/mongoose.js.html">support/db/mongoose.js</a></li>
                     <li><a href="../support/errors.js.html">support/errors.js</a></li>
                     <li><a href="../support/forms/field.js.html">support/forms/field.js</a></li>
                     <li><a href="../support/forms/fields/text.js.html">support/forms/fields/text.js</a></li>
@@ -92,7 +90,7 @@
                     <li><a href="../support/outputFormats/html.js.html">support/outputFormats/html.js</a></li>
                     <li><a href="../support/outputFormats/json.js.html">support/outputFormats/json.js</a></li>
                     <li><a href="../support/routeMapper.js.html">support/routeMapper.js</a></li>
-                    <li><a href="../support/session/store/mongo.js.html">support/session/store/mongo.js</a></li>
+                    <li><a href="../support/session/store/cookie.js.html">support/session/store/cookie.js</a></li>
                     <li><a href="../support/startup/database.js.html">support/startup/database.js</a></li>
                     <li><a href="../support/startup/listener.js.html">support/startup/listener.js</a></li>
                     <li><a href="../support/startup/logging.js.html">support/startup/logging.js</a></li>
@@ -103,6 +101,31 @@
               </div>
             </div>
             <div role="main" class="col-md-7 waigo-api-content">
+              <section id="exports">
+                <h1>exports</h1>
+                <div class="description"><p>Get configuration.</p> </div>
+                <h5 class="subheader"></h5>
+                <p>
+                  <div class="label label-info radius ctx-type">method</div>
+                </p>
+              </section>
+              <table class="params table table-bordered table-striped">
+                <thead>
+                  <tr>
+                    <th style="width:20%">Option</th>
+                    <th style="width:20%">Type</th>
+                    <th>Description</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="name">config</td>
+                    <td class="type">Object</td>
+                    <td class="description">Configuration object to modify.</td>
+                  </tr>
+                </tbody>
+              </table>
+              <pre><code class="language-javascript">module.exports = function(config) {</code></pre>
               <section id="port">
                 <h1>port</h1>
                 <div class="description"><p>Server listening port.</p> </div>
@@ -111,7 +134,7 @@
                   <div class="label label-success radius ctx-type">property</div>
                 </p>
               </section>
-              <pre><code class="language-javascript">exports.port = 3000;</code></pre>
+              <pre><code class="language-javascript">config.port = 3000;</code></pre>
               <section id="baseURL">
                 <h1>baseURL</h1>
                 <div class="description"><p>Base web URL</p> </div>
@@ -120,14 +143,12 @@
                   <div class="label label-success radius ctx-type">property</div>
                 </p>
               </section>
-              <pre><code class="language-javascript">exports.baseURL = 'http://localhost:' + exports.port;
+              <pre><code class="language-javascript">config.baseURL = 'http://localhost:' + config.port;
 
 
-
-
-// ---------------------------
-// STARTUP
-// ---------------------------</code></pre>
+  // ---------------------------
+  // STARTUP
+  // ---------------------------</code></pre>
               <section id="db">
                 <h1>db</h1>
                 <div class="description"><p>Database connection.</p> </div>
@@ -136,13 +157,7 @@
                   <div class="label label-success radius ctx-type">property</div>
                 </p>
               </section>
-              <pre><code class="language-javascript">exports.db = {
-  mongoose: {
-    host: '127.0.0.1',
-    port: '27017',
-    db: 'waigo'
-  }
-};</code></pre>
+              <pre><code class="language-javascript">config.db = null;</code></pre>
               <section id="logging">
                 <h1>logging</h1>
                 <div class="description"><p>Logging config.</p> </div>
@@ -151,18 +166,16 @@
                   <div class="label label-success radius ctx-type">property</div>
                 </p>
               </section>
-              <pre><code class="language-javascript">exports.logging = {
-  winston: {
-    // log to mongo db
-    mongo: {
-      // log level threshold
-      level: 'error',
-      collection: 'logs',
-      // whether to confirm writes to db log table
-      safe: false
+              <pre><code class="language-javascript">config.logging = {
+    winston: {
+      // log to console
+      console: {
+        level: 'error', // minimum level to log at
+        colorize: true,
+        timestamp: true
+      }
     }
-  }
-};</code></pre>
+  };</code></pre>
               <section id="startupSteps">
                 <h1>startupSteps</h1>
                 <div class="description"><p>The steps to execute as part of the application startup process.</p>
@@ -173,20 +186,19 @@
                   <div class="label label-success radius ctx-type">property</div>
                 </p>
               </section>
-              <pre><code class="language-javascript">exports.startupSteps = [
-  'logging',
-  'database',
-  'middleware',
-  'routes',
-  'listener'
-];
+              <pre><code class="language-javascript">config.startupSteps = [
+    'logging',
+    'middleware',
+    'routes',
+    'listener'
+  ];
 
 
 
 
-// ---------------------------
-// MIDDLEWARE
-// ---------------------------</code></pre>
+  // ---------------------------
+  // MIDDLEWARE
+  // ---------------------------</code></pre>
               <section id="sessions">
                 <h1>sessions</h1>
                 <div class="description"><p>Session configuration.</p>
@@ -197,29 +209,28 @@
                   <div class="label label-success radius ctx-type">property</div>
                 </p>
               </section>
-              <pre><code class="language-javascript">exports.sessions = {
-  // cookie signing keys - these are used for signing cookies (using Keygrip) and should be customised for your app
-  keys: ['use', 'your', 'own'],
-  // session cookie name
-  name: 'waigo',
-  // session storage
-  store: {
-    // session store type
-    type: 'mongo',
-    // session store config
-    config: {
-      url: 'mongodb://127.0.0.1:27017/waigo',
-      collection: 'sessions'
+              <pre><code class="language-javascript">config.sessions = {
+    // cookie signing keys - these are used for signing cookies (using Keygrip) and should be customised for your app
+    keys: ['use', 'your', 'own'],
+    // session cookie name
+    name: 'waigo',
+    // session storage
+    store: {
+      // session store type (name of module file in support/session/store/)
+      type: 'cookie', 
+      // session store config
+      config: {
+        // nothing needed for cookie storage
+      }
+    },
+    // session cookie options
+    cookie: {
+      // cookie expires in...
+      validForDays: 7,
+      // cookie valid for url path...
+      path: '/'
     }
-  },
-  // more cookie options
-  cookie: {
-    // cookie expires in...
-    validForDays: 7,
-    // cookie valid for url path...
-    path: '/'
-  }
-};</code></pre>
+  };</code></pre>
               <section id="outputFormats">
                 <h1>outputFormats</h1>
                 <div class="description"><p>Server responses to client requests can be in the formats specified here.</p> </div>
@@ -228,26 +239,26 @@
                   <div class="label label-success radius ctx-type">property</div>
                 </p>
               </section>
-              <pre><code class="language-javascript">exports.outputFormats = {
-  // List of enabled formats along with options to pass to each formatter. */
-  formats: {
-    html: {
-      // Folder relative to application root folder, in which to look for view templates. */
-      folder: 'views',
-      // Default view template filename extension when not explicitly provided. */
-      ext: 'jade',
-      // Map file extension to rendering engine
-      engine: {
-        'jade': 'jade'
-      }
+              <pre><code class="language-javascript">config.outputFormats = {
+    // List of enabled formats along with options to pass to each formatter. */
+    formats: {
+      html: {
+        // Folder relative to application root folder, in which to look for view templates. */
+        folder: 'views',
+        // Default view template filename extension when not explicitly provided. */
+        ext: 'jade',
+        // Map file extension to rendering engine
+        engine: {
+          'jade': 'jade'
+        }
+      },
+      json: {}
     },
-    json: {}
-  },
-  // Use this URL query parameter to determine output format. */
-  paramName: 'format',
-  // Default format, in case URL query parameter which determines output format isn't provided. */
-  default: 'html'
-};</code></pre>
+    // Use this URL query parameter to determine output format. */
+    paramName: 'format',
+    // Default format, in case URL query parameter which determines output format isn't provided. */
+    default: 'html'
+  };</code></pre>
               <section id="staticResources">
                 <h1>staticResources</h1>
                 <div class="description"><p>Static resources.</p> </div>
@@ -256,12 +267,12 @@
                   <div class="label label-success radius ctx-type">property</div>
                 </p>
               </section>
-              <pre><code class="language-javascript">exports.staticResources = {
-  // relative to app folder
-  folder: '../public',
-  // see support/middleware/staticResources for options
-  options: {}
-};</code></pre>
+              <pre><code class="language-javascript">config.staticResources = {
+    // relative to app folder
+    folder: '../public',
+    // see support/middleware/staticResources for options
+    options: {}
+  };</code></pre>
               <section id="errorHandler">
                 <h1>errorHandler</h1>
                 <div class="description"><p>Config for request error handler.</p> </div>
@@ -270,10 +281,10 @@
                   <div class="label label-success radius ctx-type">property</div>
                 </p>
               </section>
-              <pre><code class="language-javascript">exports.errorHandler = {
-  // whether to show stack traces in error output.
-  showStack: false
-};</code></pre>
+              <pre><code class="language-javascript">config.errorHandler = {
+    // whether to show stack traces in error output.
+    showStack: false
+  };</code></pre>
               <section id="middleware">
                 <h1>middleware</h1>
                 <div class="description"><p>Middleware for all requests. </p> </div>
@@ -282,28 +293,32 @@
                   <div class="label label-success radius ctx-type">property</div>
                 </p>
               </section>
-              <pre><code class="language-javascript">exports.middleware = [
-  {
-    id: 'errorHandler',
-    options: exports.errorHandler
-  },
-  {
-    id: 'staticResources',
-    options: exports.staticResources
-  },
-  {
-    id: 'sessions',
-    options: exports.sessions
-  },
-  {
-    id: 'outputFormats',
-    options: exports.outputFormats
-  }
-];</code></pre>
+              <pre><code class="language-javascript">config.middleware = [
+    {
+      id: 'errorHandler',
+      options: config.errorHandler
+    },
+    {
+      id: 'staticResources',
+      options: config.staticResources
+    },
+    {
+      id: 'sessions',
+      options: config.sessions
+    },
+    {
+      id: 'outputFormats',
+      options: config.outputFormats
+    }
+  ];
+
+
+};</code></pre>
             </div>
             <div class="col-md-2">
               <div role="complementary" class="waigo-content-menu hidden-print">
                 <ul class="nav">
+                  <li><a href="#exports"><span>exports()</span></a></li>
                   <li><a href="#port"><span>port</span></a></li>
                   <li><a href="#baseURL"><span>baseURL</span></a></li>
                   <li><a href="#db"><span>db</span></a></li>
@@ -321,7 +336,7 @@
         </div>
       </div>
     </main>
-    <footer role="contentinfo"><p>This page was <a href="https://github.com/waigo/waigojs.com-generator">generated</a> on Mon, 24 Mar 2014 07:47:30 GMT</p>
+    <footer role="contentinfo"><p>This page was <a href="https://github.com/waigo/waigojs.com-generator">generated</a> on Fri, 28 Mar 2014 08:05:42 GMT</p>
 
     </footer>
     <script type="text/javascript" src="/scripts.js"></script>

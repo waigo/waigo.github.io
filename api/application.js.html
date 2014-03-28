@@ -31,8 +31,8 @@
           <div class="row">
             <div role="complementary" class="col-md-3 waigo-api-index">
               <ul class="nav hidden-sm hidden-xs">
-                <li class="active"><a href="index.html">Main</a></li>
-                <li><a href="application.js.html">application.js</a></li>
+                <li><a href="index.html">Main</a></li>
+                <li class="active"><a href="application.js.html">application.js</a></li>
                 <li><a href="config/base.js.html">config/base.js</a></li>
                 <li><a href="config/development.js.html">config/development.js</a></li>
                 <li><a href="config/index.js.html">config/index.js</a></li>
@@ -66,8 +66,8 @@
                 <button type="button" data-toggle="collapse" data-target="#api-index-xs" class="btn btn-info">Show/hide API index</button>
                 <div id="api-index-xs" class="collapse">
                   <ul class="nav">
-                    <li class="active"><a href="index.html">Main</a></li>
-                    <li><a href="application.js.html">application.js</a></li>
+                    <li><a href="index.html">Main</a></li>
+                    <li class="active"><a href="application.js.html">application.js</a></li>
                     <li><a href="config/base.js.html">config/base.js</a></li>
                     <li><a href="config/development.js.html">config/development.js</a></li>
                     <li><a href="config/index.js.html">config/index.js</a></li>
@@ -101,18 +101,76 @@
               </div>
             </div>
             <div role="main" class="col-md-7 waigo-api-content">
-              <section id="Main" class="readme"><p>Welcome to the API documentation for Waigo. This documentation is auto-generated from the source code.</p>
-<p>Here you will find detailed documentation on all the module files provided within the framework. For each module file each 
-of its exported properties and APIs will be documented along with source code. Code examples will be provided where 
-appropriate to show you how best to make use of the functionality.</p>
-<p>We recommend starting with <a href="loader.js.html">loader.js</a>. This is the main module loader and starting point for all Waigo apps.</p>
-<p><em>Note: If you haven&#39;t yet read the <a href="/">guide</a> then please do so. It will help you better understand these docs.</em></p>
+              <section id="App">
+                <h1>App</h1>
+                <div class="description"><p>The application object.</p>
 
+<p>This holds a reference to the koa <code>app</code> object.</p> </div>
+                <h5 class="subheader"></h5>
+                <p>
+                  <div class="label label-success radius ctx-type">declaration</div>
+                </p>
               </section>
+              <pre><code class="language-javascript">var App = module.exports = {
+  app: koa()
+};</code></pre>
+              <section id="loadConfig">
+                <h1>loadConfig</h1>
+                <div class="description"><p>Load in the application configuration.</p> </div>
+                <h5 class="subheader"></h5>
+                <p>
+                  <div class="label label-info radius ctx-type">method</div>
+                </p>
+              </section>
+              <pre><code class="language-javascript">App.loadConfig = function*() {
+  debug('Loading configuration');
+  App.app.config = waigo.load('config/index')();
+};</code></pre>
+              <section id="start">
+                <h1>start</h1>
+                <div class="description"><p>Start the Koa application.</p>
+
+<p>This is a convenience method for initialising the various parts of the app and setting up the general middleware chain.</p> </div>
+                <h5 class="subheader"></h5>
+                <p>
+                  <div class="label label-info radius ctx-type">method</div><span class="symbolReturns">-> Object</span>
+                </p>
+              </section>
+              <pre><code class="language-javascript">App.start = function*() {
+  yield* App.loadConfig();
+
+  for (let idx in App.app.config.startupSteps) {
+    let stepName = App.app.config.startupSteps[idx];
+    debug('Running startup step: ' + stepName);
+    yield* waigo.load('support/startup/' + stepName)(App.app);
+  }
+};</code></pre>
+              <section id="shutdown">
+                <h1>shutdown</h1>
+                <div class="description"><p>Stop the currently running application.</p> </div>
+                <h5 class="subheader"></h5>
+                <p>
+                  <div class="label label-info radius ctx-type">method</div>
+                </p>
+              </section>
+              <pre><code class="language-javascript">App.shutdown = function*() {
+  if (App.app.server) {
+    debug('Shutting down HTTP server');
+    yield Promise.promisify(App.app.server.close, App.app.server)();
+  } 
+
+  // prepare the koa app for a restart
+  debug('Resetting koa app');
+  App.app = koa();
+};</code></pre>
             </div>
             <div class="col-md-2">
               <div role="complementary" class="waigo-content-menu hidden-print">
                 <ul class="nav">
+                  <li><a href="#App"><span>App</span></a></li>
+                  <li><a href="#loadConfig"><span>loadConfig()</span></a></li>
+                  <li><a href="#start"><span>start()</span></a></li>
+                  <li><a href="#shutdown"><span>shutdown()</span></a></li>
                 </ul>
               </div>
             </div>
@@ -120,7 +178,7 @@ appropriate to show you how best to make use of the functionality.</p>
         </div>
       </div>
     </main>
-    <footer role="contentinfo"><p>This page was <a href="https://github.com/waigo/waigojs.com-generator">generated</a> on Fri, 28 Mar 2014 08:05:41 GMT</p>
+    <footer role="contentinfo"><p>This page was <a href="https://github.com/waigo/waigojs.com-generator">generated</a> on Fri, 28 Mar 2014 08:05:42 GMT</p>
 
     </footer>
     <script type="text/javascript" src="/scripts.js"></script>

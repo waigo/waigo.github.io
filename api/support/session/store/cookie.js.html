@@ -43,7 +43,7 @@
                 <li><a href="../../../support/forms/field.js.html">support/forms/field.js</a></li>
                 <li><a href="../../../support/forms/fields/text.js.html">support/forms/fields/text.js</a></li>
                 <li><a href="../../../support/forms/form.js.html">support/forms/form.js</a></li>
-                <li class="active"><a href="../../../support/forms/sanitizers/trim.js.html">support/forms/sanitizers/trim.js</a></li>
+                <li><a href="../../../support/forms/sanitizers/trim.js.html">support/forms/sanitizers/trim.js</a></li>
                 <li><a href="../../../support/forms/validators/isEmailAddress.js.html">support/forms/validators/isEmailAddress.js</a></li>
                 <li><a href="../../../support/forms/validators/notEmpty.js.html">support/forms/validators/notEmpty.js</a></li>
                 <li><a href="../../../support/logging/winston.js.html">support/logging/winston.js</a></li>
@@ -55,7 +55,7 @@
                 <li><a href="../../../support/outputFormats/html.js.html">support/outputFormats/html.js</a></li>
                 <li><a href="../../../support/outputFormats/json.js.html">support/outputFormats/json.js</a></li>
                 <li><a href="../../../support/routeMapper.js.html">support/routeMapper.js</a></li>
-                <li><a href="../../../support/session/store/cookie.js.html">support/session/store/cookie.js</a></li>
+                <li class="active"><a href="../../../support/session/store/cookie.js.html">support/session/store/cookie.js</a></li>
                 <li><a href="../../../support/startup/database.js.html">support/startup/database.js</a></li>
                 <li><a href="../../../support/startup/listener.js.html">support/startup/listener.js</a></li>
                 <li><a href="../../../support/startup/logging.js.html">support/startup/logging.js</a></li>
@@ -78,7 +78,7 @@
                     <li><a href="../../../support/forms/field.js.html">support/forms/field.js</a></li>
                     <li><a href="../../../support/forms/fields/text.js.html">support/forms/fields/text.js</a></li>
                     <li><a href="../../../support/forms/form.js.html">support/forms/form.js</a></li>
-                    <li class="active"><a href="../../../support/forms/sanitizers/trim.js.html">support/forms/sanitizers/trim.js</a></li>
+                    <li><a href="../../../support/forms/sanitizers/trim.js.html">support/forms/sanitizers/trim.js</a></li>
                     <li><a href="../../../support/forms/validators/isEmailAddress.js.html">support/forms/validators/isEmailAddress.js</a></li>
                     <li><a href="../../../support/forms/validators/notEmpty.js.html">support/forms/validators/notEmpty.js</a></li>
                     <li><a href="../../../support/logging/winston.js.html">support/logging/winston.js</a></li>
@@ -90,7 +90,7 @@
                     <li><a href="../../../support/outputFormats/html.js.html">support/outputFormats/html.js</a></li>
                     <li><a href="../../../support/outputFormats/json.js.html">support/outputFormats/json.js</a></li>
                     <li><a href="../../../support/routeMapper.js.html">support/routeMapper.js</a></li>
-                    <li><a href="../../../support/session/store/cookie.js.html">support/session/store/cookie.js</a></li>
+                    <li class="active"><a href="../../../support/session/store/cookie.js.html">support/session/store/cookie.js</a></li>
                     <li><a href="../../../support/startup/database.js.html">support/startup/database.js</a></li>
                     <li><a href="../../../support/startup/listener.js.html">support/startup/listener.js</a></li>
                     <li><a href="../../../support/startup/logging.js.html">support/startup/logging.js</a></li>
@@ -101,24 +101,44 @@
               </div>
             </div>
             <div role="main" class="col-md-7 waigo-api-content">
-              <section id="exports">
-                <h1>exports</h1>
-                <div class="description"><p>Get the sanitizer function.</p> </div>
+              <section id="create">
+                <h1>create</h1>
+                <div class="description"><p>Create a cookie session store.</p> </div>
                 <h5 class="subheader"></h5>
                 <p>
-                  <div class="label label-info radius ctx-type">method</div><span class="symbolReturns">-> Function</span>
+                  <div class="label label-info radius ctx-type">method</div><span class="symbolReturns">-> Object</span>
                 </p>
               </section>
-              <pre><code class="language-javascript">module.exports = function() {
-  return function*(form, field, value) {
-    return validatorSanitizer.trim(value);
-  }
+              <table class="params table table-bordered table-striped">
+                <thead>
+                  <tr>
+                    <th style="width:20%">Option</th>
+                    <th style="width:20%">Type</th>
+                    <th>Description</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="name">{Object}</td>
+                    <td class="type">app</td>
+                    <td class="description">app.</td>
+                  </tr>
+                  <tr>
+                    <td class="name">{Object}</td>
+                    <td class="type">storeConfig</td>
+                    <td class="description">config.</td>
+                  </tr>
+                </tbody>
+              </table>
+              <pre><code class="language-javascript">exports.create = function(app, storeConfig) {
+  // koa-session-store automatically falls back to using the session cookie itself if no store object is given
+  return null;
 };</code></pre>
             </div>
             <div class="col-md-2">
               <div role="complementary" class="waigo-content-menu hidden-print">
                 <ul class="nav">
-                  <li><a href="#exports"><span>exports()</span></a></li>
+                  <li><a href="#create"><span>create()</span></a></li>
                 </ul>
               </div>
             </div>
@@ -126,7 +146,7 @@
         </div>
       </div>
     </main>
-    <footer role="contentinfo"><p>This page was <a href="https://github.com/waigo/waigojs.com-generator">generated</a> on Fri, 28 Mar 2014 08:05:44 GMT</p>
+    <footer role="contentinfo"><p>This page was <a href="https://github.com/waigo/waigojs.com-generator">generated</a> on Fri, 28 Mar 2014 08:05:47 GMT</p>
 
     </footer>
     <script type="text/javascript" src="/scripts.js"></script>
