@@ -130,7 +130,7 @@ module.exports = waigo.load(&#39;waigo-plugin1:support/db/mongo&#39;);
 <ul>
 <li>Ensure your plugin name is prefixed with <code>waigo-</code> so that the Waigo can easily find it.</li>
 <li>Write a good README.md for your plugin explaining what it&#39;s for and how to use it.</li>
-<li>Add automated unit tests for your plugin. Look at existing plugins such as <a href="https://github.com/waigo/mongo">waigo-mongo</a> to see best practices.</li>
+<li>Add automated unit tests for your plugin. Look at existing plugins such as <a href="https://www.npmjs.org/package/waigo-mongo">waigo-mongo</a> to see best practices.</li>
 <li>In your <code>package.json</code> tag your plugin with the <code>waigo</code> keyword so that users can easily search for it.</li>
 </ul>
 <p>To see a list of all available plugins visit <a href="https://www.npmjs.org/browse/keyword/waigoplugin"><a href="https://www.npmjs.org/browse/keyword/waigo">https://www.npmjs.org/browse/keyword/waigo</a></a>.</p>
@@ -287,7 +287,7 @@ exports.index = function*(next) {
 <p>So use whatever you want. Check to see if there are already <a href="https://www.npmjs.org/search?q=waigo">plugins</a> for your preferred storage and model layers. If not maybe you can build one!</p>
 <p>Some available plugins:</p>
 <ul>
-<li><a href="https://www.npmjs.org/package/waigo-response-time">waigo-mongo</a> - Connect to MongoDB via mongoose.</li>
+<li><a href="https://www.npmjs.org/package/waigo-mongo">waigo-mongo</a> - Connect to MongoDB via mongoose.</li>
 </ul>
 <h1 id="sessions">Sessions</h1>
 <p>Sessions are created and loaded by the <code>sessions</code> middleware, which internally uses <a href="https://github.com/hiddentao/koa-session-store">koa-session-store</a>. The default framework configuration automatically initialises and adds the session middleware to all requests.</p>
@@ -329,7 +329,7 @@ exports.session = {
 </code></pre>
 <p>By default session data is stored in the session cookie itself. There are other session storage plugins available for use, for example:</p>
 <ul>
-<li><a href="https://www.npmjs.org/package/waigo-response-time">waigo-mongo</a> - Store session data in Mongo.</li>
+<li><a href="https://www.npmjs.org/package/waigo-mongo">waigo-mongo</a> - Store session data in Mongo.</li>
 </ul>
 <h1 id="views-and-output-formats">Views and Output formats</h1>
 <p>Nowadays most web apps often have single-page web versions and/or mobile apps which need to use a REST API or the equivalent to communicate with the back-end. Waigo supports more than one <a href="#views-and-output-formats">output format</a>, allowing you to serve both plain-old web browser and API clients using the same controller.</p>
@@ -685,7 +685,7 @@ representation and that of its &#39;child errors&#39; gets generated.</p>
 <p>Suggestions, bug reports and pull requests are welcome. Please see <a href="https://github.com/waigo/waigo/blob/master/CONTRIBUTING.md">CONTRIBUTING.md</a> for guidelines.</p>
 <h1 id="license">License</h1>
 <p>MIT - see <a href="https://github.com/waigo/waigo/blob/master/LICENSE.md">LICENSE.md</a></p>
-</div></div><div class="col-md-3"><div role="complementary" class="waigo-content-menu hidden-print"><ul class="nav"><li><a href="#what-is-waigo-">What is Waigo?</a></li><li><a href="#why-should-i-use-waigo-">Why should I use Waigo?</a></li><li><a href="#getting-started">Getting started</a><ul class="nav"><li><a href="#installation">Installation</a></li><li><a href="#hello-world">Hello world</a></li></ul></li><li><a href="#extend-and-override">Extend and Override</a><ul class="nav"><li><a href="#plugins">Plugins</a></li></ul></li><li><a href="#startup">Startup</a><ul class="nav"><li><a href="#configuration">Configuration</a></li></ul></li><li><a href="#routing">Routing</a><ul class="nav"><li><a href="#middleware">Middleware</a></li></ul></li><li><a href="#controllers">Controllers</a></li><li><a href="#database-and-models">Database and Models</a></li><li><a href="#sessions">Sessions</a></li><li><a href="#views-and-output-formats">Views and Output formats</a><ul class="nav"><li><a href="#custom-formats">Custom formats</a></li><li><a href="#view-objects">View objects</a></li></ul></li><li><a href="#forms">Forms</a><ul class="nav"><li><a href="#form-fields">Form fields</a></li><li><a href="#sanitization">Sanitization</a></li><li><a href="#validation">Validation</a></li></ul></li><li><a href="#logging">Logging</a></li><li><a href="#errors">Errors</a><ul class="nav"><li><a href="#multiple-errors">Multiple errors</a></li><li><a href="#debugging">Debugging</a></li></ul></li><li><a href="#roadmap">Roadmap</a></li><li><a href="#contributing">Contributing</a></li><li><a href="#license">License</a></li></ul><ul class="nav"><li class="back-to-top"><a href="#banner">Back to top</a></li></ul></div></div></div></div></section></main><footer role="contentinfo"><p>This page was <a href="https://github.com/waigo/waigojs.com-generator">generated</a> on Fri, 28 Mar 2014 09:08:10 GMT</p>
+</div></div><div class="col-md-3"><div role="complementary" class="waigo-content-menu hidden-print"><ul class="nav"><li><a href="#what-is-waigo-">What is Waigo?</a></li><li><a href="#why-should-i-use-waigo-">Why should I use Waigo?</a></li><li><a href="#getting-started">Getting started</a><ul class="nav"><li><a href="#installation">Installation</a></li><li><a href="#hello-world">Hello world</a></li></ul></li><li><a href="#extend-and-override">Extend and Override</a><ul class="nav"><li><a href="#plugins">Plugins</a></li></ul></li><li><a href="#startup">Startup</a><ul class="nav"><li><a href="#configuration">Configuration</a></li></ul></li><li><a href="#routing">Routing</a><ul class="nav"><li><a href="#middleware">Middleware</a></li></ul></li><li><a href="#controllers">Controllers</a></li><li><a href="#database-and-models">Database and Models</a></li><li><a href="#sessions">Sessions</a></li><li><a href="#views-and-output-formats">Views and Output formats</a><ul class="nav"><li><a href="#custom-formats">Custom formats</a></li><li><a href="#view-objects">View objects</a></li></ul></li><li><a href="#forms">Forms</a><ul class="nav"><li><a href="#form-fields">Form fields</a></li><li><a href="#sanitization">Sanitization</a></li><li><a href="#validation">Validation</a></li></ul></li><li><a href="#logging">Logging</a></li><li><a href="#errors">Errors</a><ul class="nav"><li><a href="#multiple-errors">Multiple errors</a></li><li><a href="#debugging">Debugging</a></li></ul></li><li><a href="#roadmap">Roadmap</a></li><li><a href="#contributing">Contributing</a></li><li><a href="#license">License</a></li></ul><ul class="nav"><li class="back-to-top"><a href="#banner">Back to top</a></li></ul></div></div></div></div></section></main><footer role="contentinfo"><p>This page was <a href="https://github.com/waigo/waigojs.com-generator">generated</a> on Fri, 28 Mar 2014 09:11:12 GMT</p>
 </footer><script type="text/javascript" src="/scripts.js"></script><script type="text/javascript">var _paq = _paq || [];
 _paq.push(["setDomains", ["*.waigojs.com","*.waigo.github.io"]]);
 _paq.push(["trackPageView"]);
