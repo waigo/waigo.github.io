@@ -131,8 +131,7 @@
 
     debug('Setting up middleware: ' + m.id);
 
-    m.options.app = app;
-    app.use(waigo.load('support/middleware/' + m.id)(m.options));
+    app.use(waigo.load('support/middleware/' + m.id)(app, m.options));
   }
 };</code></pre>
             </div>
@@ -147,7 +146,7 @@
         </div>
       </div>
     </main>
-    <footer role="contentinfo"><p>This page was <a href="https://github.com/waigo/waigojs.com-generator">generated</a> on Wed, 09 Apr 2014 08:52:43 GMT</p>
+    <footer role="contentinfo"><p>This page was <a href="https://github.com/waigo/waigojs.com-generator">generated</a> on Wed, 09 Apr 2014 09:27:59 GMT</p>
 
     </footer>
     <script type="text/javascript" src="/scripts.js"></script>

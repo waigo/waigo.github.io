@@ -103,18 +103,29 @@
             <div role="main" class="col-md-7 waigo-api-content">
               <section id="exports">
                 <h1>exports</h1>
-                <div class="description"><h1>Middleware: sessions</h1>
-
-<p>This middleware uses <a href="https://github.com/hiddentao/koa-session-store">koa-session-store</a> to enable <br />session data storage.</p> </div>
+                <div class="description"><p>@param {Object} app The application.</p> </div>
                 <h5 class="subheader"></h5>
                 <p>
                   <div class="label label-info radius ctx-type">method</div>
                 </p>
               </section>
-              <pre><code class="language-javascript">module.exports = function(options) {
-  // this should get the current app
-  var app = options.app;
-  
+              <table class="params table table-bordered table-striped">
+                <thead>
+                  <tr>
+                    <th style="width:20%">Option</th>
+                    <th style="width:20%">Type</th>
+                    <th>Description</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="name">options</td>
+                    <td class="type">Object</td>
+                    <td class="description">Configuration options.</td>
+                  </tr>
+                </tbody>
+              </table>
+              <pre><code class="language-javascript">module.exports = function(app, options) {
   if (!options.keys) {
     throw new Error('Please specify cookie signing keys (session.keys) in the config file.');
   }
@@ -141,7 +152,7 @@
         </div>
       </div>
     </main>
-    <footer role="contentinfo"><p>This page was <a href="https://github.com/waigo/waigojs.com-generator">generated</a> on Wed, 09 Apr 2014 08:52:41 GMT</p>
+    <footer role="contentinfo"><p>This page was <a href="https://github.com/waigo/waigojs.com-generator">generated</a> on Wed, 09 Apr 2014 09:27:56 GMT</p>
 
     </footer>
     <script type="text/javascript" src="/scripts.js"></script>

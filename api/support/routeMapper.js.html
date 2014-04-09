@@ -226,8 +226,7 @@ var errors = waigo.load('support/errors'),
           middlewareOptions = ref;
         }
 
-        middlewareOptions.app = app;
-        return waigo.load('support/middleware/' + middlewareName)(middlewareOptions);
+        return waigo.load('support/middleware/' + middlewareName)(app, middlewareOptions);
       }
     });
 
@@ -259,7 +258,7 @@ var errors = waigo.load('support/errors'),
         </div>
       </div>
     </main>
-    <footer role="contentinfo"><p>This page was <a href="https://github.com/waigo/waigojs.com-generator">generated</a> on Wed, 09 Apr 2014 08:52:41 GMT</p>
+    <footer role="contentinfo"><p>This page was <a href="https://github.com/waigo/waigojs.com-generator">generated</a> on Wed, 09 Apr 2014 09:27:57 GMT</p>
 
     </footer>
     <script type="text/javascript" src="/scripts.js"></script>
