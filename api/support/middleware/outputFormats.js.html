@@ -148,17 +148,18 @@
 
     // attach renderer
     this.render = function*(view, locals) {
-      var viewObjects = {};
-
       // convert each local to a view object
+      var viewObjectCalls = {};
       for (let idx in locals) {
         let local = locals[idx];
+
         if (local[viewObjectMethod]) {
-          viewObjects[idx] = yield local[viewObjectMethod].call(local, ctx);
+          viewObjectCalls[idx] = local[viewObjectMethod].call(local, ctx);
         } else {
-          viewObjects[idx] = local;
+          viewObjectCalls[idx] = local;
         }
       }
+      var viewObjects = yield viewObjectCalls;
 
       // call actual rendering method
       yield enabledFormats[requestedFormat].render.call(ctx, view, viewObjects);
@@ -180,7 +181,7 @@
         </div>
       </div>
     </main>
-    <footer role="contentinfo"><p>This page was <a href="https://github.com/waigo/waigojs.com-generator">generated</a> on Fri, 28 Mar 2014 09:41:33 GMT</p>
+    <footer role="contentinfo"><p>This page was <a href="https://github.com/waigo/waigojs.com-generator">generated</a> on Wed, 09 Apr 2014 08:52:40 GMT</p>
 
     </footer>
     <script type="text/javascript" src="/scripts.js"></script>

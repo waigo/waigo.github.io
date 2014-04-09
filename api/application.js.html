@@ -122,9 +122,37 @@
                   <div class="label label-info radius ctx-type">method</div>
                 </p>
               </section>
-              <pre><code class="language-javascript">App.loadConfig = function*() {
+              <table class="params table table-bordered table-striped">
+                <thead>
+                  <tr>
+                    <th style="width:20%">Option</th>
+                    <th style="width:20%">Type</th>
+                    <th>Description</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="name">[options]</td>
+                    <td class="type">Object</td>
+                    <td class="description">Additional options.</td>
+                  </tr>
+                  <tr>
+                    <td class="name">[options.postConfig]</td>
+                    <td class="type">Function</td>
+                    <td class="description">Function to pass configuration object to once loaded. Useful for performing dynamic </td>
+                  </tr>
+                </tbody>
+              </table>
+              <pre><code class="language-javascript">App.loadConfig = function*(options) {
+  options = options || {};
+
   debug('Loading configuration');
   App.app.config = waigo.load('config/index')();
+
+  if (options.postConfig) {
+    debug('Executing dynamic configuration');
+    options.postConfig.call(null, App.app.config);
+  }
 };</code></pre>
               <section id="start">
                 <h1>start</h1>
@@ -136,8 +164,29 @@
                   <div class="label label-info radius ctx-type">method</div><span class="symbolReturns">-> Object</span>
                 </p>
               </section>
-              <pre><code class="language-javascript">App.start = function*() {
-  yield* App.loadConfig();
+              <table class="params table table-bordered table-striped">
+                <thead>
+                  <tr>
+                    <th style="width:20%">Option</th>
+                    <th style="width:20%">Type</th>
+                    <th>Description</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="name">[options]</td>
+                    <td class="type">Object</td>
+                    <td class="description">Additional options.</td>
+                  </tr>
+                  <tr>
+                    <td class="name">[options.postConfig]</td>
+                    <td class="type">Function</td>
+                    <td class="description">Function to pass configuration object to once loaded. Useful for performing dynamic </td>
+                  </tr>
+                </tbody>
+              </table>
+              <pre><code class="language-javascript">App.start = function*(options) {
+  yield* App.loadConfig(options);
 
   for (let idx in App.app.config.startupSteps) {
     let stepName = App.app.config.startupSteps[idx];
@@ -156,7 +205,7 @@
               <pre><code class="language-javascript">App.shutdown = function*() {
   if (App.app.server) {
     debug('Shutting down HTTP server');
-    yield Promise.promisify(App.app.server.close, App.app.server)();
+    yield Q.promisify(App.app.server.close, App.app.server)();
   } 
 
   // prepare the koa app for a restart
@@ -178,7 +227,7 @@
         </div>
       </div>
     </main>
-    <footer role="contentinfo"><p>This page was <a href="https://github.com/waigo/waigojs.com-generator">generated</a> on Fri, 28 Mar 2014 09:41:29 GMT</p>
+    <footer role="contentinfo"><p>This page was <a href="https://github.com/waigo/waigojs.com-generator">generated</a> on Wed, 09 Apr 2014 08:52:37 GMT</p>
 
     </footer>
     <script type="text/javascript" src="/scripts.js"></script>

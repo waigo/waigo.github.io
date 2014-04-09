@@ -1,4 +1,5 @@
-<!DOCTYPE html><html lang="en"><head><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" charset="utf-8"><title>Waigo.js</title><!--[if IE]><link rel="shortcut icon" href="img/logo_32x32.ico" /><![endif]--><link rel="shortcut icon" href="/img/logo_114x114.png"><meta name="msapplication-TileColor" content="#fff"><meta name="msapplication-TileImage" content="/img/logo_144x144.png"><link rel="stylesheet" media="screen" href="/style.css"></head><body><header id="top" role="banner" class="navbar navbar-static-top"><div class="container"><div class="navbar-header"><button type="button" data-toggle="collapse" data-target=".topmenu-navbar-collapse" class="navbar-toggle"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button><a href="/" class="navbar-brand">Waigo</a></div><div role="navigation" class="collapse navbar-collapse topmenu-navbar-collapse"><ul class="nav navbar-nav"><li class="active"><a id="guideNavItem" href="/#guide">Guide</a></li><li><a href="/api">API</a></li></ul><ul class="nav navbar-nav navbar-right"><li><a href="https://github.com/waigo/waigo">Github</a></li></ul></div></div></header><main id="content"><section id="banner"><div class="container"><div class="waigo-intro-banner"><div class="rays">  </div><div class="text"><h1>W</h1><p>Next-gen MVC framework for Node.js</p><ul class="meta"><li>v0.6.4</li><li><a href="https://github.com/waigo/waigo">github</a></li><li><a href="https://twitter.com/hiddentao">twitter</a></li></ul></div></div></div></section><section id="guide"><div class="container"><div class="row"><div role="main" class="col-md-9 waigo-guide-content"><div><h1 id="what-is-waigo-">What is Waigo?</h1>
+<!DOCTYPE html><html lang="en"><head><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" charset="utf-8"><title>Waigo.js</title><!--[if IE]><link rel="shortcut icon" href="img/logo_32x32.ico" /><![endif]--><link rel="shortcut icon" href="/img/logo_114x114.png"><meta name="msapplication-TileColor" content="#fff"><meta name="msapplication-TileImage" content="/img/logo_144x144.png"><link rel="stylesheet" media="screen" href="/style.css"></head><body><header id="top" role="banner" class="navbar navbar-static-top"><div class="container"><div class="navbar-header"><button type="button" data-toggle="collapse" data-target=".topmenu-navbar-collapse" class="navbar-toggle"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button><a href="/" class="navbar-brand">Waigo</a></div><div role="navigation" class="collapse navbar-collapse topmenu-navbar-collapse"><ul class="nav navbar-nav"><li class="active"><a id="guideNavItem" href="/#guide">Guide</a></li><li><a href="/api">API</a></li></ul><ul class="nav navbar-nav navbar-right"><li><a href="https://github.com/waigo/waigo">Github</a></li></ul></div></div></header><main id="content"><section id="banner"><div class="container"><div class="waigo-intro-banner"><div class="rays">  </div><div class="text"><h1>W</h1><p>Next-gen MVC framework for Node.js</p><ul class="meta"><li>v0.6.7</li><li><a href="https://github.com/waigo/waigo">github</a></li><li><a href="https://twitter.com/hiddentao">twitter</a></li></ul></div></div></div></section><section id="guide"><div class="container"><div class="row"><div role="main" class="col-md-9 waigo-guide-content"><div><h1 id="what-is-waigo-">What is Waigo?</h1>
+<p>[ <a href="http://waigojs.com/">Guide</a> • <a href="http://waigojs.com/api/">API</a> ]</p>
 <p><a href="http://travis-ci.org/waigo/waigo"><img src="https://secure.travis-ci.org/waigo/waigo.png" alt="Build Status"></a> <a href="https://npmjs.org/package/waigo"><img src="https://badge.fury.io/js/waigo.png" alt="NPM module"></a> <a href="https://codeclimate.com/github/waigo/waigo"><img src="https://codeclimate.com/github/waigo/waigo.png" alt="Code quality"></a></p>
 <p>Waigo is a Node.js framework for building scalable and maintainable web application back-ends.</p>
 <p>Quick overview:</p>
@@ -136,17 +137,10 @@ module.exports = waigo.load(&#39;waigo-plugin1:support/db/mongo&#39;);
 <p>To see a list of all available plugins visit <a href="https://www.npmjs.org/browse/keyword/waigoplugin"><a href="https://www.npmjs.org/browse/keyword/waigo">https://www.npmjs.org/browse/keyword/waigo</a></a>.</p>
 <h1 id="startup">Startup</h1>
 <p>Then the application starts up and <code>waigo.load(&#39;app&#39;).start()</code> is called Waigo executes the following:</p>
-<pre><code class="lang-javascript">// file: &lt;waigo framework&gt;/src/app.js
+<pre><code class="lang-javascript">// file: &lt;waigo framework&gt;/src/application.js
 
-
-app.loadConfig = function*() {
-  debug(&#39;Loading configuration&#39;);
-  app.config = waigo.load(&#39;config/index&#39;)();
-};
-
-
-app.start = function*() {
-  yield* app.loadConfig();
+app.start = function*(...) {
+  ...
 
   var ret = null;
   for (let idx in app.config.startupSteps) {
@@ -181,14 +175,16 @@ mdoule.exports = function*(app) {
 <p>We then tell Waigo to load and execute this startup step by modifying the configuration:</p>
 <pre><code class="lang-javascript">// file:  &lt;app folder&gt;/src/config/development.js
 
-exports.startupSteps = [
-  &#39;logging&#39;,
-  &#39;database&#39;,
-  &#39;middleware&#39;,
-  &#39;routes&#39;,
-  &#39;listener&#39;,
-  &#39;timeAndDate&#39;
-];
+module.exports = function(config) {
+  config.startupSteps = [
+    &#39;logging&#39;,
+    &#39;database&#39;,
+    &#39;middleware&#39;,
+    &#39;routes&#39;,
+    &#39;listener&#39;,
+    &#39;timeAndDate&#39;
+  ];
+};
 </code></pre>
 <h2 id="configuration">Configuration</h2>
 <p>Configuration info is loaded during <a href="#startup">startup</a> into the Koa app object and is always accessible at <code>app.config</code>.</p>
@@ -208,19 +204,43 @@ looks for the following module files and loads them if present, in the following
 <p>For example, let&#39;s say our production site URL is usually <code>http://example.com</code>:</p>
 <pre><code class="lang-javascript">// file: &lt;app folder&gt;/src/config/base.js
 
-module.exports = waigo.load(&#39;waigo:config/base&#39;);
+var waigoBaseConfig = waigo.load(&#39;waigo:config/base&#39;);
 
-exports.baseURL = &#39;http://example.com&#39;
+module.exports = function(config) {
+  waigoBaseConfig(config);
 
-exports.port = 80;
+  config.baseURL = &#39;http://example.com&#39;;
+
+  config.port = 80;    
+};
 </code></pre>
 <p>When running the site on our devbox in <code>development</code> mode we might wish to use a different URL as such:</p>
 <pre><code class="lang-javascript">// file: &lt;app folder&gt;/src/config/development.js
 
-exports.baseURL = &#39;http://dev.example.com&#39;
+module.exports = function(config) {
+  config.baseURL = &#39;http://dev.example.com&#39;;
+};
 </code></pre>
 <p>The <code>app.config.port</code> will still be <code>80</code> when running in <code>development</code> mode since we didn&#39;t override and change it in the <code>development</code> config file. The same goes for all other properties in the <code>base</code> configuration file.</p>
 <p><em>Note: The current Node runtime mode is always stored in <code>app.config.mode</code> and the user id in <code>app.config.user</code>.</em></p>
+<h2 id="runtime-modification">Runtime modification</h2>
+<p>Sometimes we may want to modify the configuration when it gets loaded at runtime, e.g. if we wish to modify the configuration according to command-line parameters. </p>
+<p>We can do so by supplying a configuration function to <code>Application.start()</code>:</p>
+<pre><code class="lang-javascript">co(function*() {
+  yield* waigo.init();
+
+  yield* waigo.load(&#39;application&#39;).start({
+    // This function gets passed the final config object returned from the `config/index` module file
+    postConfig: function(config) {
+      config.baseURL = ...;
+      // ...etc
+    }
+  });
+
+})(function(err) {
+  console.log(err);  
+});
+</code></pre>
 <h1 id="routing">Routing</h1>
 <p>Waigo improves upon koa&#39;s built-in router by providing a user-friendly mapping syntax as well as per-route middleware customisation. </p>
 <p>Routes are specified as a mapping in the <code>routes</code> module file in the following format:</p>
@@ -256,14 +276,16 @@ module.exports = {
 <p>A middleware module file is expected to export a function which, when called, returns a generator function to add to the Koa middleware layer. For example:</p>
 <pre><code class="lang-javascript">// file: &lt;app folder&gt;/src/support/middleware/example.js
 
-module.exports = function() {
+module.exports = function(options) {
   return function*(next) {
     // do nothing and pass through
     yield next;
   };
 };
 </code></pre>
-<p>During the middleware <a href="#startup">startup</a> step the following middleware modules are initialised so that all incoming requests get processed by them:</p>
+<p>The <code>options</code> object passed to each middleware construction function always at least contains a key - <code>app</code> - which points to the current application object. </p>
+<p>If a given middleware is being initialised during startup (i.e. as part of the <code>middleware</code> <a href="#startup">startup</a> step) then additional options from the <code>app.config.middleware</code> configuration object are also passed through. So for the above example any configuration found in <code>app.config.middleware.example</code> gets added into the <code>options</code> parameter.</p>
+<p>During the middleware startup step the following middleware modules are initialised so that all incoming requests get processed by them:</p>
 <ul>
 <li><code>errorHandler</code> - catch and handle all errors thrown during request processing</li>
 <li><code>outputFormats</code> - setup the response <a href="#views-and-output-formats">output format</a></li>
@@ -685,7 +707,7 @@ representation and that of its &#39;child errors&#39; gets generated.</p>
 <p>Suggestions, bug reports and pull requests are welcome. Please see <a href="https://github.com/waigo/waigo/blob/master/CONTRIBUTING.md">CONTRIBUTING.md</a> for guidelines.</p>
 <h1 id="license">License</h1>
 <p>MIT - see <a href="https://github.com/waigo/waigo/blob/master/LICENSE.md">LICENSE.md</a></p>
-</div></div><div class="col-md-3"><div role="complementary" class="waigo-content-menu hidden-print"><ul class="nav"><li><a href="#what-is-waigo-">What is Waigo?</a></li><li><a href="#why-should-i-use-waigo-">Why should I use Waigo?</a></li><li><a href="#getting-started">Getting started</a><ul class="nav"><li><a href="#installation">Installation</a></li><li><a href="#hello-world">Hello world</a></li></ul></li><li><a href="#extend-and-override">Extend and Override</a><ul class="nav"><li><a href="#plugins">Plugins</a></li></ul></li><li><a href="#startup">Startup</a><ul class="nav"><li><a href="#configuration">Configuration</a></li></ul></li><li><a href="#routing">Routing</a><ul class="nav"><li><a href="#middleware">Middleware</a></li></ul></li><li><a href="#controllers">Controllers</a></li><li><a href="#database-and-models">Database and Models</a></li><li><a href="#sessions">Sessions</a></li><li><a href="#views-and-output-formats">Views and Output formats</a><ul class="nav"><li><a href="#custom-formats">Custom formats</a></li><li><a href="#view-objects">View objects</a></li></ul></li><li><a href="#forms">Forms</a><ul class="nav"><li><a href="#form-fields">Form fields</a></li><li><a href="#sanitization">Sanitization</a></li><li><a href="#validation">Validation</a></li></ul></li><li><a href="#logging">Logging</a></li><li><a href="#errors">Errors</a><ul class="nav"><li><a href="#multiple-errors">Multiple errors</a></li><li><a href="#debugging">Debugging</a></li></ul></li><li><a href="#roadmap">Roadmap</a></li><li><a href="#contributing">Contributing</a></li><li><a href="#license">License</a></li></ul><ul class="nav"><li class="back-to-top"><a href="#banner">Back to top</a></li></ul></div></div></div></div></section></main><footer role="contentinfo"><p>This page was <a href="https://github.com/waigo/waigojs.com-generator">generated</a> on Fri, 28 Mar 2014 09:41:38 GMT</p>
+</div></div><div class="col-md-3"><div role="complementary" class="waigo-content-menu hidden-print"><ul class="nav"><li><a href="#what-is-waigo-">What is Waigo?</a></li><li><a href="#why-should-i-use-waigo-">Why should I use Waigo?</a></li><li><a href="#getting-started">Getting started</a><ul class="nav"><li><a href="#installation">Installation</a></li><li><a href="#hello-world">Hello world</a></li></ul></li><li><a href="#extend-and-override">Extend and Override</a><ul class="nav"><li><a href="#plugins">Plugins</a></li></ul></li><li><a href="#startup">Startup</a><ul class="nav"><li><a href="#configuration">Configuration</a></li><li><a href="#runtime-modification">Runtime modification</a></li></ul></li><li><a href="#routing">Routing</a><ul class="nav"><li><a href="#middleware">Middleware</a></li></ul></li><li><a href="#controllers">Controllers</a></li><li><a href="#database-and-models">Database and Models</a></li><li><a href="#sessions">Sessions</a></li><li><a href="#views-and-output-formats">Views and Output formats</a><ul class="nav"><li><a href="#custom-formats">Custom formats</a></li><li><a href="#view-objects">View objects</a></li></ul></li><li><a href="#forms">Forms</a><ul class="nav"><li><a href="#form-fields">Form fields</a></li><li><a href="#sanitization">Sanitization</a></li><li><a href="#validation">Validation</a></li></ul></li><li><a href="#logging">Logging</a></li><li><a href="#errors">Errors</a><ul class="nav"><li><a href="#multiple-errors">Multiple errors</a></li><li><a href="#debugging">Debugging</a></li></ul></li><li><a href="#roadmap">Roadmap</a></li><li><a href="#contributing">Contributing</a></li><li><a href="#license">License</a></li></ul><ul class="nav"><li class="back-to-top"><a href="#banner">Back to top</a></li></ul></div></div></div></div></section></main><footer role="contentinfo"><p>This page was <a href="https://github.com/waigo/waigojs.com-generator">generated</a> on Wed, 09 Apr 2014 08:52:44 GMT</p>
 </footer><script type="text/javascript" src="/scripts.js"></script><script type="text/javascript">var _paq = _paq || [];
 _paq.push(["setDomains", ["*.waigojs.com","*.waigo.github.io"]]);
 _paq.push(["trackPageView"]);
