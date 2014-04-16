@@ -9,12 +9,12 @@
     <link rel="stylesheet" media="screen" href="/style.css">
   </head>
   <body>
-    <header id="top" role="banner" class="navbar navbar-static-top">
-      <div class="container">
+    <header id="top">
+      <nav role="banner" class="navbar navbar-fixed-top">
         <div class="navbar-header">
-          <button type="button" data-toggle="collapse" data-target=".topmenu-navbar-collapse" class="navbar-toggle"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button><a href="/" class="navbar-brand">Waigo</a>
+          <button type="button" data-toggle="collapse" data-target="#topmenu-navbar-collapse" class="navbar-toggle collapsed"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button><a href="/" class="navbar-brand">Waigo</a>
         </div>
-        <div role="navigation" class="collapse navbar-collapse topmenu-navbar-collapse">
+        <div id="topmenu-navbar-collapse" role="navigation" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
             <li><a id="guideNavItem" href="/#guide">Guide</a></li>
             <li class="active"><a href="/api">API</a></li>
@@ -23,7 +23,7 @@
             <li><a href="https://github.com/waigo/waigo">Github</a></li>
           </ul>
         </div>
-      </div>
+      </nav>
     </header>
     <main id="content">
       <div id="api">
@@ -61,6 +61,7 @@
                 <li><a href="../../support/startup/logging.js.html">support/startup/logging.js</a></li>
                 <li><a href="../../support/startup/middleware.js.html">support/startup/middleware.js</a></li>
                 <li><a href="../../support/startup/routes.js.html">support/startup/routes.js</a></li>
+                <li><a href="../../support/underscore.js.html">support/underscore.js</a></li>
               </ul>
               <div class="visible-sm visible-xs">
                 <button type="button" data-toggle="collapse" data-target="#api-index-xs" class="btn btn-info">Show/hide API index</button>
@@ -96,6 +97,7 @@
                     <li><a href="../../support/startup/logging.js.html">support/startup/logging.js</a></li>
                     <li><a href="../../support/startup/middleware.js.html">support/startup/middleware.js</a></li>
                     <li><a href="../../support/startup/routes.js.html">support/startup/routes.js</a></li>
+                    <li><a href="../../support/underscore.js.html">support/underscore.js</a></li>
                   </ul>
                 </div>
               </div>
@@ -110,6 +112,34 @@
                 </p>
               </section>
               <pre><code class="language-javascript">var FormValidationError = exports.FormValidationError = errors.define('FormValidationError', errors.MultipleError);</code></pre>
+              <section id="toViewObject">
+                <h1>toViewObject</h1>
+                <div class="description"><p>Get view object representation of field validation error.</p>
+
+<p>This checks the <code>leanErrors</code> request query parameter. If set then the <br />resulting view object will be simpler to analyse and iterate over.</p> </div>
+                <h5 class="subheader"></h5>
+                <p>
+                  <div class="label label-info radius ctx-type">method</div>
+                </p>
+              </section>
+              <pre><code class="language-javascript">FormValidationError.prototype.toViewObject = function*(ctx) {
+  if (!_.get(ctx, 'request.query.leanErrors')) {
+    return yield errors.MultipleError.prototype.toViewObject.call(this, ctx);
+  } else {
+    var ret = yield errors.RuntimeError.prototype.toViewObject.call(this, ctx);
+    ret.fields = {};
+
+    for (let id in this.errors) {
+      let fieldErrors = (yield this.errors[id].toViewObject(ctx)).errors;
+
+      ret.fields[id] = _.map(fieldErrors, function(fe) {
+        return fe.msg;
+      });
+    }
+
+    return ret;
+  }
+};</code></pre>
               <section id="Form">
                 <h1>Form</h1>
                 <div class="description"><p>Construct a form.</p> </div>
@@ -141,20 +171,20 @@
               </table>
               <pre><code class="language-javascript">var Form = exports.Form = function(config, state) {
   if (config instanceof Form) {
-    let existingForm = config;
-    this.config = existingForm.config;
-    this._fields = existingForm._fields;
-  } else {
-    this.config = config || {};
-    // initialise fields
-    this._fields = {};
-    for (let idx in this.config.fields) {
-      let def = this.config.fields[idx];
-      this._fields[def.name] = Field.new(this, def);
-    }
+    // passed-in state overrides existing form's state
+    state = state || config.state;  
+    config = config.config;
   }
 
-  this.state = state || {};
+  this.config = config;
+
+  this._fields = {};
+  for (let idx in this.config.fields) {
+    let def = this.config.fields[idx];
+    this._fields[def.name] = Field.new(this, def);
+  }
+
+  this.state = _.extend({}, state);
 };
 mixins.applyTo(Form, mixins.HasViewObject);
 
@@ -231,6 +261,54 @@ Object.defineProperty(Form.prototype, 'state', {</code></pre>
     yield this.fields[fieldName].setSanitizedValue(values[fieldName]);
   }
 };</code></pre>
+              <section id="setOriginalValues">
+                <h1>setOriginalValues</h1>
+                <div class="description"><p>Set field original values.</p>
+
+<p>Note: unlike when setting the current field values these values do not <br />get sanitized. So be careful when using this.</p> </div>
+                <h5 class="subheader"></h5>
+                <p>
+                  <div class="label label-info radius ctx-type">method</div>
+                </p>
+              </section>
+              <table class="params table table-bordered table-striped">
+                <thead>
+                  <tr>
+                    <th style="width:20%">Option</th>
+                    <th style="width:20%">Type</th>
+                    <th>Description</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="name">values</td>
+                    <td class="type">Object</td>
+                    <td class="description">Mapping from field name to field original value.</td>
+                  </tr>
+                </tbody>
+              </table>
+              <pre><code class="language-javascript">Form.prototype.setOriginalValues = function*(values) {
+  values = values || {};
+
+  for (let fieldName in this.fields) {
+    this.fields[fieldName].originalValue = values[fieldName];
+  }
+};</code></pre>
+              <section id="isDirty">
+                <h1>isDirty</h1>
+                <div class="description"><p>Get whether this form is dirty.</p> </div>
+                <h5 class="subheader"></h5>
+                <p>
+                  <div class="label label-info radius ctx-type">method</div><span class="symbolReturns">-> Boolean</span>
+                </p>
+              </section>
+              <pre><code class="language-javascript">Form.prototype.isDirty = function() {
+  for (let fieldName in this.fields) {
+    if (this.fields[fieldName].isDirty()) return true;
+  }
+
+  return false;
+};</code></pre>
               <section id="validate">
                 <h1>validate</h1>
                 <div class="description"><p>Validate the contents of this form.</p> </div>
@@ -271,16 +349,20 @@ Object.defineProperty(Form.prototype, 'state', {</code></pre>
               </section>
               <pre><code class="language-javascript">Form.prototype.toViewObject = function*(ctx) {
   var fields = this.fields,
-    fieldViewObjects = [];
+    fieldViewObjects = {},
+    fieldOrder = [];
 
   for (let idx in this.config.fields) {
-    let def = this.config.fields[idx];
+    let def = this.config.fields[idx],
+      field = fields[def.name];
       
-    fieldViewObjects.push(yield fields[def.name].toViewObject(ctx));
+    fieldViewObjects[def.name] = yield field.toViewObject(ctx);
+    fieldOrder.push(def.name);
   }
 
   var ret = {
-    fields: fieldViewObjects
+    fields: fieldViewObjects,
+    order: fieldOrder
   }
 
   if (this.config.id) {
@@ -292,7 +374,7 @@ Object.defineProperty(Form.prototype, 'state', {</code></pre>
 
 
 
-// the form instance cache
+// the form spec cache
 var cache = {};</code></pre>
               <section id="new">
                 <h1>new</h1>
@@ -328,25 +410,25 @@ var cache = {};</code></pre>
                 </tbody>
               </table>
               <pre><code class="language-javascript">Form.new = function(id, state) {
-  var cachedInstance = cache[id];
+  var cachedSpec = cache[id];
 
-  if (!cachedInstance) {
-    let config = waigo.load('forms/' + id);
-    config.id = id;
-    cachedInstance = new Form(config, state);
-    cache[id] = cachedInstance;
-    return cachedInstance;
-  } else {
-    return new Form(cachedInstance, state);
+  if (!cachedSpec) {
+    cache[id]  = cachedSpec = waigo.load('forms/' + id);
+    cachedSpec.id = id;
   }
+
+  return new Form(cachedSpec, state);
 };</code></pre>
             </div>
             <div class="col-md-2">
               <div role="complementary" class="waigo-content-menu hidden-print">
                 <ul class="nav">
                   <li><a href="#FormValidationError"><span>FormValidationError</span></a></li>
+                  <li><a href="#toViewObject"><span>toViewObject()</span></a></li>
                   <li><a href="#Form"><span>Form</span></a></li>
                   <li><a href="#setValues"><span>setValues()</span></a></li>
+                  <li><a href="#setOriginalValues"><span>setOriginalValues()</span></a></li>
+                  <li><a href="#isDirty"><span>isDirty()</span></a></li>
                   <li><a href="#validate"><span>validate()</span></a></li>
                   <li><a href="#toViewObject"><span>toViewObject()</span></a></li>
                   <li><a href="#new"><span>new()</span></a></li>
@@ -357,7 +439,7 @@ var cache = {};</code></pre>
         </div>
       </div>
     </main>
-    <footer role="contentinfo"><p>This page was <a href="https://github.com/waigo/waigojs.com-generator">generated</a> on Thu, 10 Apr 2014 06:21:53 GMT</p>
+    <footer role="contentinfo"><p>This page was <a href="https://github.com/waigo/waigojs.com-generator">generated</a> on Wed, 16 Apr 2014 22:43:10 GMT</p>
 
     </footer>
     <script type="text/javascript" src="/scripts.js"></script>

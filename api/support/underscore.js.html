@@ -35,7 +35,7 @@
                 <li><a href="../application.js.html">application.js</a></li>
                 <li><a href="../config/base.js.html">config/base.js</a></li>
                 <li><a href="../config/development.js.html">config/development.js</a></li>
-                <li class="active"><a href="../config/index.js.html">config/index.js</a></li>
+                <li><a href="../config/index.js.html">config/index.js</a></li>
                 <li><a href="../controllers/main.js.html">controllers/main.js</a></li>
                 <li><a href="../loader.js.html">loader.js</a></li>
                 <li><a href="../routes.js.html">routes.js</a></li>
@@ -61,7 +61,7 @@
                 <li><a href="../support/startup/logging.js.html">support/startup/logging.js</a></li>
                 <li><a href="../support/startup/middleware.js.html">support/startup/middleware.js</a></li>
                 <li><a href="../support/startup/routes.js.html">support/startup/routes.js</a></li>
-                <li><a href="../support/underscore.js.html">support/underscore.js</a></li>
+                <li class="active"><a href="../support/underscore.js.html">support/underscore.js</a></li>
               </ul>
               <div class="visible-sm visible-xs">
                 <button type="button" data-toggle="collapse" data-target="#api-index-xs" class="btn btn-info">Show/hide API index</button>
@@ -71,7 +71,7 @@
                     <li><a href="../application.js.html">application.js</a></li>
                     <li><a href="../config/base.js.html">config/base.js</a></li>
                     <li><a href="../config/development.js.html">config/development.js</a></li>
-                    <li class="active"><a href="../config/index.js.html">config/index.js</a></li>
+                    <li><a href="../config/index.js.html">config/index.js</a></li>
                     <li><a href="../controllers/main.js.html">controllers/main.js</a></li>
                     <li><a href="../loader.js.html">loader.js</a></li>
                     <li><a href="../routes.js.html">routes.js</a></li>
@@ -97,60 +97,67 @@
                     <li><a href="../support/startup/logging.js.html">support/startup/logging.js</a></li>
                     <li><a href="../support/startup/middleware.js.html">support/startup/middleware.js</a></li>
                     <li><a href="../support/startup/routes.js.html">support/startup/routes.js</a></li>
-                    <li><a href="../support/underscore.js.html">support/underscore.js</a></li>
+                    <li class="active"><a href="../support/underscore.js.html">support/underscore.js</a></li>
                   </ul>
                 </div>
               </div>
             </div>
             <div role="main" class="col-md-7 waigo-api-content">
-              <section id="exports">
-                <h1>exports</h1>
-                <div class="description"><p>Load application configuration.</p>
-
-<p>The <a href="base.js.html">base configuration</a> module gets loaded first. Additional configuration modules <br />then get loaded using the following logic:</p>
-
-<ol>
-<li><code>config/&lt;node environment&gt;</code></li>
-<li><code>config/&lt;node environment&gt;.&lt;current user&gt;</code></li>
-</ol>
-
-<p>Thus if node is running in <code>test</code> mode (i.e. <code>NODE_ENVIRONMENT=test</code>) and the user id of the process is <code>www-data</code> then the loader <br />looks for the following modules and loads them if present, in the following order:</p>
-
-<ol>
-<li><a href="test.js.html"><code>config/test</code></a></li>
-<li><code>config/test.www-data</code></li>
-</ol>
-
-<p>The current configuration object gets <em>extended</em> with the configuration object from each subsequently loaded module. This means <br />that in each additional configuration file you only need to override the configuration properties that are different.</p> </div>
+              <section id="get">
+                <h1>get</h1>
+                <div class="description"><p>Get a deeply nested object property.</p> </div>
                 <h5 class="subheader"></h5>
                 <p>
-                  <div class="label label-info radius ctx-type">method</div><span class="symbolReturns">-> Object</span>
+                  <div class="label label-info radius ctx-type">method</div><span class="symbolReturns">-> *</span>
                 </p>
               </section>
-              <pre><code class="language-javascript">module.exports = function() {
-  var config = {
-    mode: process.env.NODE_ENV || 'development',
-    user: process.env.USER
-  };
+              <table class="params table table-bordered table-striped">
+                <thead>
+                  <tr>
+                    <th style="width:20%">Option</th>
+                    <th style="width:20%">Type</th>
+                    <th>Description</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="name">the</td>
+                    <td class="type">obj</td>
+                    <td class="description">object</td>
+                  </tr>
+                  <tr>
+                    <td class="name">the</td>
+                    <td class="type">path</td>
+                    <td class="description">path</td>
+                  </tr>
+                  <tr>
+                    <td class="name">value</td>
+                    <td class="type">fallbackValue</td>
+                    <td class="description">to return if not found. </td>
+                  </tr>
+                </tbody>
+              </table>
+              <pre><code class="language-javascript">exports.get = function(obj, path, fallbackValue) {
+  var self = this;  // underscore
 
-  waigo.load('config/base')(config);
+  if (self.isUndefined(obj) || null === obj) return fallbackValue;
 
-  try {
-    waigo.load('config/' + config.mode)(config);
-  } catch (e) {}
+  var fields = path.split('.'),
+    result = obj;
 
-  try {
-    waigo.load('config/' + config.mode + '.' + config.user)(config);
-  } catch (e) {}
+  for (var i=0; i&lt;fields.length; ++i) {
+    if (!self.isObject(result) &amp;&amp; !self.isArray(result)) return fallbackValue;
 
+    result = result[fields[i]];
+  }
 
-  return config;
+  return result || fallbackValue;
 };</code></pre>
             </div>
             <div class="col-md-2">
               <div role="complementary" class="waigo-content-menu hidden-print">
                 <ul class="nav">
-                  <li><a href="#exports"><span>exports()</span></a></li>
+                  <li><a href="#get"><span>get()</span></a></li>
                 </ul>
               </div>
             </div>
@@ -158,7 +165,7 @@
         </div>
       </div>
     </main>
-    <footer role="contentinfo"><p>This page was <a href="https://github.com/waigo/waigojs.com-generator">generated</a> on Wed, 16 Apr 2014 22:43:08 GMT</p>
+    <footer role="contentinfo"><p>This page was <a href="https://github.com/waigo/waigojs.com-generator">generated</a> on Wed, 16 Apr 2014 22:43:14 GMT</p>
 
     </footer>
     <script type="text/javascript" src="/scripts.js"></script>

@@ -9,12 +9,12 @@
     <link rel="stylesheet" media="screen" href="/style.css">
   </head>
   <body>
-    <header id="top" role="banner" class="navbar navbar-static-top">
-      <div class="container">
+    <header id="top">
+      <nav role="banner" class="navbar navbar-fixed-top">
         <div class="navbar-header">
-          <button type="button" data-toggle="collapse" data-target=".topmenu-navbar-collapse" class="navbar-toggle"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button><a href="/" class="navbar-brand">Waigo</a>
+          <button type="button" data-toggle="collapse" data-target="#topmenu-navbar-collapse" class="navbar-toggle collapsed"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button><a href="/" class="navbar-brand">Waigo</a>
         </div>
-        <div role="navigation" class="collapse navbar-collapse topmenu-navbar-collapse">
+        <div id="topmenu-navbar-collapse" role="navigation" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
             <li><a id="guideNavItem" href="/#guide">Guide</a></li>
             <li class="active"><a href="/api">API</a></li>
@@ -23,7 +23,7 @@
             <li><a href="https://github.com/waigo/waigo">Github</a></li>
           </ul>
         </div>
-      </div>
+      </nav>
     </header>
     <main id="content">
       <div id="api">
@@ -61,6 +61,7 @@
                 <li><a href="../../support/startup/logging.js.html">support/startup/logging.js</a></li>
                 <li><a href="../../support/startup/middleware.js.html">support/startup/middleware.js</a></li>
                 <li><a href="../../support/startup/routes.js.html">support/startup/routes.js</a></li>
+                <li><a href="../../support/underscore.js.html">support/underscore.js</a></li>
               </ul>
               <div class="visible-sm visible-xs">
                 <button type="button" data-toggle="collapse" data-target="#api-index-xs" class="btn btn-info">Show/hide API index</button>
@@ -96,6 +97,7 @@
                     <li><a href="../../support/startup/logging.js.html">support/startup/logging.js</a></li>
                     <li><a href="../../support/startup/middleware.js.html">support/startup/middleware.js</a></li>
                     <li><a href="../../support/startup/routes.js.html">support/startup/routes.js</a></li>
+                    <li><a href="../../support/underscore.js.html">support/underscore.js</a></li>
                   </ul>
                 </div>
               </div>
@@ -195,7 +197,59 @@ Object.defineProperty(Field.prototype, 'name', {</code></pre>
 
 
 
+Object.defineProperty(Field.prototype, 'originalValue', {</code></pre>
+              <pre><code class="language-javascript">get: function() {
+    return this.form.state[this.name].originalValue;
+  },</code></pre>
+              <table class="params table table-bordered table-striped">
+                <thead>
+                  <tr>
+                    <th style="width:20%">Option</th>
+                    <th style="width:20%">Type</th>
+                    <th>Description</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="name">value</td>
+                    <td class="type">Any</td>
+                    <td class="description">The value to set.</td>
+                  </tr>
+                </tbody>
+              </table>
+              <pre><code class="language-javascript">set: function(value) {
+    this.form.state[this.name].originalValue = value;
+  }
+});
+
+
+
+
+
 Object.defineProperty(Field.prototype, 'value', {</code></pre>
+              <pre><code class="language-javascript">get: function() {
+    return this.form.state[this.name].value;
+  },</code></pre>
+              <table class="params table table-bordered table-striped">
+                <thead>
+                  <tr>
+                    <th style="width:20%">Option</th>
+                    <th style="width:20%">Type</th>
+                    <th>Description</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="name">value</td>
+                    <td class="type">Any</td>
+                    <td class="description">The value to set.</td>
+                  </tr>
+                </tbody>
+              </table>
+              <pre><code class="language-javascript">set: function(value) {
+    this.form.state[this.name].value = value;
+  }
+});</code></pre>
               <section id="setSanitizedValue">
                 <h1>setSanitizedValue</h1>
                 <div class="description"><p>Set the value of this field.</p>
@@ -234,6 +288,17 @@ Object.defineProperty(Field.prototype, 'value', {</code></pre>
   }
 
   this.value = val;
+};</code></pre>
+              <section id="isDirty">
+                <h1>isDirty</h1>
+                <div class="description"><p>Get whether this field is dirty.</p> </div>
+                <h5 class="subheader"></h5>
+                <p>
+                  <div class="label label-info radius ctx-type">method</div><span class="symbolReturns">-> Boolean</span>
+                </p>
+              </section>
+              <pre><code class="language-javascript">Field.prototype.isDirty = function() {
+  return this.value !== this.originalValue;
 };</code></pre>
               <section id="validate">
                 <h1>validate</h1>
@@ -277,7 +342,8 @@ Object.defineProperty(Field.prototype, 'value', {</code></pre>
     type: this.config.type,
     name: this.name,
     label: this.config.label,
-    value: this.value
+    value: this.value,
+    originalValue: this.originalValue
   };
 };</code></pre>
               <section id="new">
@@ -325,6 +391,7 @@ Object.defineProperty(Field.prototype, 'value', {</code></pre>
                   <li><a href="#FieldSanitizationError"><span>FieldSanitizationError</span></a></li>
                   <li><a href="#Field"><span>Field</span></a></li>
                   <li><a href="#setSanitizedValue"><span>setSanitizedValue()</span></a></li>
+                  <li><a href="#isDirty"><span>isDirty()</span></a></li>
                   <li><a href="#validate"><span>validate()</span></a></li>
                   <li><a href="#toViewObject"><span>toViewObject()</span></a></li>
                   <li><a href="#new"><span>new()</span></a></li>
@@ -335,7 +402,7 @@ Object.defineProperty(Field.prototype, 'value', {</code></pre>
         </div>
       </div>
     </main>
-    <footer role="contentinfo"><p>This page was <a href="https://github.com/waigo/waigojs.com-generator">generated</a> on Thu, 10 Apr 2014 06:21:53 GMT</p>
+    <footer role="contentinfo"><p>This page was <a href="https://github.com/waigo/waigojs.com-generator">generated</a> on Wed, 16 Apr 2014 22:43:09 GMT</p>
 
     </footer>
     <script type="text/javascript" src="/scripts.js"></script>

@@ -9,12 +9,12 @@
     <link rel="stylesheet" media="screen" href="/style.css">
   </head>
   <body>
-    <header id="top" role="banner" class="navbar navbar-static-top">
-      <div class="container">
+    <header id="top">
+      <nav role="banner" class="navbar navbar-fixed-top">
         <div class="navbar-header">
-          <button type="button" data-toggle="collapse" data-target=".topmenu-navbar-collapse" class="navbar-toggle"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button><a href="/" class="navbar-brand">Waigo</a>
+          <button type="button" data-toggle="collapse" data-target="#topmenu-navbar-collapse" class="navbar-toggle collapsed"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button><a href="/" class="navbar-brand">Waigo</a>
         </div>
-        <div role="navigation" class="collapse navbar-collapse topmenu-navbar-collapse">
+        <div id="topmenu-navbar-collapse" role="navigation" class="navbar-collapse collapse">
           <ul class="nav navbar-nav">
             <li><a id="guideNavItem" href="/#guide">Guide</a></li>
             <li class="active"><a href="/api">API</a></li>
@@ -23,7 +23,7 @@
             <li><a href="https://github.com/waigo/waigo">Github</a></li>
           </ul>
         </div>
-      </div>
+      </nav>
     </header>
     <main id="content">
       <div id="api">
@@ -61,6 +61,7 @@
                 <li><a href="../support/startup/logging.js.html">support/startup/logging.js</a></li>
                 <li><a href="../support/startup/middleware.js.html">support/startup/middleware.js</a></li>
                 <li><a href="../support/startup/routes.js.html">support/startup/routes.js</a></li>
+                <li><a href="../support/underscore.js.html">support/underscore.js</a></li>
               </ul>
               <div class="visible-sm visible-xs">
                 <button type="button" data-toggle="collapse" data-target="#api-index-xs" class="btn btn-info">Show/hide API index</button>
@@ -96,6 +97,7 @@
                     <li><a href="../support/startup/logging.js.html">support/startup/logging.js</a></li>
                     <li><a href="../support/startup/middleware.js.html">support/startup/middleware.js</a></li>
                     <li><a href="../support/startup/routes.js.html">support/startup/routes.js</a></li>
+                    <li><a href="../support/underscore.js.html">support/underscore.js</a></li>
                   </ul>
                 </div>
               </div>
@@ -185,7 +187,7 @@
         </div>
       </div>
     </main>
-    <footer role="contentinfo"><p>This page was <a href="https://github.com/waigo/waigojs.com-generator">generated</a> on Thu, 10 Apr 2014 06:21:55 GMT</p>
+    <footer role="contentinfo"><p>This page was <a href="https://github.com/waigo/waigojs.com-generator">generated</a> on Wed, 16 Apr 2014 22:43:12 GMT</p>
 
     </footer>
     <script type="text/javascript" src="/scripts.js"></script>
