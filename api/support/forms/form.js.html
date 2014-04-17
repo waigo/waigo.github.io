@@ -123,7 +123,7 @@
                 </p>
               </section>
               <pre><code class="language-javascript">FormValidationError.prototype.toViewObject = function*(ctx) {
-  if (!_.get(ctx, 'request.query.leanErrors')) {
+  if (!_.get(ctx, 'request.leanErrors')) {
     return yield errors.MultipleError.prototype.toViewObject.call(this, ctx);
   } else {
     var ret = yield errors.RuntimeError.prototype.toViewObject.call(this, ctx);
@@ -443,7 +443,7 @@ var cache = {};</code></pre>
         </div>
       </div>
     </main>
-    <footer role="contentinfo"><p>This page was <a href="https://github.com/waigo/waigojs.com-generator">generated</a> on Wed, 16 Apr 2014 22:49:02 GMT</p>
+    <footer role="contentinfo"><p>This page was <a href="https://github.com/waigo/waigojs.com-generator">generated</a> on Thu, 17 Apr 2014 00:12:10 GMT</p>
 
     </footer>
     <script type="text/javascript" src="/scripts.js"></script>
