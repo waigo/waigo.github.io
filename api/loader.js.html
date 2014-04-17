@@ -104,28 +104,6 @@
               </div>
             </div>
             <div role="main" class="col-md-7 waigo-api-content">
-              <section id="getWaigoFolder">
-                <h1>getWaigoFolder</h1>
-                <div class="description"><p>Get absolute path to folder containing Waigo core framework.</p> </div>
-                <h5 class="subheader"></h5>
-                <p>
-                  <div class="label label-info radius ctx-type">method</div><span class="symbolReturns">-> string</span>
-                </p>
-              </section>
-              <pre><code class="language-javascript">loader.getWaigoFolder = function() {
-  return waigoFolder;
-};</code></pre>
-              <section id="getAppFolder">
-                <h1>getAppFolder</h1>
-                <div class="description"><p>Get absolute path to folder containing application code.</p> </div>
-                <h5 class="subheader"></h5>
-                <p>
-                  <div class="label label-info radius ctx-type">method</div><span class="symbolReturns">-> string</span>
-                </p>
-              </section>
-              <pre><code class="language-javascript">loader.getAppFolder = function() {
-  return appFolder;
-};</code></pre>
               <section id="init">
                 <h1>init</h1>
                 <div class="description"><p>Initialise the loader.</p>
@@ -337,7 +315,30 @@
   debug('Loading module &quot;' + sanitizedModuleName + '&quot; from source &quot;' + source + '&quot;');
 
   return require(loader.__modules[sanitizedModuleName].sources[source]);
+};</code></pre>
+              <section id="getWaigoFolder">
+                <h1>getWaigoFolder</h1>
+                <div class="description"><p>Get absolute path to folder containing Waigo core framework.</p> </div>
+                <h5 class="subheader"></h5>
+                <p>
+                  <div class="label label-info radius ctx-type">method</div><span class="symbolReturns">-> string</span>
+                </p>
+              </section>
+              <pre><code class="language-javascript">loader.getWaigoFolder = function() {
+  return waigoFolder;
+};</code></pre>
+              <section id="getAppFolder">
+                <h1>getAppFolder</h1>
+                <div class="description"><p>Get absolute path to folder containing application code.</p> </div>
+                <h5 class="subheader"></h5>
+                <p>
+                  <div class="label label-info radius ctx-type">method</div><span class="symbolReturns">-> string</span>
+                </p>
+              </section>
+              <pre><code class="language-javascript">loader.getAppFolder = function() {
+  return appFolder;
 };
+
 
 
 
@@ -347,10 +348,10 @@ module.exports = loader;</code></pre>
             <div class="col-md-2">
               <div role="complementary" class="waigo-content-menu hidden-print">
                 <ul class="nav">
-                  <li><a href="#getWaigoFolder"><span>getWaigoFolder()</span></a></li>
-                  <li><a href="#getAppFolder"><span>getAppFolder()</span></a></li>
                   <li><a href="#init"><span>init()</span></a></li>
                   <li><a href="#load"><span>load()</span></a></li>
+                  <li><a href="#getWaigoFolder"><span>getWaigoFolder()</span></a></li>
+                  <li><a href="#getAppFolder"><span>getAppFolder()</span></a></li>
                 </ul>
               </div>
             </div>
@@ -358,7 +359,7 @@ module.exports = loader;</code></pre>
         </div>
       </div>
     </main>
-    <footer role="contentinfo"><p>This page was <a href="https://github.com/waigo/waigojs.com-generator">generated</a> on Thu, 17 Apr 2014 09:18:37 GMT</p>
+    <footer role="contentinfo"><p>This page was <a href="https://github.com/waigo/waigojs.com-generator">generated</a> on Thu, 17 Apr 2014 09:38:19 GMT</p>
 
     </footer>
     <script type="text/javascript" src="/scripts.js"></script>
