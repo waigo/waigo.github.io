@@ -108,28 +108,11 @@
               </div>
             </div>
             <div role="main" class="col-md-7 waigo-api-content">
-              <section id="_">
-                <h1>_</h1>
-                <div class="description"><p>Exceptions and error handlers.</p> </div>
-                <h5 class="subheader"></h5>
-                <p>
-                  <div class="label label-success radius ctx-type">declaration</div>
-                </p>
-              </section>
-              <pre><code class="language-javascript">var _ = require('lodash'),
-  util = require('util');
-
-
-var waigo = require('../../'),
-  mixins = waigo.load('support/mixins');
-
-
-mixins.applyTo(Error, mixins.HasViewObject);</code></pre>
               <section id="toViewObject">
                 <h1>toViewObject</h1>
-                <div class="description"><p>Get renderable representation of this error.</p>
+                <div class="description"><p>Get renderable representation of this <code>Error</code>.</p>
 
-<p>You should use <code>BaseError</code>-derived error classes instead of one as they provide a number of useful features.</p> </div>
+<p>Is is better to use <code>RuntimeError</code>-derived error classes instead of <code>Error</code> <br />as they provide other useful features. However unexpected errors may occur <br />which is why it is important to be able to process them for output.</p> </div>
                 <h5 class="subheader"></h5>
                 <p>
                   <div class="label label-info radius ctx-type">method</div><span class="symbolReturns">-> Object</span>
@@ -143,9 +126,9 @@ mixins.applyTo(Error, mixins.HasViewObject);</code></pre>
 };</code></pre>
               <section id="RuntimeError">
                 <h1>RuntimeError</h1>
-                <div class="description"><p>Runtime error.</p>
+                <div class="description"><p>Base runtime error class.</p>
 
-<p>This represents an error which occurred. Waigo prefers to use this rather than <code>Error</code> it is more informative.</p> </div>
+<p>Use this in preference to <code>Error</code> where possible as it provides for more <br />descriptive output. </p> </div>
                 <h5 class="subheader"></h5>
                 <p>
                   <div class="label label-success radius ctx-type">declaration</div>
@@ -168,7 +151,7 @@ mixins.applyTo(Error, mixins.HasViewObject);</code></pre>
                   <tr>
                     <td class="name">status</td>
                     <td class="type">Number</td>
-                    <td class="description">HTTP return status code to set.</td>
+                    <td class="description">HTTP return status code to set (used by the [error handler middleware](middleware/errorHandler.js.html))</td>
                   </tr>
                 </tbody>
               </table>
@@ -182,9 +165,9 @@ mixins.applyTo(Error, mixins.HasViewObject);</code></pre>
 util.inherits(RuntimeError, Error);</code></pre>
               <section id="MultipleError">
                 <h1>MultipleError</h1>
-                <div class="description"><p>Multiple request errors grouped together.</p>
+                <div class="description"><p>Represents multiple errors grouped together.</p>
 
-<p>This error represents a group of related <code>Error</code> instances.</p> </div>
+<p>Sometimes we may wish to report multiple related errors (e.g. form field <br />validation failures). This error class makes it easy to do so.</p> </div>
                 <h5 class="subheader"></h5>
                 <p>
                   <div class="label label-success radius ctx-type">declaration</div>
@@ -202,7 +185,7 @@ util.inherits(RuntimeError, Error);</code></pre>
                   <tr>
                     <td class="name">errors</td>
                     <td class="type">Object</td>
-                    <td class="description">Map of errors, where each value is itself a `Error` instance.</td>
+                    <td class="description">Map of errors, where each value is itself an `Error` instance.</td>
                   </tr>
                   <tr>
                     <td class="name">status</td>
@@ -220,7 +203,9 @@ util.inherits(RuntimeError, Error);</code></pre>
 util.inherits(MultipleError, RuntimeError);</code></pre>
               <section id="toViewObject">
                 <h1>toViewObject</h1>
-                <div class="description"><p>Get renderable representation of this error.</p> </div>
+                <div class="description"><p>Get renderable representation of this error.</p>
+
+<p>This collects view object representations of all the sub-errors and into a <br />single object.</p> </div>
                 <h5 class="subheader"></h5>
                 <p>
                   <div class="label label-info radius ctx-type">method</div><span class="symbolReturns">-> Object</span>
@@ -238,9 +223,9 @@ util.inherits(MultipleError, RuntimeError);</code></pre>
 };</code></pre>
               <section id="define">
                 <h1>define</h1>
-                <div class="description"><p>Define an Error.</p>
+                <div class="description"><p>Define an <code>Error</code> class.</p>
 
-<p>This is a convenience method for quickly creating custom error classes.</p> </div>
+<p>This is a convenience method for quickly creating custom error classes which <br />inherit from <code>Error</code> and have all the correct properties setup.</p> </div>
                 <h5 class="subheader"></h5>
                 <p>
                   <div class="label label-info radius ctx-type">method</div><span class="symbolReturns">-> Function</span>
@@ -263,7 +248,7 @@ util.inherits(MultipleError, RuntimeError);</code></pre>
                   <tr>
                     <td class="name">[baseClass]</td>
                     <td class="type">Class</td>
-                    <td class="description">Base class (should be a subtype of `Error`) to derivce this new error from. Default is `RuntimeError`. </td>
+                    <td class="description">Base class to derive the new class from. Default is `RuntimeError`. </td>
                   </tr>
                 </tbody>
               </table>
@@ -282,7 +267,6 @@ util.inherits(MultipleError, RuntimeError);</code></pre>
             <div class="col-md-2">
               <div role="complementary" class="waigo-content-menu hidden-print">
                 <ul class="nav">
-                  <li><a href="#_"><span>_</span></a></li>
                   <li><a href="#toViewObject"><span>toViewObject()</span></a></li>
                   <li><a href="#RuntimeError"><span>RuntimeError</span></a></li>
                   <li><a href="#MultipleError"><span>MultipleError</span></a></li>
@@ -295,7 +279,7 @@ util.inherits(MultipleError, RuntimeError);</code></pre>
         </div>
       </div>
     </main>
-    <footer role="contentinfo"><p>This page was <a href="https://github.com/waigo/waigojs.com-generator">generated</a> on Fri, 18 Apr 2014 07:09:19 GMT</p>
+    <footer role="contentinfo"><p>This page was <a href="https://github.com/waigo/waigojs.com-generator">generated</a> on Fri, 18 Apr 2014 10:26:33 GMT</p>
 
     </footer>
     <script type="text/javascript" src="/scripts.js"></script>

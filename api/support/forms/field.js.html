@@ -110,7 +110,7 @@
             <div role="main" class="col-md-7 waigo-api-content">
               <section id="FieldValidationError">
                 <h1>FieldValidationError</h1>
-                <div class="description"><p>@type {Error} A field validation error.</p> </div>
+                <div class="description"><p>A field validation error.</p> </div>
                 <h5 class="subheader"></h5>
                 <p>
                   <div class="label label-success radius ctx-type">declaration</div>
@@ -119,7 +119,7 @@
               <pre><code class="language-javascript">var FieldValidationError = exports.FieldValidationError = errors.define('FieldValidationError', errors.MultipleError);</code></pre>
               <section id="FieldSanitizationError">
                 <h1>FieldSanitizationError</h1>
-                <div class="description"><p>@type {Error} A field sanitization error.</p> </div>
+                <div class="description"><p>A field sanitization error.</p> </div>
                 <h5 class="subheader"></h5>
                 <p>
                   <div class="label label-success radius ctx-type">declaration</div>
@@ -189,69 +189,25 @@
     };
   });
 };
-mixins.applyTo(Field, mixins.HasViewObject);
-
-
-
-
-Object.defineProperty(Field.prototype, 'name', {</code></pre>
-              <pre><code class="language-javascript">get: function() {
+mixins.applyTo(Field, mixins.HasViewObject);</code></pre>
+              <pre><code class="language-javascript">Object.defineProperty(Field.prototype, 'name', {
+  get: function() {
     return this.config.name;
   }
-});
-
-
-
-Object.defineProperty(Field.prototype, 'originalValue', {</code></pre>
-              <pre><code class="language-javascript">get: function() {
+});</code></pre>
+              <pre><code class="language-javascript">Object.defineProperty(Field.prototype, 'originalValue', {
+  get: function() {
     return this.form.state[this.name].originalValue;
-  },</code></pre>
-              <table class="params table table-bordered table-striped">
-                <thead>
-                  <tr>
-                    <th style="width:20%">Option</th>
-                    <th style="width:20%">Type</th>
-                    <th>Description</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td class="name">value</td>
-                    <td class="type">Any</td>
-                    <td class="description">The value to set.</td>
-                  </tr>
-                </tbody>
-              </table>
-              <pre><code class="language-javascript">set: function(value) {
+  },
+  set: function(value) {
     this.form.state[this.name].originalValue = value;
   }
-});
-
-
-
-
-
-Object.defineProperty(Field.prototype, 'value', {</code></pre>
-              <pre><code class="language-javascript">get: function() {
+});</code></pre>
+              <pre><code class="language-javascript">Object.defineProperty(Field.prototype, 'value', {
+  get: function() {
     return this.form.state[this.name].value;
-  },</code></pre>
-              <table class="params table table-bordered table-striped">
-                <thead>
-                  <tr>
-                    <th style="width:20%">Option</th>
-                    <th style="width:20%">Type</th>
-                    <th>Description</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td class="name">value</td>
-                    <td class="type">Any</td>
-                    <td class="description">The value to set.</td>
-                  </tr>
-                </tbody>
-              </table>
-              <pre><code class="language-javascript">set: function(value) {
+  },
+  set: function(value) {
     this.form.state[this.name].value = value;
   }
 });</code></pre>
@@ -276,7 +232,7 @@ Object.defineProperty(Field.prototype, 'value', {</code></pre>
                 <tbody>
                   <tr>
                     <td class="name">val</td>
-                    <td class="type">Any</td>
+                    <td class="type">*</td>
                     <td class="description">The value.</td>
                   </tr>
                 </tbody>
@@ -296,7 +252,9 @@ Object.defineProperty(Field.prototype, 'value', {</code></pre>
 };</code></pre>
               <section id="isDirty">
                 <h1>isDirty</h1>
-                <div class="description"><p>Get whether this field is dirty.</p> </div>
+                <div class="description"><p>Get whether this field is dirty.</p>
+
+<p>It is dirty if its current value is different from its original value.</p> </div>
                 <h5 class="subheader"></h5>
                 <p>
                   <div class="label label-info radius ctx-type">method</div><span class="symbolReturns">-> Boolean</span>
@@ -339,7 +297,7 @@ Object.defineProperty(Field.prototype, 'value', {</code></pre>
                 <div class="description"><p>Get renderable representation of this field.</p> </div>
                 <h5 class="subheader"></h5>
                 <p>
-                  <div class="label label-info radius ctx-type">method</div>
+                  <div class="label label-info radius ctx-type">method</div><span class="symbolReturns">-> Object</span>
                 </p>
               </section>
               <pre><code class="language-javascript">Field.prototype.toViewObject = function*() {
@@ -407,7 +365,7 @@ Object.defineProperty(Field.prototype, 'value', {</code></pre>
         </div>
       </div>
     </main>
-    <footer role="contentinfo"><p>This page was <a href="https://github.com/waigo/waigojs.com-generator">generated</a> on Fri, 18 Apr 2014 07:09:19 GMT</p>
+    <footer role="contentinfo"><p>This page was <a href="https://github.com/waigo/waigojs.com-generator">generated</a> on Fri, 18 Apr 2014 10:26:34 GMT</p>
 
     </footer>
     <script type="text/javascript" src="/scripts.js"></script>
