@@ -53,14 +53,14 @@
                 <li><a href="../../support/middleware/errorHandler.js.html">support/middleware/errorHandler.js</a></li>
                 <li><a href="../../support/middleware/outputFormats.js.html">support/middleware/outputFormats.js</a></li>
                 <li><a href="../../support/middleware/sessions.js.html">support/middleware/sessions.js</a></li>
-                <li><a href="../../support/middleware/staticResources.js.html">support/middleware/staticResources.js</a></li>
+                <li class="active"><a href="../../support/middleware/staticResources.js.html">support/middleware/staticResources.js</a></li>
                 <li><a href="../../support/mixins.js.html">support/mixins.js</a></li>
                 <li><a href="../../support/outputFormats/html.js.html">support/outputFormats/html.js</a></li>
                 <li><a href="../../support/outputFormats/json.js.html">support/outputFormats/json.js</a></li>
                 <li><a href="../../support/routeMapper.js.html">support/routeMapper.js</a></li>
                 <li><a href="../../support/session/store/cookie.js.html">support/session/store/cookie.js</a></li>
                 <li><a href="../../support/startup/database.js.html">support/startup/database.js</a></li>
-                <li class="active"><a href="../../support/startup/listener.js.html">support/startup/listener.js</a></li>
+                <li><a href="../../support/startup/listener.js.html">support/startup/listener.js</a></li>
                 <li><a href="../../support/startup/logging.js.html">support/startup/logging.js</a></li>
                 <li><a href="../../support/startup/middleware.js.html">support/startup/middleware.js</a></li>
                 <li><a href="../../support/startup/routes.js.html">support/startup/routes.js</a></li>
@@ -91,14 +91,14 @@
                     <li><a href="../../support/middleware/errorHandler.js.html">support/middleware/errorHandler.js</a></li>
                     <li><a href="../../support/middleware/outputFormats.js.html">support/middleware/outputFormats.js</a></li>
                     <li><a href="../../support/middleware/sessions.js.html">support/middleware/sessions.js</a></li>
-                    <li><a href="../../support/middleware/staticResources.js.html">support/middleware/staticResources.js</a></li>
+                    <li class="active"><a href="../../support/middleware/staticResources.js.html">support/middleware/staticResources.js</a></li>
                     <li><a href="../../support/mixins.js.html">support/mixins.js</a></li>
                     <li><a href="../../support/outputFormats/html.js.html">support/outputFormats/html.js</a></li>
                     <li><a href="../../support/outputFormats/json.js.html">support/outputFormats/json.js</a></li>
                     <li><a href="../../support/routeMapper.js.html">support/routeMapper.js</a></li>
                     <li><a href="../../support/session/store/cookie.js.html">support/session/store/cookie.js</a></li>
                     <li><a href="../../support/startup/database.js.html">support/startup/database.js</a></li>
-                    <li class="active"><a href="../../support/startup/listener.js.html">support/startup/listener.js</a></li>
+                    <li><a href="../../support/startup/listener.js.html">support/startup/listener.js</a></li>
                     <li><a href="../../support/startup/logging.js.html">support/startup/logging.js</a></li>
                     <li><a href="../../support/startup/middleware.js.html">support/startup/middleware.js</a></li>
                     <li><a href="../../support/startup/routes.js.html">support/startup/routes.js</a></li>
@@ -110,12 +110,10 @@
             <div role="main" class="col-md-7 waigo-api-content">
               <section id="exports">
                 <h1></h1>
-                <div class="description"><p>Start the server listener.</p>
-
-<p>If successful <code>app.server</code> will point to the HTTP server object.</p> </div>
+                <div class="description"><p>Build middleware for serving static resources.</p> </div>
                 <h5 class="subheader"></h5>
                 <p>
-                  <div class="label label-info radius ctx-type">method</div>
+                  <div class="label label-info radius ctx-type">method</div><span class="symbolReturns">-> Function</span>
                 </p>
               </section>
               <table class="params table table-bordered table-striped">
@@ -128,17 +126,46 @@
                 </thead>
                 <tbody>
                   <tr>
-                    <td class="name">app</td>
+                    <td class="name">options</td>
                     <td class="type">Object</td>
-                    <td class="description">The application.</td>
+                    <td class="description">Configuration options.</td>
+                  </tr>
+                  <tr>
+                    <td class="name">options.folder</td>
+                    <td class="type">String</td>
+                    <td class="description">The filesystem path (relative to the Waigo app folder) from which to serve resources.</td>
+                  </tr>
+                  <tr>
+                    <td class="name">[options.maxage]</td>
+                    <td class="type">Integer</td>
+                    <td class="description">Browser cache max-age in milliseconds (default is `0`).</td>
+                  </tr>
+                  <tr>
+                    <td class="name">[options.hidden]</td>
+                    <td class="type">Boolean</td>
+                    <td class="description">Whether to serve hidden resources too (default is `false`).</td>
+                  </tr>
+                  <tr>
+                    <td class="name">[options.index]</td>
+                    <td class="type">String</td>
+                    <td class="description">The index file (default is `index.html`).</td>
+                  </tr>
+                  <tr>
+                    <td class="name">[options.defer]</td>
+                    <td class="type">Boolean</td>
+                    <td class="description">if `true` then will serve after `yield next`, allowing downstream middleware to respond first (default is `true`). </td>
                   </tr>
                 </tbody>
               </table>
-              <pre><code class="language-javascript">module.exports = function*(app) {
-  debug('Starting HTTP server');
-  app.logger.info('Server listening in ' + app.config.mode + ' mode on port ' + app.config.port + ' (baseURL: ' + app.config.baseURL + ')');
-  app.server = app.listen(app.config.port);
-  return app.server;
+              <pre><code class="language-javascript">module.exports = function(options) {
+  var moreOptions = _.extend({
+    maxage: 0,
+    hidden: false,
+    index: 'index.html',
+    defer: false
+  }, options.options);
+
+  return require('koa-static')(path.join(waigo.getAppFolder(), options.folder), moreOptions);
 };</code></pre>
             </div>
             <div class="col-md-2">
@@ -152,7 +179,7 @@
         </div>
       </div>
     </main>
-    <footer role="contentinfo"><p>This page was <a href="https://github.com/waigo/waigojs.com-generator">generated</a> on Fri, 18 Apr 2014 07:09:24 GMT</p>
+    <footer role="contentinfo"><p>This page was <a href="https://github.com/waigo/waigojs.com-generator">generated</a> on Fri, 18 Apr 2014 07:09:22 GMT</p>
 
     </footer>
     <script type="text/javascript" src="/scripts.js"></script>

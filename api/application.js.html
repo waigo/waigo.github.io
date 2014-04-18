@@ -37,6 +37,7 @@
                 <li><a href="config/base.js.html">config/base.js</a></li>
                 <li><a href="config/development.js.html">config/development.js</a></li>
                 <li><a href="config/index.js.html">config/index.js</a></li>
+                <li><a href="config/test.js.html">config/test.js</a></li>
                 <li><a href="controllers/main.js.html">controllers/main.js</a></li>
                 <li><a href="loader.js.html">loader.js</a></li>
                 <li><a href="routes.js.html">routes.js</a></li>
@@ -52,6 +53,7 @@
                 <li><a href="support/middleware/errorHandler.js.html">support/middleware/errorHandler.js</a></li>
                 <li><a href="support/middleware/outputFormats.js.html">support/middleware/outputFormats.js</a></li>
                 <li><a href="support/middleware/sessions.js.html">support/middleware/sessions.js</a></li>
+                <li><a href="support/middleware/staticResources.js.html">support/middleware/staticResources.js</a></li>
                 <li><a href="support/mixins.js.html">support/mixins.js</a></li>
                 <li><a href="support/outputFormats/html.js.html">support/outputFormats/html.js</a></li>
                 <li><a href="support/outputFormats/json.js.html">support/outputFormats/json.js</a></li>
@@ -73,6 +75,7 @@
                     <li><a href="config/base.js.html">config/base.js</a></li>
                     <li><a href="config/development.js.html">config/development.js</a></li>
                     <li><a href="config/index.js.html">config/index.js</a></li>
+                    <li><a href="config/test.js.html">config/test.js</a></li>
                     <li><a href="controllers/main.js.html">controllers/main.js</a></li>
                     <li><a href="loader.js.html">loader.js</a></li>
                     <li><a href="routes.js.html">routes.js</a></li>
@@ -88,6 +91,7 @@
                     <li><a href="support/middleware/errorHandler.js.html">support/middleware/errorHandler.js</a></li>
                     <li><a href="support/middleware/outputFormats.js.html">support/middleware/outputFormats.js</a></li>
                     <li><a href="support/middleware/sessions.js.html">support/middleware/sessions.js</a></li>
+                    <li><a href="support/middleware/staticResources.js.html">support/middleware/staticResources.js</a></li>
                     <li><a href="support/mixins.js.html">support/mixins.js</a></li>
                     <li><a href="support/outputFormats/html.js.html">support/outputFormats/html.js</a></li>
                     <li><a href="support/outputFormats/json.js.html">support/outputFormats/json.js</a></li>
@@ -104,8 +108,8 @@
               </div>
             </div>
             <div role="main" class="col-md-7 waigo-api-content">
-              <section id="App">
-                <h1>App</h1>
+              <section id="Application">
+                <h1>Application</h1>
                 <div class="description"><p>The application object is the main entry point for all Waigo applications.</p>
 
 <p>It is responsible for constructing the Koa <code>app</code> object and initialising<br />logging, database connections, sessions and the various middleware<br />components amongst other things.</p>
@@ -116,7 +120,7 @@
                   <div class="label label-success radius ctx-type">declaration</div>
                 </p>
               </section>
-              <pre><code class="language-javascript">var App = module.exports = {
+              <pre><code class="language-javascript">var Application = module.exports = {
   app: koa()
 };</code></pre>
               <section id="loadConfig">
@@ -150,15 +154,15 @@
                   </tr>
                 </tbody>
               </table>
-              <pre><code class="language-javascript">App.loadConfig = function*(options) {
+              <pre><code class="language-javascript">Application.loadConfig = function*(options) {
   options = options || {};
 
   debug('Loading configuration');
-  App.app.config = waigo.load('config/index')();
+  Application.app.config = waigo.load('config/index')();
 
   if (options.postConfig) {
     debug('Executing dynamic configuration');
-    options.postConfig.call(null, App.app.config);
+    options.postConfig.call(null, Application.app.config);
   }
 };</code></pre>
               <section id="start">
@@ -192,13 +196,13 @@
                   </tr>
                 </tbody>
               </table>
-              <pre><code class="language-javascript">App.start = function*(options) {
-  yield* App.loadConfig(options);
+              <pre><code class="language-javascript">Application.start = function*(options) {
+  yield* Application.loadConfig(options);
 
-  for (let idx in App.app.config.startupSteps) {
-    let stepName = App.app.config.startupSteps[idx];
+  for (let idx in Application.app.config.startupSteps) {
+    let stepName = Application.app.config.startupSteps[idx];
     debug('Running startup step: ' + stepName);
-    yield* waigo.load('support/startup/' + stepName)(App.app);
+    yield* waigo.load('support/startup/' + stepName)(Application.app);
   }
 };</code></pre>
               <section id="shutdown">
@@ -211,21 +215,21 @@
                   <div class="label label-info radius ctx-type">method</div>
                 </p>
               </section>
-              <pre><code class="language-javascript">App.shutdown = function*() {
-  if (App.app.server) {
+              <pre><code class="language-javascript">Application.shutdown = function*() {
+  if (Application.app.server) {
     debug('Shutting down HTTP server');
-    yield Q.promisify(App.app.server.close, App.app.server)();
+    yield Q.promisify(Application.app.server.close, Application.app.server)();
   } 
 
   // prepare the koa app for a restart
   debug('Resetting koa app');
-  App.app = koa();
+  Application.app = koa();
 };</code></pre>
             </div>
             <div class="col-md-2">
               <div role="complementary" class="waigo-content-menu hidden-print">
                 <ul class="nav">
-                  <li><a href="#App"><span>App</span></a></li>
+                  <li><a href="#Application"><span>Application</span></a></li>
                   <li><a href="#loadConfig"><span>loadConfig()</span></a></li>
                   <li><a href="#start"><span>start()</span></a></li>
                   <li><a href="#shutdown"><span>shutdown()</span></a></li>
@@ -236,7 +240,7 @@
         </div>
       </div>
     </main>
-    <footer role="contentinfo"><p>This page was <a href="https://github.com/waigo/waigojs.com-generator">generated</a> on Thu, 17 Apr 2014 09:38:18 GMT</p>
+    <footer role="contentinfo"><p>This page was <a href="https://github.com/waigo/waigojs.com-generator">generated</a> on Fri, 18 Apr 2014 07:09:17 GMT</p>
 
     </footer>
     <script type="text/javascript" src="/scripts.js"></script>

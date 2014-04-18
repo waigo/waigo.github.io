@@ -37,6 +37,7 @@
                 <li><a href="../config/base.js.html">config/base.js</a></li>
                 <li class="active"><a href="../config/development.js.html">config/development.js</a></li>
                 <li><a href="../config/index.js.html">config/index.js</a></li>
+                <li><a href="../config/test.js.html">config/test.js</a></li>
                 <li><a href="../controllers/main.js.html">controllers/main.js</a></li>
                 <li><a href="../loader.js.html">loader.js</a></li>
                 <li><a href="../routes.js.html">routes.js</a></li>
@@ -52,6 +53,7 @@
                 <li><a href="../support/middleware/errorHandler.js.html">support/middleware/errorHandler.js</a></li>
                 <li><a href="../support/middleware/outputFormats.js.html">support/middleware/outputFormats.js</a></li>
                 <li><a href="../support/middleware/sessions.js.html">support/middleware/sessions.js</a></li>
+                <li><a href="../support/middleware/staticResources.js.html">support/middleware/staticResources.js</a></li>
                 <li><a href="../support/mixins.js.html">support/mixins.js</a></li>
                 <li><a href="../support/outputFormats/html.js.html">support/outputFormats/html.js</a></li>
                 <li><a href="../support/outputFormats/json.js.html">support/outputFormats/json.js</a></li>
@@ -73,6 +75,7 @@
                     <li><a href="../config/base.js.html">config/base.js</a></li>
                     <li class="active"><a href="../config/development.js.html">config/development.js</a></li>
                     <li><a href="../config/index.js.html">config/index.js</a></li>
+                    <li><a href="../config/test.js.html">config/test.js</a></li>
                     <li><a href="../controllers/main.js.html">controllers/main.js</a></li>
                     <li><a href="../loader.js.html">loader.js</a></li>
                     <li><a href="../routes.js.html">routes.js</a></li>
@@ -88,6 +91,7 @@
                     <li><a href="../support/middleware/errorHandler.js.html">support/middleware/errorHandler.js</a></li>
                     <li><a href="../support/middleware/outputFormats.js.html">support/middleware/outputFormats.js</a></li>
                     <li><a href="../support/middleware/sessions.js.html">support/middleware/sessions.js</a></li>
+                    <li><a href="../support/middleware/staticResources.js.html">support/middleware/staticResources.js</a></li>
                     <li><a href="../support/mixins.js.html">support/mixins.js</a></li>
                     <li><a href="../support/outputFormats/html.js.html">support/outputFormats/html.js</a></li>
                     <li><a href="../support/outputFormats/json.js.html">support/outputFormats/json.js</a></li>
@@ -106,7 +110,11 @@
             <div role="main" class="col-md-7 waigo-api-content">
               <section id="exports">
                 <h1></h1>
-                <div class="description"><p>Get configuration.</p> </div>
+                <div class="description"><h1>Development mode configuration</h1>
+
+<p>This is the <code>development</code> mode configuration for the application.</p>
+
+<p>This configuration module file is optional.</p> </div>
                 <h5 class="subheader"></h5>
                 <p>
                   <div class="label label-info radius ctx-type">method</div>
@@ -131,7 +139,7 @@
               <pre><code class="language-javascript">module.exports = function(config) {</code></pre>
               <section id="errorHandler">
                 <h1>errorHandler</h1>
-                <div class="description"><p>Config for request error handler.</p> </div>
+                <div class="description"><p>Configuration for request error handler.</p> </div>
                 <h5 class="subheader"></h5>
                 <p>
                   <div class="label label-success radius ctx-type">property</div>
@@ -153,7 +161,7 @@
       // log to console
       console: {
         // minimum level to log at
-        level: 'info',
+        level: 'debug',
         colorize: true,
         timestamp: true
       }
@@ -176,7 +184,7 @@
         </div>
       </div>
     </main>
-    <footer role="contentinfo"><p>This page was <a href="https://github.com/waigo/waigojs.com-generator">generated</a> on Thu, 17 Apr 2014 09:38:18 GMT</p>
+    <footer role="contentinfo"><p>This page was <a href="https://github.com/waigo/waigojs.com-generator">generated</a> on Fri, 18 Apr 2014 07:09:17 GMT</p>
 
     </footer>
     <script type="text/javascript" src="/scripts.js"></script>

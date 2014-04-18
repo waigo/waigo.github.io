@@ -37,6 +37,7 @@
                 <li><a href="../config/base.js.html">config/base.js</a></li>
                 <li><a href="../config/development.js.html">config/development.js</a></li>
                 <li class="active"><a href="../config/index.js.html">config/index.js</a></li>
+                <li><a href="../config/test.js.html">config/test.js</a></li>
                 <li><a href="../controllers/main.js.html">controllers/main.js</a></li>
                 <li><a href="../loader.js.html">loader.js</a></li>
                 <li><a href="../routes.js.html">routes.js</a></li>
@@ -52,6 +53,7 @@
                 <li><a href="../support/middleware/errorHandler.js.html">support/middleware/errorHandler.js</a></li>
                 <li><a href="../support/middleware/outputFormats.js.html">support/middleware/outputFormats.js</a></li>
                 <li><a href="../support/middleware/sessions.js.html">support/middleware/sessions.js</a></li>
+                <li><a href="../support/middleware/staticResources.js.html">support/middleware/staticResources.js</a></li>
                 <li><a href="../support/mixins.js.html">support/mixins.js</a></li>
                 <li><a href="../support/outputFormats/html.js.html">support/outputFormats/html.js</a></li>
                 <li><a href="../support/outputFormats/json.js.html">support/outputFormats/json.js</a></li>
@@ -73,6 +75,7 @@
                     <li><a href="../config/base.js.html">config/base.js</a></li>
                     <li><a href="../config/development.js.html">config/development.js</a></li>
                     <li class="active"><a href="../config/index.js.html">config/index.js</a></li>
+                    <li><a href="../config/test.js.html">config/test.js</a></li>
                     <li><a href="../controllers/main.js.html">controllers/main.js</a></li>
                     <li><a href="../loader.js.html">loader.js</a></li>
                     <li><a href="../routes.js.html">routes.js</a></li>
@@ -88,6 +91,7 @@
                     <li><a href="../support/middleware/errorHandler.js.html">support/middleware/errorHandler.js</a></li>
                     <li><a href="../support/middleware/outputFormats.js.html">support/middleware/outputFormats.js</a></li>
                     <li><a href="../support/middleware/sessions.js.html">support/middleware/sessions.js</a></li>
+                    <li><a href="../support/middleware/staticResources.js.html">support/middleware/staticResources.js</a></li>
                     <li><a href="../support/mixins.js.html">support/mixins.js</a></li>
                     <li><a href="../support/outputFormats/html.js.html">support/outputFormats/html.js</a></li>
                     <li><a href="../support/outputFormats/json.js.html">support/outputFormats/json.js</a></li>
@@ -106,23 +110,25 @@
             <div role="main" class="col-md-7 waigo-api-content">
               <section id="exports">
                 <h1></h1>
-                <div class="description"><p>Load application configuration.</p>
+                <div class="description"><h1>Configuration loader</h1>
 
-<p>The <a href="base.js.html">base configuration</a> module gets loaded first. Additional configuration modules <br />then get loaded using the following logic:</p>
+<p>This loads the application configuration.</p>
+
+<p>The <a href="base.js.html">base configuration</a> module gets loaded first. Additional<br />configuration modules then get loaded using the following logic:</p>
 
 <ol>
-<li><code>config/&lt;node environment&gt;</code></li>
+<li><code>config/&lt;node environment&gt;</code> </li>
 <li><code>config/&lt;node environment&gt;.&lt;current user&gt;</code></li>
 </ol>
 
-<p>Thus if node is running in <code>test</code> mode (i.e. <code>NODE_ENVIRONMENT=test</code>) and the user id of the process is <code>www-data</code> then the loader <br />looks for the following modules and loads them if present, in the following order:</p>
+<p>Thus if node is running in <code>test</code> mode and the user id of the process is<br /><code>www-data</code> then this looks for the following module files and loads them if<br />present, in the following order:</p>
 
 <ol>
-<li><a href="test.js.html"><code>config/test</code></a></li>
+<li><a href="test.js.html"><code>config/test</code></a> </li>
 <li><code>config/test.www-data</code></li>
 </ol>
 
-<p>The current configuration object gets <em>extended</em> with the configuration object from each subsequently loaded module. This means <br />that in each additional configuration file you only need to override the configuration properties that are different.</p> </div>
+<p>The current configuration object gets passed to each subsequently loaded<br />configuration module file.</p> </div>
                 <h5 class="subheader"></h5>
                 <p>
                   <div class="label label-info radius ctx-type">method</div><span class="symbolReturns">-> Object</span>
@@ -159,7 +165,7 @@
         </div>
       </div>
     </main>
-    <footer role="contentinfo"><p>This page was <a href="https://github.com/waigo/waigojs.com-generator">generated</a> on Thu, 17 Apr 2014 09:38:18 GMT</p>
+    <footer role="contentinfo"><p>This page was <a href="https://github.com/waigo/waigojs.com-generator">generated</a> on Fri, 18 Apr 2014 07:09:18 GMT</p>
 
     </footer>
     <script type="text/javascript" src="/scripts.js"></script>

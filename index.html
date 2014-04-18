@@ -293,18 +293,18 @@ application configuration depending on the mode in which we&#39;re running it -
 production, testing, etc.</p>
 <h2 id="file-load-order">File load order</h2>
 <p>The <code>config/index</code> module file is the configuration loader. It looks for and 
-loads configuration files in the following order:</p>
+loads configuration module files in the following order:</p>
 <ol>
 <li><code>config/base</code></li>
 <li><code>config/&lt;node environment&gt;</code></li>
 <li><code>config/&lt;node environment&gt;.&lt;current user&gt;</code></li>
 </ol>
-<p>The <code>config/base</code> file sets the configuration common to all modes in 
+<p>The <code>config/base</code> module file sets the configuration common to all modes in 
 which the application may run.</p>
-<p>The configuration files following this one are optional. Which ones get loaded
-depends on the value of the <code>NODE_ENV</code> environment variable. If this is not set
-then we assume that the application is being run in development mode (i.e. we
-assume its value to be <code>development</code>).</p>
+<p>The configuration module files following this one are optional. Which ones get
+loaded depends on the value of the <code>NODE_ENV</code> environment variable. If this is
+not set then we assume that the application is being run in development mode
+(i.e. we assume its value to be <code>development</code>).</p>
 <p><em>Note: When running your application in a production environment ensure you
 set the <code>NODE_ENV</code> environment variable to <code>production</code> or something similar.</em></p>
 <p>The final configuration file which gets loaded is associated with the mode in 
@@ -793,7 +793,7 @@ module.exports = {
   ]  
 };
 </code></pre>
-<p>The field <code>type</code> refers to the name of a module file under the
+<p>The field <code>type</code> key refers to the name of a module file under the
 <code>support/forms/fields/</code> path. So for the above form specification Waigo will
 expect the following paths to exist:</p>
 <ul>
@@ -811,6 +811,45 @@ var form = Form.new(&#39;signup&#39;);
 <p>Waigo will automatically look under the <code>forms/</code> file path to see if a form
 specification for the given id exists. It so it will load in this specification
 and return a <code>Form</code> instance.</p>
+<p>A <code>Form</code> instance can generate a <a href="#view-objects">view object</a> representation of
+itself. It looks  something like:</p>
+<pre><code class="lang-javascript">{
+  /* form id */
+  id: &quot;uniqueFormId&quot;,
+
+  /* fields */
+  fields: {
+    title: {
+      type: &quot;text&quot;,
+      name: &quot;title&quot;,
+      label: &quot;Title&quot;,
+      value: null,
+      originalValue: null   /* see &#39;Dirty checking&#39; section for explanation */
+    },
+    body: {
+      type: &quot;text&quot;,
+      name: &quot;body&quot;,
+      label: &quot;Body&quot;,
+      value: null,
+      originalValue: null     
+    },
+    comment: {
+      type: &quot;text&quot;,
+      name: &quot;comment&quot;,
+      label: &quot;Comment&quot;,
+      value: null,
+      originalValue: null     
+    }
+  },
+
+  /* the suggested display order for the fields, based on the form spec */
+  order: [
+    &quot;title&quot;,
+    &quot;body&quot;,
+    &quot;comment&quot;
+  ]
+}
+</code></pre>
 <h2 id="internal-state">Internal state</h2>
 <p>Sometimes we may wish to restore a form to a previous state. The form 
 architecture allows for this exposing the ability to get and set the form&#39;s 
@@ -1008,6 +1047,70 @@ following inside your controller, prior to rendering output:</p>
   }
 }
 </code></pre>
+<h2 id="dirty-checking">Dirty checking</h2>
+<p>Form fields have two types of values - <em>original values</em> and <em>current values</em>. 
+Sanitization and validation takes place on a form&#39;s current values, and these 
+are the values input by the user. </p>
+<p>Original values on the other hand are meant to represent the original 
+values of the form&#39;s various input fields when the form gets displayed to 
+the user. You are not forced to set or use original values, but they&#39;re 
+useful if you wish to check whether the user made any changes to the form.</p>
+<p>Every <code>Field</code> instance exposes an <code>isDirty()</code> method to check whether the
+current value differs from the original value. Every <code>Form</code> instance also
+exposes this method, which simply calls through to the same for every one of
+its  fields. If even one field is dirty then the form is considered dirty.</p>
+<p>Let&#39;s see how this works in pracice...</p>
+<p>Say the user signed up to our site with a name and telephone number. They wish 
+to edit these details. The form for this:</p>
+<pre><code class="lang-javascript">// file: &lt;app folder&gt;/forms/editProfile.js
+
+{
+  id: &#39;editProfile&#39;,
+  fields: [
+    {
+      name: &#39;name&#39;,
+      type: &#39;text&#39;,
+      sanitizers: [ &#39;trim&#39; ],
+      validators: [ &#39;notEmpty&#39; ]
+    },
+    {
+      name: &#39;phone&#39;,
+      type: &#39;text&#39;,
+      sanitizers: [ &#39;trim&#39; ],
+      validators: [ &#39;notEmpty&#39;, &#39;isPhoneNumber&#39; ]
+    }
+  ]  
+}
+</code></pre>
+<p>When the user submits the form we wish to find out whether they have made any 
+changes. In the route handler which processes the user submission we might have:</p>
+<pre><code class="lang-javascript">// file: &lt;app folder&gt;/controllers/profile.js
+
+exports.updateProfile = function*(next) {
+  var model = {
+    name: //...existing name...
+    phone: //...exiting phone number...
+  };  
+
+  try {
+    var form = Form.new(&#39;editProfile&#39;);
+    yield form.setOriginalValues(model);
+    yield form.setValues(this.request.body);
+    yield form.validate();
+
+    if (form.isDirty()) {
+      //...update model data and persist...
+    }
+
+    this.response.redirect(&#39;/profile&#39;);
+  } catch (err) {
+    //...handle sanitization, validation errors, etc...
+  }
+};
+</code></pre>
+<p>In the above controller method we only update the model data and persist it if 
+if has actually changed. Thus &#39;dirty checking&#39; allows us to be efficient with 
+updates.</p>
 <h1 id="logging">Logging</h1>
 <p>Waigo provides support for <a href="https://github.com/flatiron/winston">winston</a> by
 default. The default Winston logging target (see <code>config/base</code>) is the console.
@@ -1119,7 +1222,7 @@ run your app with the <code>DEBUG</code> environment variable as follows:</p>
 <p>Suggestions, bug reports and pull requests are welcome. Please see <a href="https://github.com/waigo/waigo/blob/master/CONTRIBUTING.md">CONTRIBUTING.md</a> for guidelines.</p>
 <h1 id="license">License</h1>
 <p>MIT - see <a href="https://github.com/waigo/waigo/blob/master/LICENSE.md">LICENSE.md</a></p>
-</div></div><div class="col-md-3"><div role="complementary" class="waigo-content-menu hidden-print"><ul class="nav"><li><a href="#what-is-waigo-">What is Waigo?</a></li><li><a href="#why-should-i-use-waigo-">Why should I use Waigo?</a></li><li><a href="#getting-started">Getting started</a><ul class="nav"><li><a href="#installation">Installation</a></li><li><a href="#hello-world">Hello world</a></li></ul></li><li><a href="#extend-and-override">Extend and Override</a><ul class="nav"><li><a href="#module-loader">Module loader</a></li><li><a href="#plugins">Plugins</a></li></ul></li><li><a href="#startup">Startup</a></li><li><a href="#configuration">Configuration</a><ul class="nav"><li><a href="#file-load-order">File load order</a></li><li><a href="#runtime-modification">Runtime modification</a></li></ul></li><li><a href="#routing">Routing</a></li><li><a href="#middleware">Middleware</a><ul class="nav"><li><a href="#common-middleware">Common middleware</a></li></ul></li><li><a href="#controllers">Controllers</a></li><li><a href="#database-and-models">Database and Models</a></li><li><a href="#sessions">Sessions</a></li><li><a href="#views-and-output-formats">Views and Output formats</a><ul class="nav"><li><a href="#custom-formats">Custom formats</a></li><li><a href="#view-objects">View objects</a></li><li><a href="#template-globals">Template globals</a></li></ul></li><li><a href="#static-resources">Static resources</a></li><li><a href="#forms">Forms</a><ul class="nav"><li><a href="#internal-state">Internal state</a></li><li><a href="#sanitization">Sanitization</a></li><li><a href="#validation">Validation</a></li><li><a href="#validation-errors">Validation errors</a></li></ul></li><li><a href="#logging">Logging</a></li><li><a href="#errors">Errors</a><ul class="nav"><li><a href="#runtimeerror">RuntimeError</a></li><li><a href="#multipleerror">MultipleError</a></li><li><a href="#custom-errors">Custom errors</a></li></ul></li><li><a href="#debugging">Debugging</a></li><li><a href="#roadmap">Roadmap</a></li><li><a href="#contributing">Contributing</a></li><li><a href="#license">License</a></li></ul><ul class="nav"><li class="back-to-top"><a href="#banner">Back to top</a></li></ul></div></div></div></div></section></main><footer role="contentinfo"><p>This page was <a href="https://github.com/waigo/waigojs.com-generator">generated</a> on Thu, 17 Apr 2014 09:38:28 GMT</p>
+</div></div><div class="col-md-3"><div role="complementary" class="waigo-content-menu hidden-print"><ul class="nav"><li><a href="#what-is-waigo-">What is Waigo?</a></li><li><a href="#why-should-i-use-waigo-">Why should I use Waigo?</a></li><li><a href="#getting-started">Getting started</a><ul class="nav"><li><a href="#installation">Installation</a></li><li><a href="#hello-world">Hello world</a></li></ul></li><li><a href="#extend-and-override">Extend and Override</a><ul class="nav"><li><a href="#module-loader">Module loader</a></li><li><a href="#plugins">Plugins</a></li></ul></li><li><a href="#startup">Startup</a></li><li><a href="#configuration">Configuration</a><ul class="nav"><li><a href="#file-load-order">File load order</a></li><li><a href="#runtime-modification">Runtime modification</a></li></ul></li><li><a href="#routing">Routing</a></li><li><a href="#middleware">Middleware</a><ul class="nav"><li><a href="#common-middleware">Common middleware</a></li></ul></li><li><a href="#controllers">Controllers</a></li><li><a href="#database-and-models">Database and Models</a></li><li><a href="#sessions">Sessions</a></li><li><a href="#views-and-output-formats">Views and Output formats</a><ul class="nav"><li><a href="#custom-formats">Custom formats</a></li><li><a href="#view-objects">View objects</a></li><li><a href="#template-globals">Template globals</a></li></ul></li><li><a href="#static-resources">Static resources</a></li><li><a href="#forms">Forms</a><ul class="nav"><li><a href="#internal-state">Internal state</a></li><li><a href="#sanitization">Sanitization</a></li><li><a href="#validation">Validation</a></li><li><a href="#validation-errors">Validation errors</a></li><li><a href="#dirty-checking">Dirty checking</a></li></ul></li><li><a href="#logging">Logging</a></li><li><a href="#errors">Errors</a><ul class="nav"><li><a href="#runtimeerror">RuntimeError</a></li><li><a href="#multipleerror">MultipleError</a></li><li><a href="#custom-errors">Custom errors</a></li></ul></li><li><a href="#debugging">Debugging</a></li><li><a href="#roadmap">Roadmap</a></li><li><a href="#contributing">Contributing</a></li><li><a href="#license">License</a></li></ul><ul class="nav"><li class="back-to-top"><a href="#banner">Back to top</a></li></ul></div></div></div></div></section></main><footer role="contentinfo"><p>This page was <a href="https://github.com/waigo/waigojs.com-generator">generated</a> on Fri, 18 Apr 2014 07:09:25 GMT</p>
 </footer><script type="text/javascript" src="/scripts.js"></script><script type="text/javascript">var _paq = _paq || [];
 _paq.push(["setDomains", ["*.waigojs.com","*.waigo.github.io"]]);
 _paq.push(["trackPageView"]);

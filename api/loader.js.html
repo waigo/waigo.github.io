@@ -37,6 +37,7 @@
                 <li><a href="config/base.js.html">config/base.js</a></li>
                 <li><a href="config/development.js.html">config/development.js</a></li>
                 <li><a href="config/index.js.html">config/index.js</a></li>
+                <li><a href="config/test.js.html">config/test.js</a></li>
                 <li><a href="controllers/main.js.html">controllers/main.js</a></li>
                 <li class="active"><a href="loader.js.html">loader.js</a></li>
                 <li><a href="routes.js.html">routes.js</a></li>
@@ -52,6 +53,7 @@
                 <li><a href="support/middleware/errorHandler.js.html">support/middleware/errorHandler.js</a></li>
                 <li><a href="support/middleware/outputFormats.js.html">support/middleware/outputFormats.js</a></li>
                 <li><a href="support/middleware/sessions.js.html">support/middleware/sessions.js</a></li>
+                <li><a href="support/middleware/staticResources.js.html">support/middleware/staticResources.js</a></li>
                 <li><a href="support/mixins.js.html">support/mixins.js</a></li>
                 <li><a href="support/outputFormats/html.js.html">support/outputFormats/html.js</a></li>
                 <li><a href="support/outputFormats/json.js.html">support/outputFormats/json.js</a></li>
@@ -73,6 +75,7 @@
                     <li><a href="config/base.js.html">config/base.js</a></li>
                     <li><a href="config/development.js.html">config/development.js</a></li>
                     <li><a href="config/index.js.html">config/index.js</a></li>
+                    <li><a href="config/test.js.html">config/test.js</a></li>
                     <li><a href="controllers/main.js.html">controllers/main.js</a></li>
                     <li class="active"><a href="loader.js.html">loader.js</a></li>
                     <li><a href="routes.js.html">routes.js</a></li>
@@ -88,6 +91,7 @@
                     <li><a href="support/middleware/errorHandler.js.html">support/middleware/errorHandler.js</a></li>
                     <li><a href="support/middleware/outputFormats.js.html">support/middleware/outputFormats.js</a></li>
                     <li><a href="support/middleware/sessions.js.html">support/middleware/sessions.js</a></li>
+                    <li><a href="support/middleware/staticResources.js.html">support/middleware/staticResources.js</a></li>
                     <li><a href="support/mixins.js.html">support/mixins.js</a></li>
                     <li><a href="support/outputFormats/html.js.html">support/outputFormats/html.js</a></li>
                     <li><a href="support/outputFormats/json.js.html">support/outputFormats/json.js</a></li>
@@ -106,11 +110,11 @@
             <div role="main" class="col-md-7 waigo-api-content">
               <section id="init">
                 <h1>init</h1>
-                <div class="description"><p>Initialise the loader.</p>
+                <div class="description"><p>Initialise the Waigo module file loader.</p>
 
-<p>This scans the folder trees of the core framework, plugins and your application to map out what's available <br />and to ensure that there are no instances of any given module file being provided by two or more plugins. <br />For more information on how Waigo decides where to load modules from see the <code>load()</code> method.</p>
+<p>This scans the folder trees of the core framework, plugins and your<br />application to map out what's available and to ensure that there are no<br />instances of any given module file being provided by two or more plugins.<br />For more information on how Waigo decides where to load modules from see<br />the <code>load()</code> method.</p>
 
-<p>If <code>options.plugins</code> is provided then those named plugins get loaded. If not then the remaining options are used to <br />first work out which plugins to load and then those plugins get loaded. By default the plugins to load are <br />filtered from the dependencies listed within the <code>package.json</code> file.</p> </div>
+<p>If <code>options.plugins</code> is provided then those named plugins get loaded. If<br />not then the remaining options are used to first work out which plugins to<br />load and then those plugins get loaded. By default the plugins to load are<br />filtered from the dependencies listed within the <code>package.json</code> file.</p> </div>
                 <h5 class="subheader"></h5>
                 <p>
                   <div class="label label-info radius ctx-type">method</div>
@@ -252,17 +256,24 @@
                 <h1>load</h1>
                 <div class="description"><p>Load a Waigo module file.</p>
 
-<p>Names to load are specified in the form:  [npm_module_name:]<module_file_path></p>
+<p>Names to load are specified in the form: <code>[npm_module_name:]&lt;module_file_path&gt;</code></p>
 
-<p>If <code>npm_module_name:</code> is not given then Waigo works out the which version of the module file to load according to the <br />following priority order:  app > plugins > core framework</p>
+<p>If <code>npm_module_name:</code> is not given then Waigo works out the which version<br />of the module file to load according to the following priority order: <strong>App ><br />plugins > core framework</strong>.</p>
 
-<p>Thus an app can completely override any of the framework's built-in module files.</p>
+<p>Thus an app can completely override any of the framework's built-in module<br />files.</p>
 
-<p>For example, when a call to load the <code>support/errors</code> module is made Waigo <br />checks the following paths in order until a match is found:</p>
+<p>For example, when a call to load the <code>support/errors</code> module is made Waigo<br />checks the following paths in order until a match is found:</p>
 
-<p><code>&lt;app folder&gt;/support/errors.js</code><br /><code>&lt;waigo plugin 1&gt;/src/support/errors.js</code><br /><code>&lt;waigo plugin 2&gt;/src/support/errors.js</code><br /><code>&lt;waigo plugin ...&gt;/src/support/errors.js</code><br /><code>&lt;waigo plugin N&gt;/src/support/errors.js</code><br /><code>&lt;waigo module&gt;/src/support/errors.js</code></p>
+<ul>
+<li><code>&lt;app folder&gt;/support/errors.js</code></li>
+<li><code>&lt;waigo plugin 1&gt;/src/support/errors.js</code></li>
+<li><code>&lt;waigo plugin 2&gt;/src/support/errors.js</code></li>
+<li><code>&lt;waigo plugin...&gt;/src/support/errors.js</code></li>
+<li><code>&lt;waigo plugin N&gt;/src/support/errors.js</code></li>
+<li><code>&lt;waigo module&gt;/src/support/errors.js</code></li>
+</ul>
 
-<p>In the above example, if the caller wishes to explicitly load the version provided by the <code>waigo-doc</code> plugin then the parameter <br />should be <code>waigo-doc:support/errors</code>. If on the other hand they wish to load the version provided the <br />core Waigo framework then <code>waigo:support/errors</code> should be used.</p> </div>
+<p>In the above example, if the caller wishes to explicitly load the version<br />provided by the <code>waigo-doc</code> plugin then the parameter should be<br /><code>waigo-doc:support/errors</code>. If on the other hand they wish to load the<br />version provided the core Waigo framework then <code>waigo:support/errors</code><br />should be used.</p> </div>
                 <h5 class="subheader"></h5>
                 <p>
                   <div class="label label-info radius ctx-type">method</div><span class="symbolReturns">-> Object</span>
@@ -280,7 +291,7 @@
                   <tr>
                     <td class="name">moduleFileName</td>
                     <td class="type">string</td>
-                    <td class="description">Module file name in the supported format (see above). </td>
+                    <td class="description">Module file name in the supported format (see above).</td>
                   </tr>
                 </tbody>
               </table>
@@ -318,10 +329,10 @@
 };</code></pre>
               <section id="getWaigoFolder">
                 <h1>getWaigoFolder</h1>
-                <div class="description"><p>Get absolute path to folder containing Waigo core framework.</p> </div>
+                <div class="description"><p>Get absolute path to folder containing the Waigo framework.</p> </div>
                 <h5 class="subheader"></h5>
                 <p>
-                  <div class="label label-info radius ctx-type">method</div><span class="symbolReturns">-> string</span>
+                  <div class="label label-info radius ctx-type">method</div><span class="symbolReturns">-> String</span>
                 </p>
               </section>
               <pre><code class="language-javascript">loader.getWaigoFolder = function() {
@@ -329,10 +340,10 @@
 };</code></pre>
               <section id="getAppFolder">
                 <h1>getAppFolder</h1>
-                <div class="description"><p>Get absolute path to folder containing application code.</p> </div>
+                <div class="description"><p>Get absolute path to folder containing the application code.</p> </div>
                 <h5 class="subheader"></h5>
                 <p>
-                  <div class="label label-info radius ctx-type">method</div><span class="symbolReturns">-> string</span>
+                  <div class="label label-info radius ctx-type">method</div><span class="symbolReturns">-> String</span>
                 </p>
               </section>
               <pre><code class="language-javascript">loader.getAppFolder = function() {
@@ -359,7 +370,7 @@ module.exports = loader;</code></pre>
         </div>
       </div>
     </main>
-    <footer role="contentinfo"><p>This page was <a href="https://github.com/waigo/waigojs.com-generator">generated</a> on Thu, 17 Apr 2014 09:38:19 GMT</p>
+    <footer role="contentinfo"><p>This page was <a href="https://github.com/waigo/waigojs.com-generator">generated</a> on Fri, 18 Apr 2014 07:09:18 GMT</p>
 
     </footer>
     <script type="text/javascript" src="/scripts.js"></script>
