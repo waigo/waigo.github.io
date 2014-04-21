@@ -108,7 +108,13 @@
             <div role="main" class="col-md-7 waigo-api-content">
               <section id="exports">
                 <h1></h1>
-                <div class="description"><p>Setup application logging.</p> </div>
+                <div class="description"><p>Setup application logger.</p>
+
+<p>The logging configuration is a key-value map where the key specifies the <br />name of the module file under the <code>support.logging</code> path and the mapped <br />value specifies the configuration for the specific logger type.</p>
+
+<p>Upon completion <code>app.logger</code> will be set.</p>
+
+<p><em>Note: At present only the first specified logger actually gets initialised</em>.</p> </div>
                 <h5 class="subheader"></h5>
                 <p>
                   <div class="label label-info radius ctx-type">method</div>
@@ -127,6 +133,11 @@
                     <td class="name">app</td>
                     <td class="type">Object</td>
                     <td class="description">The application.</td>
+                  </tr>
+                  <tr>
+                    <td class="name">app.config.logging</td>
+                    <td class="type">Object</td>
+                    <td class="description">Logger configuration.</td>
                   </tr>
                 </tbody>
               </table>
@@ -157,7 +168,7 @@
         </div>
       </div>
     </main>
-    <footer role="contentinfo"><p>This page was <a href="https://github.com/waigo/waigojs.com-generator">generated</a> on Fri, 18 Apr 2014 10:30:29 GMT</p>
+    <footer role="contentinfo"><p>This page was <a href="https://github.com/waigo/waigojs.com-generator">generated</a> on Mon, 21 Apr 2014 08:02:51 GMT</p>
 
     </footer>
     <script type="text/javascript" src="/scripts.js"></script>

@@ -108,10 +108,10 @@
             <div role="main" class="col-md-7 waigo-api-content">
               <section id="create">
                 <h1>create</h1>
-                <div class="description"><p>Create an instance of this output format.</p> </div>
+                <div class="description"><p>HTML output format.</p> </div>
                 <h5 class="subheader"></h5>
                 <p>
-                  <div class="label label-info radius ctx-type">method</div>
+                  <div class="label label-info radius ctx-type">method</div><span class="symbolReturns">-> Object</span>
                 </p>
               </section>
               <table class="params table table-bordered table-striped">
@@ -124,9 +124,19 @@
                 </thead>
                 <tbody>
                   <tr>
-                    <td class="name">{Object}</td>
-                    <td class="type">config</td>
+                    <td class="name">config</td>
+                    <td class="type">Object</td>
                     <td class="description">configuration for this output format.</td>
+                  </tr>
+                  <tr>
+                    <td class="name">config.ext</td>
+                    <td class="type">String</td>
+                    <td class="description">Default template file extension.</td>
+                  </tr>
+                  <tr>
+                    <td class="name">config.engine</td>
+                    <td class="type">String</td>
+                    <td class="description">Default template rendering engine. </td>
                   </tr>
                 </tbody>
               </table>
@@ -155,7 +165,7 @@
         </div>
       </div>
     </main>
-    <footer role="contentinfo"><p>This page was <a href="https://github.com/waigo/waigojs.com-generator">generated</a> on Fri, 18 Apr 2014 10:30:28 GMT</p>
+    <footer role="contentinfo"><p>This page was <a href="https://github.com/waigo/waigojs.com-generator">generated</a> on Mon, 21 Apr 2014 08:02:49 GMT</p>
 
     </footer>
     <script type="text/javascript" src="/scripts.js"></script>

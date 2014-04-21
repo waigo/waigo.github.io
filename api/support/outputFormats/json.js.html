@@ -108,29 +108,13 @@
             <div role="main" class="col-md-7 waigo-api-content">
               <section id="create">
                 <h1>create</h1>
-                <div class="description"><p>Create an instance of this output format.</p> </div>
+                <div class="description"><p>JSON output format.</p> </div>
                 <h5 class="subheader"></h5>
                 <p>
-                  <div class="label label-info radius ctx-type">method</div>
+                  <div class="label label-info radius ctx-type">method</div><span class="symbolReturns">-> Object</span>
                 </p>
               </section>
-              <table class="params table table-bordered table-striped">
-                <thead>
-                  <tr>
-                    <th style="width:20%">Option</th>
-                    <th style="width:20%">Type</th>
-                    <th>Description</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td class="name">{Object}</td>
-                    <td class="type">config</td>
-                    <td class="description">configuration for this output format.</td>
-                  </tr>
-                </tbody>
-              </table>
-              <pre><code class="language-javascript">exports.create = function(config) {
+              <pre><code class="language-javascript">exports.create = function() {
   return {
     render: function*(view, locals) {
       locals = locals || {};
@@ -156,7 +140,7 @@
         </div>
       </div>
     </main>
-    <footer role="contentinfo"><p>This page was <a href="https://github.com/waigo/waigojs.com-generator">generated</a> on Fri, 18 Apr 2014 10:30:28 GMT</p>
+    <footer role="contentinfo"><p>This page was <a href="https://github.com/waigo/waigojs.com-generator">generated</a> on Mon, 21 Apr 2014 08:02:49 GMT</p>
 
     </footer>
     <script type="text/javascript" src="/scripts.js"></script>

@@ -108,9 +108,7 @@
             <div role="main" class="col-md-7 waigo-api-content">
               <section id="HasViewObject">
                 <h1>HasViewObject</h1>
-                <div class="description"><p>Mixin for objects which are able to provide a representation of themselves suitable rendering in a response.</p>
-
-<p>This must provide just one method for obtaining the renderable representation of an item.</p> </div>
+                <div class="description"><p>Mixin for objects which are able to provide a representation of themselves suitable rendering in a response.</p> </div>
                 <h5 class="subheader"></h5>
                 <p>
                   <div class="label label-success radius ctx-type">declaration</div>
@@ -129,7 +127,7 @@
                   <tr>
                     <td class="name">ctx</td>
                     <td class="type">Object</td>
-                    <td class="description">The context within which this object will be rendered. This is usually the same as the koa application context and </td>
+                    <td class="description">The context within which this object will be rendered. This is usually the same as the koa application context and is provided in case the view object structure needs to differ based on context. </td>
                   </tr>
                 </tbody>
               </table>
@@ -139,7 +137,7 @@
 };</code></pre>
               <section id="applyTo">
                 <h1>applyTo</h1>
-                <div class="description"><p>Apply mixins to given base class.</p> </div>
+                <div class="description"><p>Apply given mixins to given base class.</p> </div>
                 <h5 class="subheader"></h5>
                 <p>
                   <div class="label label-info radius ctx-type">method</div>
@@ -160,13 +158,13 @@
                     <td class="description">The base class to apply mixins to.</td>
                   </tr>
                   <tr>
-                    <td class="name">mixin</td>
-                    <td class="type">Class</td>
-                    <td class="description">The first mixin to apply (each argument following this is another mixin).</td>
+                    <td class="name">...</td>
+                    <td class="type">Array</td>
+                    <td class="description">The mixins to apply</td>
                   </tr>
                 </tbody>
               </table>
-              <pre><code class="language-javascript">exports.applyTo = function(baseClass, mixin) {
+              <pre><code class="language-javascript">exports.applyTo = function(baseClass) {
   var mixins = _.toArray(arguments).slice(1);
 
   _.each(mixins, function(mixin) {
@@ -190,7 +188,7 @@
         </div>
       </div>
     </main>
-    <footer role="contentinfo"><p>This page was <a href="https://github.com/waigo/waigojs.com-generator">generated</a> on Fri, 18 Apr 2014 10:30:28 GMT</p>
+    <footer role="contentinfo"><p>This page was <a href="https://github.com/waigo/waigojs.com-generator">generated</a> on Mon, 21 Apr 2014 08:02:49 GMT</p>
 
     </footer>
     <script type="text/javascript" src="/scripts.js"></script>

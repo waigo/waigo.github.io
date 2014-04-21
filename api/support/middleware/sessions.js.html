@@ -108,12 +108,70 @@
             <div role="main" class="col-md-7 waigo-api-content">
               <section id="exports">
                 <h1></h1>
-                <div class="description"><p>@param {Object} options Configuration options.</p> </div>
+                <div class="description"><p>Build session middleware.</p>
+
+<p>This middleware uses <a href="https://github.com/hiddentao/koa-session-store">koa-session-store</a> <br />to enable session data storage.</p> </div>
                 <h5 class="subheader"></h5>
                 <p>
                   <div class="label label-info radius ctx-type">method</div>
                 </p>
               </section>
+              <table class="params table table-bordered table-striped">
+                <thead>
+                  <tr>
+                    <th style="width:20%">Option</th>
+                    <th style="width:20%">Type</th>
+                    <th>Description</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="name">options</td>
+                    <td class="type">Object</td>
+                    <td class="description">Configuration options.</td>
+                  </tr>
+                  <tr>
+                    <td class="name">options.keys</td>
+                    <td class="type">Array</td>
+                    <td class="description">Cookie signing keys for keygrip.</td>
+                  </tr>
+                  <tr>
+                    <td class="name">options.name</td>
+                    <td class="type">String</td>
+                    <td class="description">Session cookie name.</td>
+                  </tr>
+                  <tr>
+                    <td class="name">options.store</td>
+                    <td class="type">Object</td>
+                    <td class="description">Session store configuration.</td>
+                  </tr>
+                  <tr>
+                    <td class="name">options.store.type</td>
+                    <td class="type">String</td>
+                    <td class="description">Session store type.</td>
+                  </tr>
+                  <tr>
+                    <td class="name">options.store.config</td>
+                    <td class="type">String</td>
+                    <td class="description">Session store instance configuration.</td>
+                  </tr>
+                  <tr>
+                    <td class="name">options.cookie</td>
+                    <td class="type">Object</td>
+                    <td class="description">Session cookie options.</td>
+                  </tr>
+                  <tr>
+                    <td class="name">options.cookie.validForDays</td>
+                    <td class="type">Integer</td>
+                    <td class="description">No. of days cookie remains valid for.</td>
+                  </tr>
+                  <tr>
+                    <td class="name">options.cookie.path</td>
+                    <td class="type">String</td>
+                    <td class="description">Cookie path.</td>
+                  </tr>
+                </tbody>
+              </table>
               <pre><code class="language-javascript">module.exports = function(options) {
   var app = waigo.load('application').app;
 
@@ -144,7 +202,7 @@
         </div>
       </div>
     </main>
-    <footer role="contentinfo"><p>This page was <a href="https://github.com/waigo/waigojs.com-generator">generated</a> on Fri, 18 Apr 2014 10:30:27 GMT</p>
+    <footer role="contentinfo"><p>This page was <a href="https://github.com/waigo/waigojs.com-generator">generated</a> on Mon, 21 Apr 2014 08:02:49 GMT</p>
 
     </footer>
     <script type="text/javascript" src="/scripts.js"></script>
