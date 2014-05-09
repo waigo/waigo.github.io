@@ -18,6 +18,7 @@
           <ul class="nav navbar-nav">
             <li><a id="guideNavItem" href="/#guide">Guide</a></li>
             <li class="active"><a href="/api">API</a></li>
+            <li><a href="/examples.html">Examples</a></li>
             <li><a href="/sites.html">Sites</a></li>
           </ul>
           <ul class="nav navbar-nav navbar-right">
@@ -180,8 +181,16 @@
     
     // based on code from https://github.com/sindresorhus/load-grunt-tasks/blob/master/load-grunt-tasks.js
     var pattern = options.plugins.glob || ['waigo-*'];
-    var config = options.plugins.config || findup('package.json') || {};
+    var config = options.plugins.config || 'package.json';
     var scope = options.plugins.configKey || ['dependencies', 'devDependencies', 'peerDependencies'];
+    
+    if ('string' === typeof config) {
+      if ('package.json' === config) {
+        config = findup('package.json');
+      } else {
+        config = require(path.resolve(config));        
+      }
+    }
 
     var names = scope.reduce(function (result, prop) {
       return result.concat(Object.keys(config[prop] || {}));
@@ -368,7 +377,7 @@ module.exports = loader;</code></pre>
         </div>
       </div>
     </main>
-    <footer role="contentinfo"><p>This page was <a href="https://github.com/waigo/waigojs.com-generator">generated</a> on Mon, 21 Apr 2014 08:54:26 GMT</p>
+    <footer role="contentinfo"><p>This page was <a href="https://github.com/waigo/waigojs.com-generator">generated</a> on Fri, 09 May 2014 07:00:12 GMT</p>
 
     </footer>
     <script type="text/javascript" src="/scripts.js"></script>
