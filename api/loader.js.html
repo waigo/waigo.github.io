@@ -35,12 +35,14 @@
               <ul class="nav hidden-sm hidden-xs">
                 <li><a href="index.html">Main</a></li>
                 <li><a href="application.js.html">application.js</a></li>
+                <li><a href="cli/init.js.html">cli/init.js</a></li>
                 <li><a href="config/base.js.html">config/base.js</a></li>
                 <li><a href="config/development.js.html">config/development.js</a></li>
                 <li><a href="config/index.js.html">config/index.js</a></li>
                 <li><a href="controllers/main.js.html">controllers/main.js</a></li>
                 <li class="active"><a href="loader.js.html">loader.js</a></li>
                 <li><a href="routes.js.html">routes.js</a></li>
+                <li><a href="support/cliCommand.js.html">support/cliCommand.js</a></li>
                 <li><a href="support/errors.js.html">support/errors.js</a></li>
                 <li><a href="support/forms/field.js.html">support/forms/field.js</a></li>
                 <li><a href="support/forms/fields/text.js.html">support/forms/fields/text.js</a></li>
@@ -72,12 +74,14 @@
                   <ul class="nav">
                     <li><a href="index.html">Main</a></li>
                     <li><a href="application.js.html">application.js</a></li>
+                    <li><a href="cli/init.js.html">cli/init.js</a></li>
                     <li><a href="config/base.js.html">config/base.js</a></li>
                     <li><a href="config/development.js.html">config/development.js</a></li>
                     <li><a href="config/index.js.html">config/index.js</a></li>
                     <li><a href="controllers/main.js.html">controllers/main.js</a></li>
                     <li class="active"><a href="loader.js.html">loader.js</a></li>
                     <li><a href="routes.js.html">routes.js</a></li>
+                    <li><a href="support/cliCommand.js.html">support/cliCommand.js</a></li>
                     <li><a href="support/errors.js.html">support/errors.js</a></li>
                     <li><a href="support/forms/field.js.html">support/forms/field.js</a></li>
                     <li><a href="support/forms/fields/text.js.html">support/forms/fields/text.js</a></li>
@@ -155,8 +159,8 @@
                   </tr>
                   <tr>
                     <td class="name">[options.plugins.config]</td>
-                    <td class="type">String</td>
-                    <td class="description">JSON config containing names of plugins to load. Default is to load `package.json`.</td>
+                    <td class="type">String,Object</td>
+                    <td class="description">JSON config containing names of plugins to load. If a string is given then it assumed to be the path of a Javasript file. Default is to load `package.json`.</td>
                   </tr>
                   <tr>
                     <td class="name">[options.plugins.configKey]</td>
@@ -186,9 +190,16 @@
     
     if ('string' === typeof config) {
       if ('package.json' === config) {
-        config = require(findup('package.json', {
+        var pathToPackageJson = findup('package.json', {
           cwd: appFolder
-        }));
+        });
+
+        if (pathToPackageJson) {
+          config = require(pathToPackageJson);
+        } else {
+          debug('Unable to find package.json.');
+          config = {};
+        } 
       } else {
         config = require(path.resolve(config));        
       }
@@ -198,7 +209,8 @@
       return result.concat(Object.keys(config[prop] || {}));
     }, []);
 
-    options.plugins.names = _.uniq(globule.match(pattern, names));
+    options.plugins.names = 
+      _.without(_.uniq(globule.match(pattern, names)), 'waigo-test-utils');
   }
   
   debug('Plugins to load: ' + options.plugins.names.join(', '));
@@ -219,9 +231,13 @@
 
   for (var i = 0; i &lt; scanOrder.length; ++i) {
     var sourceName = scanOrder[i],
-      moduleMap = yield _walk(sourcePaths[sourceName]);
-
-    _.each(moduleMap, function(modulePath, moduleName) {
+      moduleMap = yield _walk(sourcePaths[sourceName], {
+        excludeFolders: [
+          'cli/data',
+          'views'
+        ]
+      });</code></pre>
+              <pre><code class="language-javascript">_.each(moduleMap, function(modulePath, moduleName) {
       loader.__modules[moduleName] = loader.__modules[moduleName] || { 
         sources: {} 
       };
@@ -336,6 +352,43 @@
 
   return require(loader.__modules[sanitizedModuleName].sources[source]);
 };</code></pre>
+              <section id="getModulesInPath">
+                <h1>getModulesInPath</h1>
+                <div class="description"><p>Get names of all Waigo module files under a particular path.</p>
+
+<p>This will look through the initialised module list for all modules files <br />which reside under the given path (items in sub folders are ignored) <br />and then return their names. Module files provided by both plugins and the <br />app itself will also be included.</p>
+
+<p>This is useful in situations where a particular path holds a number of <br />related module files and you wish to see which ones are <br />available.</p> </div>
+                <h5 class="subheader"></h5>
+                <p>
+                  <div class="label label-info radius ctx-type">method</div><span class="symbolReturns">-> Array</span>
+                </p>
+              </section>
+              <table class="params table table-bordered table-striped">
+                <thead>
+                  <tr>
+                    <th style="width:20%">Option</th>
+                    <th style="width:20%">Type</th>
+                    <th>Description</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="name">path</td>
+                    <td class="type">string</td>
+                    <td class="description">Path to check under.</td>
+                  </tr>
+                </tbody>
+              </table>
+              <pre><code class="language-javascript">loader.getModulesInPath = function(path) {
+  if (!loader.__modules) {
+    throw new Error('Please initialise Waigo first');
+  }
+
+  return _.filter(_.keys(loader.__modules), function(moduleFilePath) {
+    return 0 === moduleFilePath.indexOf(path);
+  });
+};</code></pre>
               <section id="getWaigoFolder">
                 <h1>getWaigoFolder</h1>
                 <div class="description"><p>Get absolute path to folder containing the Waigo framework.</p> </div>
@@ -370,6 +423,7 @@ module.exports = loader;</code></pre>
                 <ul class="nav">
                   <li><a href="#init"><span>init()</span></a></li>
                   <li><a href="#load"><span>load()</span></a></li>
+                  <li><a href="#getModulesInPath"><span>getModulesInPath()</span></a></li>
                   <li><a href="#getWaigoFolder"><span>getWaigoFolder()</span></a></li>
                   <li><a href="#getAppFolder"><span>getAppFolder()</span></a></li>
                 </ul>
@@ -380,7 +434,7 @@ module.exports = loader;</code></pre>
       </div>
     </main>
     <footer role="contentinfo">
-      <div><p>This page was <a href="https://github.com/waigo/waigojs.com-generator">generated</a> on Fri, 30 May 2014 10:19:38 GMT</p>
+      <div><p>This page was <a href="https://github.com/waigo/waigojs.com-generator">generated</a> on Tue, 03 Jun 2014 10:14:24 GMT</p>
 
       </div>
     </footer>

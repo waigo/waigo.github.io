@@ -35,9 +35,9 @@
               <ul class="nav hidden-sm hidden-xs">
                 <li><a href="../index.html">Main</a></li>
                 <li><a href="../application.js.html">application.js</a></li>
-                <li><a href="../cli/init.js.html">cli/init.js</a></li>
+                <li class="active"><a href="../cli/init.js.html">cli/init.js</a></li>
                 <li><a href="../config/base.js.html">config/base.js</a></li>
-                <li class="active"><a href="../config/development.js.html">config/development.js</a></li>
+                <li><a href="../config/development.js.html">config/development.js</a></li>
                 <li><a href="../config/index.js.html">config/index.js</a></li>
                 <li><a href="../controllers/main.js.html">controllers/main.js</a></li>
                 <li><a href="../loader.js.html">loader.js</a></li>
@@ -74,9 +74,9 @@
                   <ul class="nav">
                     <li><a href="../index.html">Main</a></li>
                     <li><a href="../application.js.html">application.js</a></li>
-                    <li><a href="../cli/init.js.html">cli/init.js</a></li>
+                    <li class="active"><a href="../cli/init.js.html">cli/init.js</a></li>
                     <li><a href="../config/base.js.html">config/base.js</a></li>
-                    <li class="active"><a href="../config/development.js.html">config/development.js</a></li>
+                    <li><a href="../config/development.js.html">config/development.js</a></li>
                     <li><a href="../config/index.js.html">config/index.js</a></li>
                     <li><a href="../controllers/main.js.html">controllers/main.js</a></li>
                     <li><a href="../loader.js.html">loader.js</a></li>
@@ -111,65 +111,41 @@
               </div>
             </div>
             <div role="main" class="col-md-7 waigo-api-content">
-              <section id="exports">
-                <h1></h1>
-                <div class="description"><h1>Development mode configuration</h1>
+              <section id="Command">
+                <h1>Command</h1>
+                <div class="description"><p>The init CLI command.</p>
 
-<p>This is the <code>development</code> mode configuration for the application.</p>
-
-<p>This configuration module file is optional.</p> </div>
+<p>This command initialises a skeleton Waigo application with a basic view template.</p> </div>
+                <h5 class="subheader"></h5>
+                <p>
+                  <div class="label label-success radius ctx-type">declaration</div>
+                </p>
+              </section>
+              <pre><code class="language-javascript">var Command = module.exports = function() {
+  AbstractCommand.call(this, 
+    'Initialise and create a skeleton Waigo app', []
+  );
+};
+util.inherits(Command, AbstractCommand);</code></pre>
+              <section id="run">
+                <h1>run</h1>
+                <div class="description"><p>Run this command.</p> </div>
                 <h5 class="subheader"></h5>
                 <p>
                   <div class="label label-info radius ctx-type">method</div>
                 </p>
               </section>
-              <table class="params table table-bordered table-striped">
-                <thead>
-                  <tr>
-                    <th style="width:20%">Option</th>
-                    <th style="width:20%">Type</th>
-                    <th>Description</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td class="name">config</td>
-                    <td class="type">Object</td>
-                    <td class="description">Configuration object to modify.</td>
-                  </tr>
-                </tbody>
-              </table>
-              <pre><code class="language-javascript">module.exports = function(config) {
-  
-  config.middleware.options.errorHandler = {
-    showStack: true
-  }</code></pre>
-              <section id="logging">
-                <h1>logging</h1>
-                <div class="description"><p>Logging config.</p> </div>
-                <h5 class="subheader"></h5>
-                <p>
-                  <div class="label label-success radius ctx-type">property</div>
-                </p>
-              </section>
-              <pre><code class="language-javascript">config.logging = {
-    winston: {
-      // log to console
-      console: {
-        // minimum level to log at
-        level: 'debug',
-        colorize: true,
-        timestamp: true
-      }
-    }
-  };
+              <pre><code class="language-javascript">Command.prototype.run = function*() {
+  yield this.installPkgs('waigo', 'co');
+  yield this.copyFile(path.join(dataFolder, 'start-app.js'), 'start-app.js');
+  yield this.copyFile(path.join(dataFolder, 'index.jade'), 'src/views/index.jade');
 };</code></pre>
             </div>
             <div class="col-md-2">
               <div role="complementary" class="waigo-content-menu hidden-print">
                 <ul class="nav">
-                  <li><a href="#exports"><span>exports()</span></a></li>
-                  <li><a href="#logging"><span>logging</span></a></li>
+                  <li><a href="#Command"><span>Command</span></a></li>
+                  <li><a href="#run"><span>run()</span></a></li>
                 </ul>
               </div>
             </div>
@@ -178,7 +154,7 @@
       </div>
     </main>
     <footer role="contentinfo">
-      <div><p>This page was <a href="https://github.com/waigo/waigojs.com-generator">generated</a> on Tue, 03 Jun 2014 10:14:24 GMT</p>
+      <div><p>This page was <a href="https://github.com/waigo/waigojs.com-generator">generated</a> on Tue, 03 Jun 2014 10:14:23 GMT</p>
 
       </div>
     </footer>
