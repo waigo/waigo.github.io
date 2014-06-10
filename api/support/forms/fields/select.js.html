@@ -44,11 +44,11 @@
                 <li><a href="../../../support/cliCommand.js.html">support/cliCommand.js</a></li>
                 <li><a href="../../../support/errors.js.html">support/errors.js</a></li>
                 <li><a href="../../../support/forms/field.js.html">support/forms/field.js</a></li>
-                <li><a href="../../../support/forms/fields/select.js.html">support/forms/fields/select.js</a></li>
+                <li class="active"><a href="../../../support/forms/fields/select.js.html">support/forms/fields/select.js</a></li>
                 <li><a href="../../../support/forms/fields/text.js.html">support/forms/fields/text.js</a></li>
                 <li><a href="../../../support/forms/form.js.html">support/forms/form.js</a></li>
                 <li><a href="../../../support/forms/sanitizers/trim.js.html">support/forms/sanitizers/trim.js</a></li>
-                <li class="active"><a href="../../../support/forms/validators/isEmailAddress.js.html">support/forms/validators/isEmailAddress.js</a></li>
+                <li><a href="../../../support/forms/validators/isEmailAddress.js.html">support/forms/validators/isEmailAddress.js</a></li>
                 <li><a href="../../../support/forms/validators/notEmpty.js.html">support/forms/validators/notEmpty.js</a></li>
                 <li><a href="../../../support/logging/winston.js.html">support/logging/winston.js</a></li>
                 <li><a href="../../../support/middleware/bodyParser.js.html">support/middleware/bodyParser.js</a></li>
@@ -83,11 +83,11 @@
                     <li><a href="../../../support/cliCommand.js.html">support/cliCommand.js</a></li>
                     <li><a href="../../../support/errors.js.html">support/errors.js</a></li>
                     <li><a href="../../../support/forms/field.js.html">support/forms/field.js</a></li>
-                    <li><a href="../../../support/forms/fields/select.js.html">support/forms/fields/select.js</a></li>
+                    <li class="active"><a href="../../../support/forms/fields/select.js.html">support/forms/fields/select.js</a></li>
                     <li><a href="../../../support/forms/fields/text.js.html">support/forms/fields/text.js</a></li>
                     <li><a href="../../../support/forms/form.js.html">support/forms/form.js</a></li>
                     <li><a href="../../../support/forms/sanitizers/trim.js.html">support/forms/sanitizers/trim.js</a></li>
-                    <li class="active"><a href="../../../support/forms/validators/isEmailAddress.js.html">support/forms/validators/isEmailAddress.js</a></li>
+                    <li><a href="../../../support/forms/validators/isEmailAddress.js.html">support/forms/validators/isEmailAddress.js</a></li>
                     <li><a href="../../../support/forms/validators/notEmpty.js.html">support/forms/validators/notEmpty.js</a></li>
                     <li><a href="../../../support/logging/winston.js.html">support/logging/winston.js</a></li>
                     <li><a href="../../../support/middleware/bodyParser.js.html">support/middleware/bodyParser.js</a></li>
@@ -111,26 +111,89 @@
               </div>
             </div>
             <div role="main" class="col-md-7 waigo-api-content">
-              <section id="exports">
-                <h1></h1>
-                <div class="description"><p>Validator to check whether given string represents an email address.</p> </div>
+              <section id="Select">
+                <h1>Select</h1>
+                <div class="description"><p>A select field.</p> </div>
+                <h5 class="subheader"></h5>
+                <p>
+                  <div class="label label-success radius ctx-type">declaration</div>
+                </p>
+              </section>
+              <table class="params table table-bordered table-striped">
+                <thead>
+                  <tr>
+                    <th style="width:20%">Option</th>
+                    <th style="width:20%">Type</th>
+                    <th>Description</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="name">form</td>
+                    <td class="type">Form</td>
+                    <td class="description">Parent form</td>
+                  </tr>
+                  <tr>
+                    <td class="name">config</td>
+                    <td class="type">Object</td>
+                    <td class="description">Configuration options</td>
+                  </tr>
+                </tbody>
+              </table>
+              <pre><code class="language-javascript">var Select = exports.Field = function(form, config) {
+  Select.super_.apply(this, _.toArray(arguments));
+
+  // default validator
+  this.validators.unshift({
+    id: 'validOption',
+    fn: function*(field, val) {
+      var options = yield field.getOptions();
+
+      if (undefined === options[val]) {
+        throw new Error('Must be one of: ' + _.values(options).join(', '));
+      }
+    }
+  });
+
+};
+util.inherits(Select, Field);</code></pre>
+              <section id="getOptions">
+                <h1>getOptions</h1>
+                <div class="description"><p>Get selectable options to show to user.</p> </div>
+                <h5 class="subheader"></h5>
+                <p>
+                  <div class="label label-info radius ctx-type">method</div><span class="symbolReturns">-> Object</span>
+                </p>
+              </section>
+              <pre><code class="language-javascript">Select.prototype.getOptions = function*() {
+  if (this.config.options instanceof Function) {
+    return yield this.config.options();
+  } else {
+    return this.config.options;
+  }
+};</code></pre>
+              <section id="toViewObject">
+                <h1>toViewObject</h1>
+                <div class="description"><p>@override</p> </div>
                 <h5 class="subheader"></h5>
                 <p>
                   <div class="label label-info radius ctx-type">method</div>
                 </p>
               </section>
-              <pre><code class="language-javascript">module.exports = function() {
-  return function*(field, value) {
-    if (!validator.isEmail(value)) {
-      throw new Error('Must be an email address');
-    }
-  }
+              <pre><code class="language-javascript">Select.prototype.toViewObject = function*(ctx) {
+  var ret = yield Field.prototype.toViewObject.call(this, ctx);
+
+  ret.options = yield this.getOptions();
+
+  return ret;
 };</code></pre>
             </div>
             <div class="col-md-2">
               <div role="complementary" class="waigo-content-menu hidden-print">
                 <ul class="nav">
-                  <li><a href="#exports"><span>exports()</span></a></li>
+                  <li><a href="#Select"><span>Select</span></a></li>
+                  <li><a href="#getOptions"><span>getOptions()</span></a></li>
+                  <li><a href="#toViewObject"><span>toViewObject()</span></a></li>
                 </ul>
               </div>
             </div>
@@ -139,7 +202,7 @@
       </div>
     </main>
     <footer role="contentinfo">
-      <div><p>This page was <a href="https://github.com/waigo/waigojs.com-generator">generated</a> on Tue, 10 Jun 2014 16:17:44 GMT</p>
+      <div><p>This page was <a href="https://github.com/waigo/waigojs.com-generator">generated</a> on Tue, 10 Jun 2014 16:17:43 GMT</p>
 
       </div>
     </footer>
