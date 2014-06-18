@@ -61,6 +61,7 @@
                 <li><a href="support/outputFormats/json.js.html">support/outputFormats/json.js</a></li>
                 <li><a href="support/routeMapper.js.html">support/routeMapper.js</a></li>
                 <li><a href="support/session/store/cookie.js.html">support/session/store/cookie.js</a></li>
+                <li><a href="support/shutdown/listener.js.html">support/shutdown/listener.js</a></li>
                 <li><a href="support/startup/database.js.html">support/startup/database.js</a></li>
                 <li><a href="support/startup/listener.js.html">support/startup/listener.js</a></li>
                 <li><a href="support/startup/logging.js.html">support/startup/logging.js</a></li>
@@ -100,6 +101,7 @@
                     <li><a href="support/outputFormats/json.js.html">support/outputFormats/json.js</a></li>
                     <li><a href="support/routeMapper.js.html">support/routeMapper.js</a></li>
                     <li><a href="support/session/store/cookie.js.html">support/session/store/cookie.js</a></li>
+                    <li><a href="support/shutdown/listener.js.html">support/shutdown/listener.js</a></li>
                     <li><a href="support/startup/database.js.html">support/startup/database.js</a></li>
                     <li><a href="support/startup/listener.js.html">support/startup/listener.js</a></li>
                     <li><a href="support/startup/logging.js.html">support/startup/logging.js</a></li>
@@ -199,9 +201,11 @@
                   </tr>
                 </tbody>
               </table>
-              <pre><code class="language-javascript">Application.start = function*(options) {</code></pre>
+              <pre><code class="language-javascript">Application.start = function*(options) {
+  // load config</code></pre>
               <pre><code class="language-javascript">yield* Application.loadConfig(options);
 
+  // run startup steps
   for (let idx in Application.app.config.startupSteps) {
     let stepName = Application.app.config.startupSteps[idx];
     debug('Running startup step: ' + stepName);</code></pre>
@@ -219,10 +223,12 @@
                 </p>
               </section>
               <pre><code class="language-javascript">Application.shutdown = function*() {
-  if (Application.app.server) {
-    debug('Shutting down HTTP server');
-    yield Q.promisify(Application.app.server.close, Application.app.server)();
-  } 
+  // run shutdown steps
+  for (let idx in Application.app.config.shutdownSteps) {
+    let stepName = Application.app.config.shutdownSteps[idx];
+    debug('Running shutdown step: ' + stepName);</code></pre>
+              <pre><code class="language-javascript">yield* waigo.load('support/shutdown/' + stepName)(Application.app);
+  }
 
   // prepare the koa app for a restart
   debug('Resetting koa app');
@@ -244,7 +250,7 @@
       </div>
     </main>
     <footer role="contentinfo">
-      <div><p>This page was <a href="https://github.com/waigo/waigojs.com-generator">generated</a> on Tue, 10 Jun 2014 16:17:40 GMT</p>
+      <div><p>This page was <a href="https://github.com/waigo/waigojs.com-generator">generated</a> on Wed, 18 Jun 2014 18:31:39 GMT</p>
 
       </div>
     </footer>

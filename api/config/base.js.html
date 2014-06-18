@@ -61,6 +61,7 @@
                 <li><a href="../support/outputFormats/json.js.html">support/outputFormats/json.js</a></li>
                 <li><a href="../support/routeMapper.js.html">support/routeMapper.js</a></li>
                 <li><a href="../support/session/store/cookie.js.html">support/session/store/cookie.js</a></li>
+                <li><a href="../support/shutdown/listener.js.html">support/shutdown/listener.js</a></li>
                 <li><a href="../support/startup/database.js.html">support/startup/database.js</a></li>
                 <li><a href="../support/startup/listener.js.html">support/startup/listener.js</a></li>
                 <li><a href="../support/startup/logging.js.html">support/startup/logging.js</a></li>
@@ -100,6 +101,7 @@
                     <li><a href="../support/outputFormats/json.js.html">support/outputFormats/json.js</a></li>
                     <li><a href="../support/routeMapper.js.html">support/routeMapper.js</a></li>
                     <li><a href="../support/session/store/cookie.js.html">support/session/store/cookie.js</a></li>
+                    <li><a href="../support/shutdown/listener.js.html">support/shutdown/listener.js</a></li>
                     <li><a href="../support/startup/database.js.html">support/startup/database.js</a></li>
                     <li><a href="../support/startup/listener.js.html">support/startup/listener.js</a></li>
                     <li><a href="../support/startup/logging.js.html">support/startup/logging.js</a></li>
@@ -201,6 +203,19 @@
     'routes',
     'listener'
   ];</code></pre>
+              <section id="shutdownSteps">
+                <h1>shutdownSteps</h1>
+                <div class="description"><p>The steps to execute as part of the application shutdown process.</p>
+
+<p>Each of these corresponds to a module file under the <code>support/shutdown</code> path.</p> </div>
+                <h5 class="subheader"></h5>
+                <p>
+                  <div class="label label-success radius ctx-type">property</div>
+                </p>
+              </section>
+              <pre><code class="language-javascript">config.shutdownSteps = [
+    'listener'
+  ];</code></pre>
               <section id="middleware">
                 <h1>middleware</h1>
                 <div class="description"><p>Middleware for all requests. </p>
@@ -286,6 +301,7 @@
                   <li><a href="#db"><span>db</span></a></li>
                   <li><a href="#logging"><span>logging</span></a></li>
                   <li><a href="#startupSteps"><span>startupSteps</span></a></li>
+                  <li><a href="#shutdownSteps"><span>shutdownSteps</span></a></li>
                   <li><a href="#middleware"><span>middleware</span></a></li>
                 </ul>
               </div>
@@ -295,7 +311,7 @@
       </div>
     </main>
     <footer role="contentinfo">
-      <div><p>This page was <a href="https://github.com/waigo/waigojs.com-generator">generated</a> on Tue, 10 Jun 2014 16:17:41 GMT</p>
+      <div><p>This page was <a href="https://github.com/waigo/waigojs.com-generator">generated</a> on Wed, 18 Jun 2014 18:31:40 GMT</p>
 
       </div>
     </footer>

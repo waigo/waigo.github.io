@@ -50,7 +50,7 @@
                 <li><a href="../../support/forms/sanitizers/trim.js.html">support/forms/sanitizers/trim.js</a></li>
                 <li><a href="../../support/forms/validators/isEmailAddress.js.html">support/forms/validators/isEmailAddress.js</a></li>
                 <li><a href="../../support/forms/validators/notEmpty.js.html">support/forms/validators/notEmpty.js</a></li>
-                <li class="active"><a href="../../support/logging/winston.js.html">support/logging/winston.js</a></li>
+                <li><a href="../../support/logging/winston.js.html">support/logging/winston.js</a></li>
                 <li><a href="../../support/middleware/bodyParser.js.html">support/middleware/bodyParser.js</a></li>
                 <li><a href="../../support/middleware/errorHandler.js.html">support/middleware/errorHandler.js</a></li>
                 <li><a href="../../support/middleware/outputFormats.js.html">support/middleware/outputFormats.js</a></li>
@@ -61,7 +61,7 @@
                 <li><a href="../../support/outputFormats/json.js.html">support/outputFormats/json.js</a></li>
                 <li><a href="../../support/routeMapper.js.html">support/routeMapper.js</a></li>
                 <li><a href="../../support/session/store/cookie.js.html">support/session/store/cookie.js</a></li>
-                <li><a href="../../support/shutdown/listener.js.html">support/shutdown/listener.js</a></li>
+                <li class="active"><a href="../../support/shutdown/listener.js.html">support/shutdown/listener.js</a></li>
                 <li><a href="../../support/startup/database.js.html">support/startup/database.js</a></li>
                 <li><a href="../../support/startup/listener.js.html">support/startup/listener.js</a></li>
                 <li><a href="../../support/startup/logging.js.html">support/startup/logging.js</a></li>
@@ -90,7 +90,7 @@
                     <li><a href="../../support/forms/sanitizers/trim.js.html">support/forms/sanitizers/trim.js</a></li>
                     <li><a href="../../support/forms/validators/isEmailAddress.js.html">support/forms/validators/isEmailAddress.js</a></li>
                     <li><a href="../../support/forms/validators/notEmpty.js.html">support/forms/validators/notEmpty.js</a></li>
-                    <li class="active"><a href="../../support/logging/winston.js.html">support/logging/winston.js</a></li>
+                    <li><a href="../../support/logging/winston.js.html">support/logging/winston.js</a></li>
                     <li><a href="../../support/middleware/bodyParser.js.html">support/middleware/bodyParser.js</a></li>
                     <li><a href="../../support/middleware/errorHandler.js.html">support/middleware/errorHandler.js</a></li>
                     <li><a href="../../support/middleware/outputFormats.js.html">support/middleware/outputFormats.js</a></li>
@@ -101,7 +101,7 @@
                     <li><a href="../../support/outputFormats/json.js.html">support/outputFormats/json.js</a></li>
                     <li><a href="../../support/routeMapper.js.html">support/routeMapper.js</a></li>
                     <li><a href="../../support/session/store/cookie.js.html">support/session/store/cookie.js</a></li>
-                    <li><a href="../../support/shutdown/listener.js.html">support/shutdown/listener.js</a></li>
+                    <li class="active"><a href="../../support/shutdown/listener.js.html">support/shutdown/listener.js</a></li>
                     <li><a href="../../support/startup/database.js.html">support/startup/database.js</a></li>
                     <li><a href="../../support/startup/listener.js.html">support/startup/listener.js</a></li>
                     <li><a href="../../support/startup/logging.js.html">support/startup/logging.js</a></li>
@@ -113,14 +113,12 @@
               </div>
             </div>
             <div role="main" class="col-md-7 waigo-api-content">
-              <section id="create">
-                <h1>create</h1>
-                <div class="description"><p>Create a winston logger instance.</p>
-
-<p>The configuration object specifies the transports to initialise as well as <br />their configuration options. At present only the <br /><a href="https://github.com/flatiron/winston/blob/master/docs/transports.md#console-transport">console</a> <br />transport is supported. </p> </div>
+              <section id="exports">
+                <h1></h1>
+                <div class="description"><p>Shutdown the HTTP server.</p> </div>
                 <h5 class="subheader"></h5>
                 <p>
-                  <div class="label label-info radius ctx-type">method</div><span class="symbolReturns">-> Object</span>
+                  <div class="label label-info radius ctx-type">method</div>
                 </p>
               </section>
               <table class="params table table-bordered table-striped">
@@ -133,41 +131,23 @@
                 </thead>
                 <tbody>
                   <tr>
-                    <td class="name">{Object}</td>
-                    <td class="type">winstonConfig</td>
-                    <td class="description">winston logging configuration. </td>
+                    <td class="name">app</td>
+                    <td class="type">Object</td>
+                    <td class="description">The application.</td>
                   </tr>
                 </tbody>
               </table>
-              <pre><code class="language-javascript">exports.create = function(winstonConfig) {
-  var winstonTransports = [];
-
-  _.each(_.keys(winstonConfig), function(transportType) {
-    var transport = null;
-
-    switch (transportType) {
-      case 'console':
-        transport = new winston.transports.Console(winstonConfig[transportType]);
-        break;
-    }
-
-    if (transport) {
-      winstonTransports.push(transport);
-    }
-  });
-
-  // setup logger
-  var logger = new (winston.Logger)({
-    transports: winstonTransports
-  });
-
-  return logger;
+              <pre><code class="language-javascript">module.exports = function*(app) {
+  if (app.server) {
+    debug('Shutting down HTTP server');
+    yield Q.promisify(app.server.close, app.server)();
+  } 
 };</code></pre>
             </div>
             <div class="col-md-2">
               <div role="complementary" class="waigo-content-menu hidden-print">
                 <ul class="nav">
-                  <li><a href="#create"><span>create()</span></a></li>
+                  <li><a href="#exports"><span>exports()</span></a></li>
                 </ul>
               </div>
             </div>
@@ -176,7 +156,7 @@
       </div>
     </main>
     <footer role="contentinfo">
-      <div><p>This page was <a href="https://github.com/waigo/waigojs.com-generator">generated</a> on Wed, 18 Jun 2014 18:31:44 GMT</p>
+      <div><p>This page was <a href="https://github.com/waigo/waigojs.com-generator">generated</a> on Wed, 18 Jun 2014 18:31:47 GMT</p>
 
       </div>
     </footer>
