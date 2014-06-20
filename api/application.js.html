@@ -224,8 +224,9 @@
               </section>
               <pre><code class="language-javascript">Application.shutdown = function*() {
   // run shutdown steps
-  for (let idx in Application.app.config.shutdownSteps) {
-    let stepName = Application.app.config.shutdownSteps[idx];
+  var shutdownSteps = _.get(Application.app, 'config.shutdownSteps', []);
+  for (let idx in shutdownSteps) {
+    let stepName = shutdownSteps[idx];
     debug('Running shutdown step: ' + stepName);</code></pre>
               <pre><code class="language-javascript">yield* waigo.load('support/shutdown/' + stepName)(Application.app);
   }
@@ -250,7 +251,7 @@
       </div>
     </main>
     <footer role="contentinfo">
-      <div><p>This page was <a href="https://github.com/waigo/waigojs.com-generator">generated</a> on Wed, 18 Jun 2014 18:31:39 GMT</p>
+      <div><p>This page was <a href="https://github.com/waigo/waigojs.com-generator">generated</a> on Fri, 20 Jun 2014 14:55:04 GMT</p>
 
       </div>
     </footer>
