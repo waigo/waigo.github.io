@@ -5,7 +5,7 @@ var _ = require('lodash'),
   marked = require( "marked" ),
   path = require('path'),
   Promise = require('bluebird'),
-  sass = require('node-sass'),
+  stylus = require('stylus'),
   shell = require('shelljs'),
   uglify = require('uglify-js'),
   walk = require('findit'),
@@ -194,28 +194,28 @@ var compileImages = function(options) {
  * @return {Promise}
  */
 var compileStyles = function(options) {
-  var sassFolder = path.join(options.srcFolder, 'sass');
+  var stylusFolder = path.join(options.srcFolder, 'stylus');
 
   return _compileAndWatch(function() {
     console.log('--> Compiling stylesheets');
 
-    return new Promise(function(resolve, reject) {
-      sass.render({
-          file: path.join(sassFolder, 'style.scss'),
-          success: function(css){
-            fs.writeFileAsync(path.join(options.buildFolder, 'style.css'), css, { encoding: 'utf-8' })
-              .then(resolve)
-              .catch(reject);
-          },
-          error: reject,
-          includePaths: [ 
-            path.join(options.srcFolder, 'bower_components', 'sass-bootstrap', 'lib'),
-            path.join(options.srcFolder, 'bower_components', 'compass', 'frameworks', 'compass', 'stylesheets')
-          ],
-          outputStyle: 'compressed'
+    return fs.readFileAsync(path.join(stylusFolder, 'style.styl'), { encoding: 'utf-8' })
+      .then(function(stylusSource) {
+        return new Promise(function(resolve, reject) {
+          stylus(stylusSource)
+            .include(require('nib').path)
+            .set('filename', path.join(stylusFolder, 'style.styl'))
+            .render(function(err, css) {
+              if (err) return reject(err);
+
+              fs.writeFileAsync(path.join(options.buildFolder, 'style.css'), css, { encoding: 'utf-8' })
+                .then(resolve)
+                .catch(reject);
+            });
+        });
       });
-    });
-  }, sassFolder, options); 
+
+  }, stylusFolder, options); 
 };
 
 
