@@ -13,21 +13,32 @@ block content
       .meta
         iframe(src="http://ghbtns.com/github-btn.html?user=waigo&repo=waigo&type=watch&size=small&count=true", allowtransparency="true", frameborder="0", scrolling="0", width="62", height="20")
         iframe(src="http://ghbtns.com/github-btn.html?user=waigo&repo=waigo&type=fork&size=small&count=true", allowtransparency="true", frameborder="0", scrolling="0", width="62", height="20")
-  #details
+
+  section#details1
     h2 What is Waigo?
     p Waigo is a backend MVC framework for building scalable web applications.
-    .feature
-      h3 Easy
-      ul
-        li Built on <a href="http://koajs.com" target="_blank">generator</a> middleware architecture.
-        li Command-line client to automate tasks.
-    .feature
-      h3 Clean
-      ul
-        li No more callback hell. Generators and promises are in.
-        li Minimal core framework, with no unneeded cruft.
-    .feature
-      h3 Customizable
-      ul
-        li Easily override framework behaviour.
-        li Create and share customizations as plugins.
+    .features.row
+      .col-md-4
+        h3 Easy
+        ul
+          li Built on <a href="http://koajs.com" target="_blank">generator</a> middleware architecture.
+          li Command-line client to automate tasks.
+      .col-md-4
+        h3 Clean
+        ul
+          li No more callback hell. Generators and promises are in.
+          li Minimal core framework, with no unneeded cruft.
+      .col-md-4
+        h3 Customizable
+        ul
+          li Easily override framework behaviour.
+          li Create and share customizations as plugins.
+
+  section#details2
+    h2 Quick start
+
+    pre
+      code.language-bash
+        $ npm install -g waigo
+        $ waigo init
+        $ waigo start
