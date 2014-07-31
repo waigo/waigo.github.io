@@ -1,0 +1,25 @@
+extend layout
+
+block content
+  section#guide
+    .container
+      .row
+        .col-md-9.waigo-guide-content(role="main")
+          div!= content
+        .col-md-3
+          .waigo-content-menu.hidden-print(role="complementary")
+            ul.nav
+              each val, index in menu
+                li
+                  a(href="#"+index)= val.label
+                  if val.children
+                    ul.nav
+                      each subVal, subIndex in val.children
+                        li
+                          a(href="#"+subIndex)= subVal.label
+
+            ul.nav
+              li.back-to-top
+                a(href="#banner") Back to top
+
+  

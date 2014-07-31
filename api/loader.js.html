@@ -115,11 +115,7 @@
             <div role="main" class="col-md-7 waigo-api-content">
               <section id="init">
                 <h1>init</h1>
-                <div class="description"><p>Initialise the Waigo module file loader.</p>
-
-<p>This scans the folder trees of the core framework, plugins and your<br />application to map out what's available and to ensure that there are no<br />instances of any given module file being provided by two or more plugins.<br />For more information on how Waigo decides where to load modules from see<br />the <code>load()</code> method.</p>
-
-<p>If <code>options.plugins</code> is provided then those named plugins get loaded. If<br />not then the remaining options are used to first work out which plugins to<br />load and then those plugins get loaded. By default the plugins to load are<br />filtered from the dependencies listed within the <code>package.json</code> file.</p> </div>
+                <div class="description"><p>Initialise the Waigo module file loader.</p><p>This scans the folder trees of the core framework, plugins and your<br />application to map out what&#39;s available and to ensure that there are no<br />instances of any given module file being provided by two or more plugins.<br />For more information on how Waigo decides where to load modules from see<br />the <code>load()</code> method.</p><p>If <code>options.plugins</code> is provided then those named plugins get loaded. If<br />not then the remaining options are used to first work out which plugins to<br />load and then those plugins get loaded. By default the plugins to load are<br />filtered from the dependencies listed within the <code>package.json</code> file.</p> </div>
                 <h5 class="subheader"></h5>
                 <p>
                   <div class="label label-info radius ctx-type">method</div>
@@ -281,17 +277,7 @@
 };</code></pre>
               <section id="load">
                 <h1>load</h1>
-                <div class="description"><p>Load a Waigo module file.</p>
-
-<p>Names to load are specified in the form: <code>[npm_module_name:]&lt;module_file_path&gt;</code></p>
-
-<p>If <code>npm_module_name:</code> is not given then Waigo works out the which version<br />of the module file to load according to the following priority order: <strong>App ><br />plugins > core framework</strong>.</p>
-
-<p>Thus an app can completely override any of the framework's built-in module<br />files.</p>
-
-<p>For example, when a call to load the <code>support/errors</code> module is made Waigo<br />checks the following paths in order until a match is found:</p>
-
-<ul>
+                <div class="description"><p>Load a Waigo module file.</p><p>Names to load are specified in the form: <code>[npm_module_name:]&lt;module_file_path&gt;</code></p><p>If <code>npm_module_name:</code> is not given then Waigo works out the which version<br />of the module file to load according to the following priority order: <strong>App &gt;<br />plugins &gt; core framework</strong>.</p><p>Thus an app can completely override any of the framework&#39;s built-in module<br />files.</p><p>For example, when a call to load the <code>support/errors</code> module is made Waigo<br />checks the following paths in order until a match is found:</p><ul>
 <li><code>&lt;app folder&gt;/support/errors.js</code></li>
 <li><code>&lt;waigo plugin 1&gt;/src/support/errors.js</code></li>
 <li><code>&lt;waigo plugin 2&gt;/src/support/errors.js</code></li>
@@ -299,7 +285,6 @@
 <li><code>&lt;waigo plugin N&gt;/src/support/errors.js</code></li>
 <li><code>&lt;waigo module&gt;/src/support/errors.js</code></li>
 </ul>
-
 <p>In the above example, if the caller wishes to explicitly load the version<br />provided by the <code>waigo-doc</code> plugin then the parameter should be<br /><code>waigo-doc:support/errors</code>. If on the other hand they wish to load the<br />version provided the core Waigo framework then <code>waigo:support/errors</code><br />should be used.</p> </div>
                 <h5 class="subheader"></h5>
                 <p>
@@ -356,11 +341,7 @@
 };</code></pre>
               <section id="getModulesInPath">
                 <h1>getModulesInPath</h1>
-                <div class="description"><p>Get names of all Waigo module files under a particular path.</p>
-
-<p>This will look through the initialised module list for all modules files <br />which reside under the given path (items in sub folders are ignored) <br />and then return their names. Module files provided by both plugins and the <br />app itself will also be included.</p>
-
-<p>This is useful in situations where a particular path holds a number of <br />related module files and you wish to see which ones are <br />available.</p> </div>
+                <div class="description"><p>Get names of all Waigo module files under a particular path.</p><p>This will look through the initialised module list for all modules files<br />which reside under the given path (items in sub folders are ignored)<br />and then return their names. Module files provided by both plugins and the<br />app itself will also be included.</p><p>This is useful in situations where a particular path holds a number of<br />related module files and you wish to see which ones are<br />available.</p> </div>
                 <h5 class="subheader"></h5>
                 <p>
                   <div class="label label-info radius ctx-type">method</div><span class="symbolReturns">-> Array</span>
@@ -436,7 +417,7 @@ module.exports = loader;</code></pre>
       </div>
     </main>
     <footer role="contentinfo">
-      <div><p>This page was <a href="https://github.com/waigo/waigojs.com-generator">generated</a> on Sat, 21 Jun 2014 09:29:42 GMT</p>
+      <div><p>This page was <a href="https://github.com/waigo/waigojs.com-generator">generated</a> on Thu, 31 Jul 2014 07:06:01 GMT</p>
 
       </div>
     </footer>

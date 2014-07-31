@@ -1,0 +1,97 @@
+extend layout
+
+mixin formatSymbolName(symbol)
+  span #{symbol.name}#{symbol.type === "method" ? "()" : ""}
+
+mixin iForSymbolType(symbol)
+  i(class=["alert", "alert-"+(symbol.type === "function" || symbol.type === "method" ? "info":"success")])= symbol.name
+
+mixin labelForSymbolType(symbol)
+  div(class=["label", "label-"+(symbol.gtype === "function" || symbol.gtype === "method" ? "info":"success"), "radius", "ctx-type"])= symbol.ctx.type
+
+
+block content
+
+  #api
+    .container
+      .row
+        .col-md-3.waigo-api-index(role="complementary")
+          ul.nav.hidden-sm.hidden-xs
+            each file in files
+              li(class=(file.name !== currentName ? "":"active"))
+                a(href=file.relName) #{file.name}
+          .visible-sm.visible-xs
+            button.btn.btn-info(type="button", data-toggle="collapse", data-target="#api-index-xs") Show/hide API index
+            #api-index-xs.collapse
+              ul.nav
+                each file in files
+                  li(class=(file.name !== currentName ? "":"active"))
+                    a(href=file.relName) #{file.name}
+
+        .col-md-7.waigo-api-content(role="main")
+          if locals.readme
+            if name === 'Main'
+              section.readme(id=name)
+                :markdown
+                  # API documentation
+                  
+                  Welcome to the API documentation for Waigo. This documentation is auto-generated from the source code.
+
+                  Here you will find detailed documentation on all the module files provided within the framework. For each module file each 
+                  of its exported properties and APIs will be documented along with source code. Code examples will be provided where 
+                  appropriate to show you how best to make use of the functionality.
+
+                  We recommend starting with [loader.js](loader.js.html). This is the main module loader and starting point for all Waigo apps.
+
+                  _Note: If you haven't yet read the [guide](/) then please do so. It will help you better understand these docs._
+
+
+            else
+              section.readme(id=name) !{readme}
+          each symbol in dox
+            if symbol.ctx.name
+              section(id=symbol.ctx.name)
+                h1 #{ 'exports' !== symbol.ctx.name ? symbol.ctx.name : ''}
+                .description !{symbol.description.full} !{symbol.description.extra}
+                h5.subheader
+                if !symbol.gtype && symbol.type
+                  p
+                    div(class=["label", "label-inverse", "radius", "ctx-type"])= symbol.type
+                else
+                  p
+                    mixin labelForSymbolType(symbol)
+                    if symbol.return
+                      span.symbolReturns -> #{symbol.return}
+      
+            if symbol.hasParams
+              table.params.table.table-bordered.table-striped
+                thead
+                  tr
+                    th(style="width:20%") Option
+                    th(style="width:20%") Type
+                    th Description
+                tbody
+                  each tag in symbol.tags
+                    if tag.type == 'param'
+                      tr
+                        td.name= tag.name
+                        td.type= tag.types
+                        td.description= tag.description
+
+            if symbol.code
+              pre
+                code.language-javascript
+                  = symbol.code
+            if symbol.jsfiddle
+              h5 jsFiddle
+              p
+                iframe(width="100%", height="300", src=symbol.jsfiddle , allowfullscreen="allowfullscreen", frameborder="0")
+
+        .col-md-2
+          .waigo-content-menu.hidden-print(role="complementary")
+            ul.nav
+              each symbol in symbols
+                li
+                  a(href='#'+symbol.name)
+                    mixin formatSymbolName(symbol)
+

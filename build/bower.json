@@ -1,0 +1,22 @@
+{
+  "name": "waigojs.com",
+  "private": true,
+  "version": "1.0.0",
+  "homepage": "http://waigojs.com",
+  "authors": [
+    "Ramesh Nair <ram@hiddentao.com> (http://hiddentao.com)"
+  ],
+  "description": "Documentation website for waigo web framework",
+  "keywords": [
+    "waigo",
+    "docs"
+  ],
+  "license": "GPL3",
+  "dependencies": {
+    "jquery": "=2.1.0",
+    "sass-bootstrap": "=3.0.2",
+    "compass": "https://github.com/chriseppstein/compass.git#~0.12.2",
+    "parallax": "~2.1.3",
+    "highlightjs": "~8.0.0"
+  },
+}

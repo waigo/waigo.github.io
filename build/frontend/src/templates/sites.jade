@@ -1,0 +1,28 @@
+mixin siteDetails(idx, offset)
+  - var site = sites[idx]
+  if site
+    div(class="item col-md-5 col-md-offset-" + offset)
+      h2.title
+        a(href=site.url) #{site.title}
+      p.description #{site.body}
+  
+
+extend layout
+
+block content
+
+  section#sites
+    .container
+      .row
+        .col-md-10.col-md-offset-1.col-xs-12(role="main")
+          div.intro
+            :markdown
+              Full sites/apps built using Waigo. [Raise a pull request](https://github.com/waigo/waigojs.com-generator/blob/master/backend/sites.js) to add your own.
+
+          ul
+            each val, idx in sites
+              if 0 === idx % 2
+                li.row
+                  +siteDetails(idx, 0)
+                  +siteDetails(idx + 1, 2)
+

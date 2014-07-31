@@ -116,45 +116,24 @@
               <section id="exports">
                 <h1></h1>
                 <div class="description"><h1>Route map</h1>
-
-<p>This maps URL routes to handler methods.</p>
-
-<p><em>Note: Supported request methods are: <code>GET</code>, <code>POST</code>, <code>PUT</code>, <code>DEL</code>, <code>OPTIONS</code> and <code>HEAD</code></em></p>
-
-<p>You can specify one or more middleware which should get run before running<br />the controller method:</p>
-
-<div class="highlight"><pre lang="javascript">module.exports = { 
-  'GET /' : ['accessControl', 'main.index'] 
+<p>This maps URL routes to handler methods.</p><p><em>Note: Supported request methods are: <code>GET</code>, <code>POST</code>, <code>PUT</code>, <code>DEL</code>, <code>OPTIONS</code> and <code>HEAD</code></em></p><p>You can specify one or more middleware which should get run before running<br />the controller method:</p><pre><code class="lang-javascript">module.exports = { 
+  &#39;GET /&#39; : [&#39;accessControl&#39;, &#39;main.index&#39;] 
 };
-</pre></div>
-
-<p>As you can see, if the middleware name has a period (<code>.</code>) within it it<br />is assumed to refer to a <code>controller</code>.<code>method</code> combination.<br />Otherwise it is assumed to be the name of a <a href="#middleware">middleware</a> module file.</p>
-
-<p>The order in which they're specified determines the order in which they get <br />executed at runtime.</p>
-
-<p>An example...</p>
-
-<div class="highlight"><pre lang="javascript">module.exports = { 
-  'GET /' : ['accessControl', 'user.load', 'main.index'] 
+</code></pre>
+<p>As you can see, if the middleware name has a period (<code>.</code>) within it it<br />is assumed to refer to a <code>controller</code>.<code>method</code> combination.<br />Otherwise it is assumed to be the name of a <a href="#middleware">middleware</a> module file.</p><p>The order in which they&#39;re specified determines the order in which they get<br />executed at runtime.</p><p>An example...</p><pre><code class="lang-javascript">module.exports = { 
+  &#39;GET /&#39; : [&#39;accessControl&#39;, &#39;user.load&#39;, &#39;main.index&#39;] 
 };
-</pre></div>
-
-<p>For the above example, Waigo will process the request in the following<br />order:</p>
-
-<ul>
+</code></pre>
+<p>For the above example, Waigo will process the request in the following<br />order:</p><ul>
 <li>Load <code>support/middleware/acccessControl.js</code> and pass request to its exported method</li>
 <li>Load <code>controllers/user.js</code> and pass request to its <code>load</code> method </li>
 <li>Load <code>controllers/main.js</code> and pass request to its <code>index</code> method</li>
 </ul>
-
-<p>If you wish to initialise a particular middleware with options then you can<br />specify it as an object. For example:</p>
-
-<div class="highlight"><pre lang="javascript">module.exports = { 
-  'POST /signup' : [ { id: 'bodyParser', limit: '1kb' }, 'main.signup' ] 
+<p>If you wish to initialise a particular middleware with options then you can<br />specify it as an object. For example:</p><pre><code class="lang-javascript">module.exports = { 
+  &#39;POST /signup&#39; : [ { id: &#39;bodyParser&#39;, limit: &#39;1kb&#39; }, &#39;main.signup&#39; ] 
 };
-</pre></div>
-
-<p>For the above configuration an instance of the <code>bodyParser</code> middleware will <br />get initialized for this route with the request body size limit set to <code>1KB</code>.</p> </div>
+</code></pre>
+<p>For the above configuration an instance of the <code>bodyParser</code> middleware will<br />get initialized for this route with the request body size limit set to <code>1KB</code>.</p> </div>
                 <h5 class="subheader"></h5>
                 <p>
                   <div class="label label-success radius ctx-type">property</div>
@@ -176,7 +155,7 @@
       </div>
     </main>
     <footer role="contentinfo">
-      <div><p>This page was <a href="https://github.com/waigo/waigojs.com-generator">generated</a> on Sat, 21 Jun 2014 09:29:42 GMT</p>
+      <div><p>This page was <a href="https://github.com/waigo/waigojs.com-generator">generated</a> on Thu, 31 Jul 2014 07:06:01 GMT</p>
 
       </div>
     </footer>

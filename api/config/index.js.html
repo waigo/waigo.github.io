@@ -113,26 +113,48 @@
               </div>
             </div>
             <div role="main" class="col-md-7 waigo-api-content">
+              <section id="loadConfigModule">
+                <h1>loadConfigModule</h1>
+                <div class="description"><p>Load config module.</p> </div>
+                <h5 class="subheader"></h5>
+                <p>
+                  <div class="label label-info radius ctx-type">function</div><span class="symbolReturns">-> Function</span>
+                </p>
+              </section>
+              <table class="params table table-bordered table-striped">
+                <thead>
+                  <tr>
+                    <th style="width:20%">Option</th>
+                    <th style="width:20%">Type</th>
+                    <th>Description</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="name">name</td>
+                    <td class="type">String</td>
+                    <td class="description">Config module name.</td>
+                  </tr>
+                </tbody>
+              </table>
+              <pre><code class="language-javascript">var loadConfigModule = function(name) {
+  try {
+    return waigo.load('config/' + name);
+  } catch (e) {
+    return null;
+  }
+};</code></pre>
               <section id="exports">
                 <h1></h1>
                 <div class="description"><h1>Configuration loader</h1>
-
-<p>This loads the application configuration.</p>
-
-<p>The <a href="base.js.html">base configuration</a> module gets loaded first. Additional<br />configuration modules then get loaded using the following logic:</p>
-
-<ol>
+<p>This loads the application configuration.</p><p>The <a href="base.js.html">base configuration</a> module gets loaded first. Additional<br />configuration modules then get loaded using the following logic:</p><ol>
 <li><code>config/&lt;node environment&gt;</code> </li>
 <li><code>config/&lt;node environment&gt;.&lt;current user&gt;</code></li>
 </ol>
-
-<p>Thus if node is running in <code>test</code> mode and the user id of the process is<br /><code>www-data</code> then this looks for the following module files and loads them if<br />present, in the following order:</p>
-
-<ol>
+<p>Thus if node is running in <code>test</code> mode and the user id of the process is<br /><code>www-data</code> then this looks for the following module files and loads them if<br />present, in the following order:</p><ol>
 <li><code>config/test</code></li>
 <li><code>config/test.www-data</code></li>
 </ol>
-
 <p>The current configuration object gets passed to each subsequently loaded<br />configuration module file.</p> </div>
                 <h5 class="subheader"></h5>
                 <p>
@@ -145,16 +167,25 @@
     user: process.env.USER
   };
 
-  waigo.load('config/base')(config);
+  // base
+  var fn = loadConfigModule('base');
+  if (!fn) {
+    throw new Error('Base configuration file not found');
+  }
+  fn(config);
 
-  try {
-    waigo.load('config/' + config.mode)(config);
-  } catch (e) {}
 
-  try {
-    waigo.load('config/' + config.mode + '.' + config.user)(config);
-  } catch (e) {}
+  // mode
+  fn = loadConfigModule(config.mode);
+  if (fn) {
+    fn(config);
+  }
 
+  // mode.userId
+  fn = loadConfigModule(config.mode + '.' + config.user);
+  if (fn) {
+    fn(config);
+  }
 
   return config;
 };</code></pre>
@@ -162,6 +193,7 @@
             <div class="col-md-2">
               <div role="complementary" class="waigo-content-menu hidden-print">
                 <ul class="nav">
+                  <li><a href="#loadConfigModule"><span>loadConfigModule</span></a></li>
                   <li><a href="#exports"><span>exports()</span></a></li>
                 </ul>
               </div>
@@ -171,7 +203,7 @@
       </div>
     </main>
     <footer role="contentinfo">
-      <div><p>This page was <a href="https://github.com/waigo/waigojs.com-generator">generated</a> on Sat, 21 Jun 2014 09:29:41 GMT</p>
+      <div><p>This page was <a href="https://github.com/waigo/waigojs.com-generator">generated</a> on Thu, 31 Jul 2014 07:06:00 GMT</p>
 
       </div>
     </footer>
