@@ -8,7 +8,9 @@ var _ = require('lodash'),
   sass = require('node-sass'),
   shell = require('shelljs'),
   uglify = require('uglify-js'),
-  walk = require('findit');
+  walk = require('findit'),
+  watch = require('watch');
+
 
 
 marked.setOptions({
@@ -37,7 +39,7 @@ exports.rebuild = function(options) {
     images: [ compileImages ],
     styles: [ compileStyles ],
     scripts: [ compileJs ],
-    mainpages: [ compileTemplates ],
+    mainpages: [ compileMainPages ],
     examples: [ compileExamples ],
     api: [ compileApiDocs ]
   };
@@ -58,57 +60,74 @@ exports.rebuild = function(options) {
 
 
 
+var _compileAndWatch = function(compileFn, folderToWatch, options) {
+  return compileFn()
+    .then(function() {
+      if (!options.autoRebuild) return;
+
+      console.log('Watching ' + folderToWatch + ' ...');
+      
+      return new Promise(function() {
+        watch.watchTree(folderToWatch, compileFn);
+      });
+    });
+};
+
+
+
 
 /**
- * Compile HTML template.
+ * Compile main pages.
  * @param  {Object} options build options
  * @return {Promise}
  */
-var compileTemplates = function(options) {
-  console.log('--> Compiling templates');
-  
+var compileMainPages = function(options) {
   var templatesFolder = path.join(options.srcFolder, 'templates'),
     userGuideFile = path.join(options.repoFolder, 'README.md');
 
-  return Promise.all([
-    Promise.try(function() {
-     return fs.readFileAsync(userGuideFile, { encoding: 'utf-8' })
-        .then(function(markdownContent) {
-          return marked(markdownContent);
-        })
-        .then(function(html) {
-          return Promise.all([
-            html,
-            extractNavMenu(html)
-          ]);
-        })
-        .spread(function(html, navMenu){
-          var pageHtml = jade.renderFile(path.join(templatesFolder, 'guide.jade'), { 
-            siteNav: 'guide',
-            content: html, 
-            menu: navMenu 
+  return _compileAndWatch(function() {
+    console.log('--> Compiling main pages');
+    
+    return Promise.all([
+      Promise.try(function() {
+       return fs.readFileAsync(userGuideFile, { encoding: 'utf-8' })
+          .then(function(markdownContent) {
+            return marked(markdownContent);
+          })
+          .then(function(html) {
+            return Promise.all([
+              html,
+              extractNavMenu(html)
+            ]);
+          })
+          .spread(function(html, navMenu){
+            var pageHtml = jade.renderFile(path.join(templatesFolder, 'guide.jade'), { 
+              siteNav: 'guide',
+              content: html, 
+              menu: navMenu 
+            });
+            return fs.writeFileAsync(path.join(options.buildFolder, 'guide.html'), pageHtml, { encoding: 'utf-8' }); 
           });
-          return fs.writeFileAsync(path.join(options.buildFolder, 'guide.html'), pageHtml, { encoding: 'utf-8' }); 
+      }),
+
+      Promise.try(function() {
+        var pageHtml = jade.renderFile(path.join(templatesFolder, 'index.jade'), { 
+          siteNav: 'index',
+          version: options.version,
         });
-    }),
+        return fs.writeFileAsync(path.join(options.buildFolder, 'index.html'), pageHtml, { encoding: 'utf-8' });            
+      }),
 
-    Promise.try(function() {
-      var pageHtml = jade.renderFile(path.join(templatesFolder, 'index.jade'), { 
-        siteNav: 'index',
-        version: options.version,
-      });
-      return fs.writeFileAsync(path.join(options.buildFolder, 'index.html'), pageHtml, { encoding: 'utf-8' });            
-    }),
+      Promise.try(function() {
+        var pageHtml = jade.renderFile(path.join(templatesFolder, 'sites.jade'), { 
+          siteNav: 'sites',
+          sites: require('./sites')
+        });
+        return fs.writeFileAsync(path.join(options.buildFolder, 'sites.html'), pageHtml, { encoding: 'utf-8' });            
+      }),
 
-    Promise.try(function() {
-      var pageHtml = jade.renderFile(path.join(templatesFolder, 'sites.jade'), { 
-        siteNav: 'sites',
-        sites: require('./sites')
-      });
-      return fs.writeFileAsync(path.join(options.buildFolder, 'sites.html'), pageHtml, { encoding: 'utf-8' });            
-    }),
-
-  ]);
+    ]);
+  }, templatesFolder, options);
 };
 
 
@@ -121,25 +140,29 @@ var compileTemplates = function(options) {
  * @return {Promise}
  */
 var compileJs = function(options) {
-  console.log('--> Compiling scripts');
-  return Promise.all([
-    fs.readFileAsync(path.join(options.srcFolder, 'bower_components', 'jquery', 'dist', 'jquery.js'), { encoding: 'utf-8' }),
-    fs.readFileAsync(path.join(options.srcFolder, 'bower_components', 'highlightjs', 'highlight.pack.js'), { encoding: 'utf-8' }),
-    fs.readFileAsync(path.join(options.srcFolder, 'bower_components', 'parallax', 'deploy', 'jquery.parallax.js'), { encoding: 'utf-8' }),
-    fs.readFileAsync(path.join(options.srcFolder, 'js', 'prism.js'), { encoding: 'utf-8' })
-  ].concat(
-    (['affix', 'transition', 'collapse', 'dropdown', 'scrollspy'].map(function(libName) {
-      return fs.readFileAsync(path.join(options.srcFolder, 'bower_components', 'sass-bootstrap', 'js', libName + '.js'), { encoding: 'utf-8' });
-    })),
-    fs.readFileAsync(path.join(options.srcFolder, 'js', 'page.js'), { encoding: 'utf-8' })
-  ))
-    .then(function(results) {
-      var jsCode = results.join(';');
-      return uglify.minify(jsCode, {fromString: true}).code;
-    })
-    .then(function(compressedCode) {
-      return fs.writeFileAsync(path.join(options.buildFolder, 'scripts.js'), compressedCode, { encoding: 'utf-8' });
-    });
+  var jsFolder = path.join(options.srcFolder, 'js');
+
+  return _compileAndWatch(function() {
+    console.log('--> Compiling scripts');
+
+    return Promise.all([
+      fs.readFileAsync(path.join(options.srcFolder, 'bower_components', 'jquery', 'dist', 'jquery.js'), { encoding: 'utf-8' }),
+      fs.readFileAsync(path.join(options.srcFolder, 'bower_components', 'highlightjs', 'highlight.pack.js'), { encoding: 'utf-8' }),
+      fs.readFileAsync(path.join(jsFolder, 'prism.js'), { encoding: 'utf-8' })
+    ].concat(
+      (['affix', 'transition', 'collapse', 'dropdown', 'scrollspy'].map(function(libName) {
+        return fs.readFileAsync(path.join(options.srcFolder, 'bower_components', 'sass-bootstrap', 'js', libName + '.js'), { encoding: 'utf-8' });
+      })),
+      fs.readFileAsync(path.join(jsFolder, 'page.js'), { encoding: 'utf-8' })
+    ))
+      .then(function(results) {
+        var jsCode = results.join(';');
+        return uglify.minify(jsCode, {fromString: true}).code;
+      })
+      .then(function(compressedCode) {
+        return fs.writeFileAsync(path.join(options.buildFolder, 'scripts.js'), compressedCode, { encoding: 'utf-8' });
+      });    
+  }, jsFolder, options);
 };
 
 
@@ -151,11 +174,15 @@ var compileJs = function(options) {
  * @return {Promise}
  */
 var compileImages = function(options) {
-  console.log('--> Compiling images');
-  return Promise.try(function() {
-    shell.rm('-rf', path.join(options.buildFolder, 'img'));
-    shell.cp('-rf', path.join(options.srcFolder, 'img'), options.buildFolder);
-  });
+  var imgFolder = path.join(options.srcFolder, 'img');
+
+  return _compileAndWatch(function() {
+    console.log('--> Compiling images');
+    return Promise.try(function() {
+      shell.rm('-rf', path.join(options.buildFolder, 'img'));
+      shell.cp('-rf', imgFolder, options.buildFolder);
+    });
+  }, imgFolder, options);
 };
 
 
@@ -167,24 +194,28 @@ var compileImages = function(options) {
  * @return {Promise}
  */
 var compileStyles = function(options) {
-  console.log('--> Compiling stylesheets');
+  var sassFolder = path.join(options.srcFolder, 'sass');
 
-  return new Promise(function(resolve, reject) {
-    sass.render({
-        file: path.join(options.srcFolder, 'sass', 'style.scss'),
-        success: function(css){
-          fs.writeFileAsync(path.join(options.buildFolder, 'style.css'), css, { encoding: 'utf-8' })
-            .then(resolve)
-            .catch(reject);
-        },
-        error: reject,
-        includePaths: [ 
-          path.join(options.srcFolder, 'bower_components', 'sass-bootstrap', 'lib'),
-          path.join(options.srcFolder, 'bower_components', 'compass', 'frameworks', 'compass', 'stylesheets')
-        ],
-        outputStyle: 'compressed'
+  return _compileAndWatch(function() {
+    console.log('--> Compiling stylesheets');
+
+    return new Promise(function(resolve, reject) {
+      sass.render({
+          file: path.join(sassFolder, 'style.scss'),
+          success: function(css){
+            fs.writeFileAsync(path.join(options.buildFolder, 'style.css'), css, { encoding: 'utf-8' })
+              .then(resolve)
+              .catch(reject);
+          },
+          error: reject,
+          includePaths: [ 
+            path.join(options.srcFolder, 'bower_components', 'sass-bootstrap', 'lib'),
+            path.join(options.srcFolder, 'bower_components', 'compass', 'frameworks', 'compass', 'stylesheets')
+          ],
+          outputStyle: 'compressed'
+      });
     });
-  });
+  }, sassFolder, options); 
 };
 
 
@@ -235,14 +266,16 @@ var extractNavMenu = function(html) {
  * @return {Promise}
  */
 var compileApiDocs = function(options) {
-    console.log('--> Compiling API docs');
+  var templatesFolder = path.join(options.srcFolder, 'templates');
+
+  console.log('--> Compiling API docs');
 
   return Promise.try(function() {
     var apiDocsFolder = path.join(options.buildFolder, 'api');
     shell.rm('-rf', apiDocsFolder);
     var ret = shell.exec(
       process.cwd() + '/node_modules/.bin/doxx ' 
-        + ' --template ' + path.join(options.srcFolder, 'templates', 'doxx.jade')
+        + ' --template ' + path.join(templatesFolder, 'doxx.jade')
         + ' --ignore cli/data,views'
         + ' --source ' + path.join(options.repoFolder, 'src') 
         + ' --target ' + apiDocsFolder
@@ -269,135 +302,137 @@ var LANGUAGE = {
  * @return {Promise}
  */
 var compileExamples = function(options) {
-  console.log('--> Compiling Examples');
-
   var templatesFolder = path.join(options.srcFolder, 'templates'),
     outputFolder = path.join(options.buildFolder, 'examples');
 
-  return Promise.try(function() {
-    if (!fs.existsSync(outputFolder)) {
-      fs.mkdirSync(outputFolder);
-    }
-  })
-    .then(function readFilesInExamplesRepo() {
-      return fs.readdirAsync(options.examplesFolder);
+  return _compileAndWatch(function() {
+    console.log('--> Compiling Examples');
+
+    return Promise.try(function() {
+      if (!fs.existsSync(outputFolder)) {
+        fs.mkdirSync(outputFolder);
+      }
     })
-    .then(function processFilesInExamplesRepo(files) {
-
-      // filter and reformat
-      files = _.chain(files)
-        .filter(function(f) {
-          return '.git' !== f;
-        })
-        .map(function(f) {
-          return path.join(options.examplesFolder, f);
-        })
-        .value();
-
-      // only want the folders
-      return Promise.all(
-        _.map(files, function(f) {
-          return fs.statAsync(f)
-            .then(function(s) {
-              return (s.isDirectory()) ? f : null;
-            })       
-        })
-      )
-        .then(function(dirs) {
-          return _.filter(dirs);
-        })
-      ;
-    })
-    .then(function loadExamples(folders) {
-
-      // inside each example
-      return Promise.all(
-        _.map(folders, function(folder) {
-          // scan 'src' folder for all files
-          return _walk(path.join(folder, 'src'))
-            .then(function gotFiles(files) {
-              // for each src file, load its contents
-              return Promise.all(
-                _.map(files, function(f) {
-                  return fs.readFileAsync(f, { encoding: 'utf-8' })
-                    .then(function gotContents(contents) {
-                      var subPath = f.substr(f.indexOf('src/') + 4);
-                      var ext = path.extname(f);
-
-                      return {
-                        path: subPath,
-                        lang: LANGUAGE[ext],
-                        contents: contents
-                      };
-                    });
-                })
-              );
-            })
-            .then(function gotSrcFileContents(files) {
-              // load README file
-              var pathToReadme = path.join(folder, 'README.md');
-
-              return fs.readFileAsync(pathToReadme, { encoding: 'utf-8' })
-                .then(function toMarkdown(markdownContent) {
-                  return marked(markdownContent);
-                })
-                .then(function renderedReadme(readmeHtml) {
-                  var title = cheerio.load(readmeHtml)('h1').text();
-                  if (!title || '' === title) {
-                    throw new Error('No H1 title found in: ' + pathToReadme);
-                  }
-                  return {
-                    title: title,
-                    slug: path.basename(folder),
-                    readme: readmeHtml,
-                    files: files,
-                  }
-                });
-            });
-        })
-      );
-    })
-    .then(function renderExamples(examples) {
-      var examplesNav = _.reduce(examples, function(result, example) {
-        result.push({
-          title: example.title,
-          url: '/examples/' + example.slug + '.html'
-        });
-        return result;
-      }, [{
-        title: 'Introduction',
-        url: '/examples/index.html'
-      }]);
-
-      return Promise.try(function() {
-        var pageHtml = jade.renderFile(path.join(templatesFolder, 'example.jade'), { 
-          siteNav: 'examples',
-          nav: examplesNav,
-          selectedNavItem: 'Introduction',
-        });
-
-        return fs.writeFileAsync(path.join(outputFolder, 'index.html'), 
-            pageHtml, { encoding: 'utf-8' });         
+      .then(function readFilesInExamplesRepo() {
+        return fs.readdirAsync(options.examplesFolder);
       })
-        .then(function renderEachExample() {
-          return Promise.all(
-            _.map(examples, function(example) {
+      .then(function processFilesInExamplesRepo(files) {
 
-              var pageHtml = jade.renderFile(path.join(templatesFolder, 'example.jade'), { 
-                siteNav: 'examples',
-                nav: examplesNav,
-                selectedNavItem: example.title,
-                readmeHtml: example.readme,
-                files: example.files
+        // filter and reformat
+        files = _.chain(files)
+          .filter(function(f) {
+            return '.git' !== f;
+          })
+          .map(function(f) {
+            return path.join(options.examplesFolder, f);
+          })
+          .value();
+
+        // only want the folders
+        return Promise.all(
+          _.map(files, function(f) {
+            return fs.statAsync(f)
+              .then(function(s) {
+                return (s.isDirectory()) ? f : null;
+              })       
+          })
+        )
+          .then(function(dirs) {
+            return _.filter(dirs);
+          })
+        ;
+      })
+      .then(function loadExamples(folders) {
+
+        // inside each example
+        return Promise.all(
+          _.map(folders, function(folder) {
+            // scan 'src' folder for all files
+            return _walk(path.join(folder, 'src'))
+              .then(function gotFiles(files) {
+                // for each src file, load its contents
+                return Promise.all(
+                  _.map(files, function(f) {
+                    return fs.readFileAsync(f, { encoding: 'utf-8' })
+                      .then(function gotContents(contents) {
+                        var subPath = f.substr(f.indexOf('src/') + 4);
+                        var ext = path.extname(f);
+
+                        return {
+                          path: subPath,
+                          lang: LANGUAGE[ext],
+                          contents: contents
+                        };
+                      });
+                  })
+                );
+              })
+              .then(function gotSrcFileContents(files) {
+                // load README file
+                var pathToReadme = path.join(folder, 'README.md');
+
+                return fs.readFileAsync(pathToReadme, { encoding: 'utf-8' })
+                  .then(function toMarkdown(markdownContent) {
+                    return marked(markdownContent);
+                  })
+                  .then(function renderedReadme(readmeHtml) {
+                    var title = cheerio.load(readmeHtml)('h1').text();
+                    if (!title || '' === title) {
+                      throw new Error('No H1 title found in: ' + pathToReadme);
+                    }
+                    return {
+                      title: title,
+                      slug: path.basename(folder),
+                      readme: readmeHtml,
+                      files: files,
+                    }
+                  });
               });
+          })
+        );
+      })
+      .then(function renderExamples(examples) {
+        var examplesNav = _.reduce(examples, function(result, example) {
+          result.push({
+            title: example.title,
+            url: '/examples/' + example.slug + '.html'
+          });
+          return result;
+        }, [{
+          title: 'Introduction',
+          url: '/examples/index.html'
+        }]);
 
-              return fs.writeFileAsync(path.join(outputFolder, example.slug + '.html'), 
-                  pageHtml, { encoding: 'utf-8' }); 
-            })
-          );
-        });
-    })
-  ;
+        return Promise.try(function() {
+          var pageHtml = jade.renderFile(path.join(templatesFolder, 'example.jade'), { 
+            siteNav: 'examples',
+            nav: examplesNav,
+            selectedNavItem: 'Introduction',
+          });
+
+          return fs.writeFileAsync(path.join(outputFolder, 'index.html'), 
+              pageHtml, { encoding: 'utf-8' });         
+        })
+          .then(function renderEachExample() {
+            return Promise.all(
+              _.map(examples, function(example) {
+
+                var pageHtml = jade.renderFile(path.join(templatesFolder, 'example.jade'), { 
+                  siteNav: 'examples',
+                  nav: examplesNav,
+                  selectedNavItem: example.title,
+                  readmeHtml: example.readme,
+                  files: example.files
+                });
+
+                return fs.writeFileAsync(path.join(outputFolder, example.slug + '.html'), 
+                    pageHtml, { encoding: 'utf-8' }); 
+              })
+            );
+          });
+      })
+    ;
+  }, templatesFolder, options);
 };
 
 

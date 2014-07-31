@@ -16,12 +16,13 @@ var program = require('commander');
 program
   .option('-e, --noversion', 'Do not find current module version from NPM')
   .option('-n, --noclone', 'Do not re-clone repositories. Re-use existing folders')
-  .option('-l, --limit <limit>', 'Limit build to a particular resource types (one of: images, styles, scripts, html)', 'all')
+  .option('-l, --limit <limit>', 'Limit build to a particular resource types (one of: images, styles, scripts, mainpages, examples, api)', 'all')
+  .option('-w, --watch', 'Watch src folders for changes and rebuild automatically')
   .parse(process.argv);
 
 
 var reposFolder = path.join(__dirname, '.repos'),
-  frontendSrcFolder = path.join(__dirname, 'frontend', 'src'),
+  frontendSrcFolder = path.join(__dirname, 'frontend'),
   frontendBuildFolder = path.join(__dirname, '..');
 
 var waigoRepoUrl = 'https://github.com/waigo/waigo.git',
@@ -50,14 +51,16 @@ Promise.resolve()
   })
   .then(function() {
     console.log('Rebuilding frontend...');
+
     return generator.rebuild({
       version: version,
       repoFolder: waigoRepoFolder,
       examplesFolder: examplesRepoFolder,
       srcFolder: frontendSrcFolder,
       buildFolder: frontendBuildFolder,
-      limitTo: (program.limit && 'all' !== program.limit) ? program.limit : null
-    });
+      limitTo: (program.limit && 'all' !== program.limit) ? program.limit : null,
+      autoRebuild: !!program.watch,
+    });      
   })
   .then(function() {
     console.log('All done!');

@@ -15,6 +15,7 @@ header#top {
     height: $headerHeight;
     background-color: $navbar-default-bg;    
     z-index: 999999;
+    opacity: 0.95;
   }
 
   .navbar-toggle {
@@ -65,8 +66,15 @@ header#top {
 
 
 main#content {
+  font-family: Helvetica, Arial, sans-serif;
   position:relative;
   top: $headerHeight;  
+  min-height: 800px;
+
+  h2, h3 {
+    font-family: Verdana, Arial, sans-serif;
+    color: #666;    
+  }
 }
 
 footer {

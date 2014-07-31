@@ -1,0 +1,136 @@
+/* Intro section */
+$banner-width-xs: 320px;
+$banner-height-xs: 400px;
+
+$rays-width-xs: 320px;
+$rays-height-xs: 320px;
+
+#banner {
+  width: 100%;
+  background-color: $theme-color2;
+  text-align: center;
+
+  .rays {
+    background: url(img/rays-main-480x480.png) center center no-repeat; 
+    display: inline-block;
+    position: relative; 
+    top: -100px;
+    width: 480px; 
+    height: 480px; 
+    
+    animation-name: spin; 
+    animation-duration: 40000ms; /* 40 seconds */
+    animation-iteration-count: infinite; 
+    animation-timing-function: linear;
+    -moz-animation-name: spin; 
+    -moz-animation-duration: 40000ms; /* 40 seconds */
+    -moz-animation-iteration-count: infinite; 
+    -moz-animation-timing-function: linear;
+    -webkit-animation-name: spin; 
+    -webkit-animation-duration: 40000ms; /* 40 seconds */
+    -webkit-animation-iteration-count: infinite; 
+    -webkit-animation-timing-function: linear;        
+  }
+
+  .text {
+    display: block; 
+    position: relative;
+    top: -420px;
+    z-index: 88888; 
+
+    .intro {
+      font-family: "Trebuchet MS", "Verdana", "Helvetica", sans-serif;
+      font-size: 250%;
+    }
+
+    .get-started {
+      margin: 2em 0 1em;
+
+      a {
+        font-size: 150%;
+        margin: 0 0.5em;
+      }
+    }
+
+    .version {
+      font-size: 130%;
+      margin: 1em 0;
+    }
+
+    .meta {
+      margin-top: 2em;
+
+      span, iframe {
+        width: 80px;
+        margin-left: 10px;
+      }
+    }
+  }
+}
+
+
+#details {
+  padding: 0 1.5em;
+
+  .feature {
+    display: inline-block;
+    box-sizing: border-box;
+    vertical-align: top;
+    width: 33%;
+    padding-right: 2em;
+
+    ul {
+      margin: 0 0 0 1em;
+      padding: 0;
+
+      li {
+        margin: 0 0 0.5em 0;
+        padding: 0;
+      }
+    }
+  }
+}
+
+
+
+@media screen and (max-width:480px) {
+  body.index {
+    #banner {
+      position: static;
+      bottom: 0;
+      padding: 0 0 2em;
+
+      .waigo-intro-banner {
+        width: $banner-width-xs; 
+        height: $banner-height-xs; 
+        font-size: 160%;
+
+
+        .text {
+          top: -240px;
+        }
+
+        .rays {
+          background: url(img/rays-main-320x320.png) center center no-repeat; 
+          width: $rays-width-xs; 
+          height: $rays-height-xs; 
+        }
+      }
+
+      .meta {
+        top: -40px;
+        
+        .github-buttons {
+          display: none;
+        }
+      }
+
+    }
+  }
+}
+
+
+
+
+
+

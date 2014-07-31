@@ -1,6 +1,5 @@
 node_modules
-frontend/src/bower_components
-frontend/build/*
+frontend/bower_components
 .repos/waigo
 .repos/examples
 npm-debug.log
