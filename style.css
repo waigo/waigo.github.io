@@ -4443,7 +4443,10 @@ footer {
   padding: 0;
 }
 #content #details2 {
-  background-color: #ccc;
+  background-color: #eee;
+}
+#content #sublinks {
+  margin-top: 3em;
 }
 @media screen and (max-width: 768px) {
   #banner .rays {
