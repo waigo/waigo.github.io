@@ -4296,6 +4296,9 @@ header#top nav {
 header#top .navbar-toggle .icon-bar {
   background-color: #fff;
 }
+header#top .navbar-right li {
+  margin-rigth: 0.2em;
+}
 header#top .navbar-brand {
   font-size: 31px;
   color: #fff;
@@ -4325,6 +4328,9 @@ header#top #topmenu-navbar-collapse ul.nav {
 header#top #topmenu-navbar-collapse li {
   margin: 0 0.2em;
   font-size: 120%;
+}
+header#top #topmenu-navbar-collapse .navbar-right li {
+  margin-right: 0.5em;
 }
 main#content {
   font-family: Helvetica, Arial, sans-serif;
@@ -4420,7 +4426,10 @@ footer {
   margin-left: 10px;
 }
 #content section {
-  padding: 0 1.5em;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  padding: 1em 4em 3em;
 }
 #content #details1 .features {
   margin: 0 0 1em;
@@ -4434,32 +4443,22 @@ footer {
   padding: 0;
 }
 #content #details2 {
-  background-color: #999;
+  background-color: #ccc;
 }
-@media screen and (max-width: 480px) {
-  body.index #banner {
-    position: static;
-    bottom: 0;
-    padding: 0 0 2em;
+@media screen and (max-width: 768px) {
+  #banner .rays {
+    width: 400px;
+    height: 400px;
+    top: -50px;
   }
-  body.index #banner .waigo-intro-banner {
-    width: $banner-width-xs;
-    height: $banner-height-xs;
-    font-size: 160%;
+  #banner .text {
+    top: -380px;
   }
-  body.index #banner .waigo-intro-banner .text {
-    top: -240px;
-  }
-  body.index #banner .waigo-intro-banner .rays {
-    background: url("img/rays-main-320x320.png") center center no-repeat;
-    width: $rays-width-xs;
-    height: $rays-height-xs;
-  }
-  body.index #banner .meta {
-    top: -40px;
-  }
-  body.index #banner .meta .github-buttons {
+  #banner .meta {
     display: none;
+  }
+  #content section {
+    padding: 1em 0.5em;
   }
 }
 .waigo-content-menu {

@@ -21,24 +21,32 @@ block content
       .col-md-4
         h3 Easy
         ul
-          li Built on <a href="http://koajs.com" target="_blank">generator</a> middleware architecture.
-          li Command-line client to automate tasks.
+          li Built on <a href="http://koajs.com" target="_blank">Koa/Express</a> middleware architecture.
+          li <a href="/guide.html#command-line">Command-line</a> client to automate tasks.
       .col-md-4
-        h3 Clean
+        h3 Elegant
         ul
           li No more callback hell. Generators and promises are in.
-          li Minimal core framework, with no unneeded cruft.
+          li <a href="/api">Minimal core</a> framework, with no unneeded cruft.
       .col-md-4
-        h3 Customizable
+        h3 Extendable
         ul
-          li Easily override framework behaviour.
-          li Create and share customizations as plugins.
+          li Easily <a href="/guide.html#extend-and-override">override</a> framework behaviour.
+          li Create and share customizations as <a href="/guide.html#plugins">plugins</a>.
 
   section#details2
     h2 Quick start
+    .row
+      .col-md-6
+        pre
+          code.language-bash
+            $ npm install -g waigo
+            $ waigo init
+            $ ./start-app.js
+      .col-md-6
+        :markdown 
+          If you visit `http://localhost:3000` in your browser you should see 
+          some welcome text.
 
-    pre
-      code.language-bash
-        $ npm install -g waigo
-        $ waigo init
-        $ waigo start
+          You can now start adding controllers and models and develop your 
+          application.
