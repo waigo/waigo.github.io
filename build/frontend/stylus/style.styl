@@ -5,9 +5,18 @@
 @import "_bootstrap"
 
 
+/* Fonts */
+
+@font-face {
+  font-family: NexaLightRegular;
+  src: url("fonts/Nexa Light.otf");
+}
+
+
 /* Structure */
 
 $header-height = 50px
+
 
 
 header#top
@@ -39,10 +48,9 @@ header#top
     a 
       color $navbar-default-color
 
-      &hover 
-        color $navbar-default-link-hover-color
-      
-    
+      &:hover 
+        background-color $navbar-default-color
+        color $navbar-default-bg
 
     li.active 
       background-color $navbar-default-link-hover-bg
@@ -73,13 +81,14 @@ header#top
 
 
 main#content 
-  font-family Helvetica, Arial, sans-serif
+  font-family "Open Sans", Verdana, Arial, sans-serif
+  font-size 16px
   position relative
   top $header-height  
   min-height 800px
 
-  h2, h3 
-    font-family Verdana, Arial, sans-serif
+  h1, h2, h3 
+    font-family NexaLightRegular, Helvetica, Arial, sans-serif
     color #666    
   
 

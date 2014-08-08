@@ -11,12 +11,13 @@ html(lang="en")
     meta(name="msapplication-TileColor", content="#fff")
     meta(name="msapplication-TileImage", content="/img/logo_144x144.png")
 
+    link(href='http://fonts.googleapis.com/css?family=Open+Sans:400,700', rel='stylesheet', type='text/css')
     link(rel="stylesheet", media="screen", href="/style.css")
 
     block head
 
   body(class=siteNav)
-    header#top
+    header#top.clearfix
       nav.navbar.navbar-fixed-top(role="banner")
         .navbar-header
           button.navbar-toggle.collapsed(type="button", data-toggle="collapse", data-target="#topmenu-navbar-collapse")

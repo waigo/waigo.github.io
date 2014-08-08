@@ -4285,6 +4285,11 @@ button.close {
     display: none !important;
   }
 }
+/* Fonts */
+@font-face {
+  font-family: NexaLightRegular;
+  src: url("fonts/Nexa Light.otf");
+}
 /* Structure */
 header#top nav {
   height: 50px;
@@ -4309,7 +4314,8 @@ header#top .navbar-nav {
 header#top .navbar-nav a {
   color: #fff;
 }
-header#top .navbar-nav ahover {
+header#top .navbar-nav a:hover {
+  background-color: #fff;
   color: #ff6138;
 }
 header#top .navbar-nav li.active {
@@ -4333,14 +4339,16 @@ header#top #topmenu-navbar-collapse .navbar-right li {
   margin-right: 0.5em;
 }
 main#content {
-  font-family: Helvetica, Arial, sans-serif;
+  font-family: "Open Sans", Verdana, Arial, sans-serif;
+  font-size: 16px;
   position: relative;
   top: 50px;
   min-height: 800px;
 }
+main#content h1,
 main#content h2,
 main#content h3 {
-  font-family: Verdana, Arial, sans-serif;
+  font-family: NexaLightRegular, Helvetica, Arial, sans-serif;
   color: #666;
 }
 footer {
@@ -4420,8 +4428,8 @@ footer {
 #banner .text .meta {
   margin-top: 2em;
 }
-#banner .text .meta span,
-#banner .text .meta iframe {
+#banner .text .meta div {
+  display: inline-block;
   width: 80px;
   margin-left: 10px;
 }
@@ -4461,7 +4469,7 @@ footer {
     display: none;
   }
   #content section {
-    padding: 1em 0.5em;
+    padding: 1em;
   }
 }
 .waigo-content-menu {
@@ -4500,8 +4508,11 @@ footer {
 #guide {
   padding: 1.5em;
 }
-#api section.readme {
-  padding-top: 2em;
+#api section {
+  padding: 2em 0 0;
+}
+#api section:first-child {
+  padding-top: 0.5em;
 }
 #api .waigo-api-index {
   font-size: 90%;

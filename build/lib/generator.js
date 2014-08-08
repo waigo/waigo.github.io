@@ -37,7 +37,7 @@ Promise.promisifyAll(fs);
 exports.rebuild = function(options) {
   var tasks = {
     images: [ compileImages ],
-    styles: [ compileStyles ],
+    styles: [ compileFonts, compileStyles ],
     scripts: [ compileJs ],
     mainpages: [ compileMainPages ],
     examples: [ compileExamples ],
@@ -184,6 +184,29 @@ var compileImages = function(options) {
     });
   }, imgFolder, options);
 };
+
+
+
+
+/** 
+ * Compile fonts.
+ * @param  {Object} options build options.
+ * @return {Promise}
+ */
+var compileFonts = function(options) {
+  var fontsFolder = path.join(options.srcFolder, 'fonts');
+
+  return _compileAndWatch(function() {
+    console.log('--> Compiling fonts');
+    return Promise.try(function() {
+      shell.rm('-rf', path.join(options.buildFolder, 'fonts'));
+      shell.cp('-rf', fontsFolder, options.buildFolder);
+    });
+  }, fontsFolder, options);
+};
+
+
+
 
 
 
