@@ -119,11 +119,11 @@ var compileMainPages = function(options) {
       }),
 
       Promise.try(function() {
-        var pageHtml = jade.renderFile(path.join(templatesFolder, 'sites.jade'), { 
-          siteNav: 'sites',
-          sites: require('./sites')
+        var pageHtml = jade.renderFile(path.join(templatesFolder, 'projects.jade'), { 
+          siteNav: 'projects',
+          projects: require('./projects')
         });
-        return fs.writeFileAsync(path.join(options.buildFolder, 'sites.html'), pageHtml, { encoding: 'utf-8' });            
+        return fs.writeFileAsync(path.join(options.buildFolder, 'projects.html'), pageHtml, { encoding: 'utf-8' });            
       }),
 
     ]);

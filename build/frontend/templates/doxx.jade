@@ -18,15 +18,17 @@ block content
         .col-md-3.waigo-api-index(role="complementary")
           ul.nav.hidden-sm.hidden-xs
             each file in files
+              - fName = ('Main' === file.name) ? 'Introduction' : file.name;
               li(class=(file.name !== currentName ? "":"active"))
-                a(href=file.relName) #{file.name}
+                a(href=file.relName) #{fName}
           .visible-sm.visible-xs
             button.btn.btn-info(type="button", data-toggle="collapse", data-target="#api-index-xs") Show/hide API index
             #api-index-xs.collapse
               ul.nav
                 each file in files
+                  - fName = ('Main' === file.name) ? 'Introduction' : file.name;
                   li(class=(file.name !== currentName ? "":"active"))
-                    a(href=file.relName) #{file.name}
+                    a(href=file.relName) #{fName}
 
         .col-md-7.waigo-api-content(role="main")
           if locals.readme

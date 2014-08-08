@@ -5205,27 +5205,27 @@ footer {
 #examples ul.files li pre {
   margin: 0.5em 0;
 }
-#sites {
+#projects {
   padding: 1.5em;
 }
-#sites .intro {
+#projects .intro {
   color: #666;
   text-align: center;
   font-size: 150%;
   border-bottom: 1px dashed #666;
   padding: 0.5em 0;
 }
-#sites ul {
+#projects ul {
   list-style: none;
   margin: 0;
   padding: 0;
 }
-#sites ul li .item {
+#projects ul li .item {
   margin-top: 2em;
   text-align: center;
   background-color: #efefef;
   padding: 0.2em 1em;
 }
-#sites ul li .item .title {
+#projects ul li .item .title {
   font-size: 140%;
 }
