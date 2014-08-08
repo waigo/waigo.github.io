@@ -73,6 +73,11 @@ $rays-height-xs 320px
     padding 1em 4em 3em
 
   #details1
+    .intro
+      font-size 120%
+      text-align center
+      margin-bottom 2em
+
     .features
       margin 0 0 1em
 
@@ -94,7 +99,7 @@ $rays-height-xs 320px
 
 
 
-@media screen and (max-width: 768px) 
+@media $media-max-phone
   #banner
     .rays
       width 400px
@@ -102,8 +107,6 @@ $rays-height-xs 320px
       top -50px
     .text
       top -380px
-    .meta
-      display none
   #content
     section
       padding 1em

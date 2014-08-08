@@ -4439,6 +4439,11 @@ footer {
   box-sizing: border-box;
   padding: 1em 4em 3em;
 }
+#content #details1 .intro {
+  font-size: 120%;
+  text-align: center;
+  margin-bottom: 2em;
+}
 #content #details1 .features {
   margin: 0 0 1em;
 }
@@ -4456,7 +4461,7 @@ footer {
 #content #sublinks {
   margin-top: 3em;
 }
-@media screen and (max-width: 768px) {
+@media (max-width:767px) {
   #banner .rays {
     width: 400px;
     height: 400px;
@@ -4464,9 +4469,6 @@ footer {
   }
   #banner .text {
     top: -380px;
-  }
-  #banner .meta {
-    display: none;
   }
   #content section {
     padding: 1em;

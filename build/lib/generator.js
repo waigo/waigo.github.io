@@ -198,10 +198,13 @@ var compileFonts = function(options) {
 
   return _compileAndWatch(function() {
     console.log('--> Compiling fonts');
+
     return Promise.try(function() {
       shell.rm('-rf', path.join(options.buildFolder, 'fonts'));
       shell.cp('-rf', fontsFolder, options.buildFolder);
+      shell.cp('-rf', path.join(options.srcFolder, 'bower_components', 'bootstrap-stylus', 'fonts', '*.*') , options.buildFolder);
     });
+
   }, fontsFolder, options);
 };
 
