@@ -27,20 +27,48 @@ block content
           you need, without getting in your way.
     .features.row
       .col-md-4
-        h3 Easy
-        ul
-          li Built on <a href="http://koajs.com" target="_blank">Koa/Express</a> middleware architecture.
-          li <a href="/guide.html#command-line">Command-line</a> client to automate tasks.
+        i.glyphicon.glyphicon-road
+        h3 Next-generation
+        :markdown
+          Waigo builds on [Koa](http://koajs.com), the ES6 successor to 
+          Express. Callback hell is eliminated and error handling is 
+          simplified thanks to *Promises* and *Generators*.
       .col-md-4
-        h3 Elegant
-        ul
-          li No more callback hell. Generators and promises are in.
-          li <a href="/api">Minimal core</a> framework, with no unneeded cruft.
+        i.glyphicon.glyphicon-wrench
+        h3 Customizable
+        :markdown
+          Almost every module file within the core framework can be 
+          [overridden](/guide.html#extend-and-override), allowing you to customise the behaviour of the framework 
+          to suit your needs. It gets out of your way when you need it to.
       .col-md-4
-        h3 Extendable
-        ul
-          li Easily <a href="/guide.html#extend-and-override">override</a> framework behaviour.
-          li Create and share customizations as <a href="/guide.html#plugins">plugins</a>.
+        i.glyphicon.glyphicon-compressed
+        h3 Lean machine
+        :markdown
+          The core framework is small and gives you access to the underlying 
+          Koa objects. You can also use your preferred [back-end storage](/guide.html#database-and-models)
+          and front-end UI frameworks.
+    .features.row
+      .col-md-4
+        i.glyphicon.glyphicon-phone
+        h3 REST APIs
+        :markdown
+          With [output formats](/guide.html#views-and-output-formats)  it's easy 
+          to re-use your controllers to serve a REST API to your single-page 
+          and mobile apps. 
+      .col-md-4
+        i.glyphicon.glyphicon-align-justify
+        h3 Command-line power
+        :markdown
+          The [command-line client](#/guide.html#command-line) makes it 
+          really easy to start using Waigo. The best part is you can extend 
+          it with your own commands relevant to your application.
+      .col-md-4
+        i.glyphicon.glyphicon-share
+        h3 Plugins
+        :markdown
+          Have an override or feature you'd like to share? Just bundle it 
+          up as a [plugin](/guide.html#plugin). And since plugins are just NPM 
+          modules they're easy to distribute and use.
 
   section#details2
     h2 Quick start

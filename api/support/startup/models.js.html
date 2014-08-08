@@ -65,9 +65,9 @@
                 <li><a href="../../support/shutdown/listener.js.html">support/shutdown/listener.js</a></li>
                 <li><a href="../../support/startup/database.js.html">support/startup/database.js</a></li>
                 <li><a href="../../support/startup/listener.js.html">support/startup/listener.js</a></li>
-                <li class="active"><a href="../../support/startup/logging.js.html">support/startup/logging.js</a></li>
+                <li><a href="../../support/startup/logging.js.html">support/startup/logging.js</a></li>
                 <li><a href="../../support/startup/middleware.js.html">support/startup/middleware.js</a></li>
-                <li><a href="../../support/startup/models.js.html">support/startup/models.js</a></li>
+                <li class="active"><a href="../../support/startup/models.js.html">support/startup/models.js</a></li>
                 <li><a href="../../support/startup/routes.js.html">support/startup/routes.js</a></li>
                 <li><a href="../../support/underscore.js.html">support/underscore.js</a></li>
               </ul>
@@ -106,9 +106,9 @@
                     <li><a href="../../support/shutdown/listener.js.html">support/shutdown/listener.js</a></li>
                     <li><a href="../../support/startup/database.js.html">support/startup/database.js</a></li>
                     <li><a href="../../support/startup/listener.js.html">support/startup/listener.js</a></li>
-                    <li class="active"><a href="../../support/startup/logging.js.html">support/startup/logging.js</a></li>
+                    <li><a href="../../support/startup/logging.js.html">support/startup/logging.js</a></li>
                     <li><a href="../../support/startup/middleware.js.html">support/startup/middleware.js</a></li>
-                    <li><a href="../../support/startup/models.js.html">support/startup/models.js</a></li>
+                    <li class="active"><a href="../../support/startup/models.js.html">support/startup/models.js</a></li>
                     <li><a href="../../support/startup/routes.js.html">support/startup/routes.js</a></li>
                     <li><a href="../../support/underscore.js.html">support/underscore.js</a></li>
                   </ul>
@@ -118,7 +118,7 @@
             <div role="main" class="col-md-7 waigo-api-content">
               <section id="exports">
                 <h1></h1>
-                <div class="description"><p>Setup application logger.</p><p>The logging configuration is a key-value map where the key specifies the<br />name of the module file under the <code>support.logging</code> path and the mapped<br />value specifies the configuration for the specific logger type.</p><p>Upon completion <code>app.logger</code> will be set.</p><p><em>Note: At present only the first specified logger actually gets initialised</em>.</p> </div>
+                <div class="description"><p>Load models.</p><p>This requires the &#39;database&#39; startup step to be enabled.</p> </div>
                 <h5 class="subheader"></h5>
                 <p>
                   <div class="label label-info radius ctx-type">method</div>
@@ -138,26 +138,25 @@
                     <td class="type">Object</td>
                     <td class="description">The application.</td>
                   </tr>
-                  <tr>
-                    <td class="name">app.config.logging</td>
-                    <td class="type">Object</td>
-                    <td class="description">Logger configuration.</td>
-                  </tr>
                 </tbody>
               </table>
               <pre><code class="language-javascript">module.exports = function*(app) {
-  var appLoggerType = Object.keys(app.config.logging).pop();
-  
-  debug('Setting up logger: ' + appLoggerType);
+  var modelModuleFiles = waigo.getModulesInPath('models');
 
-  app.logger = waigo.load('support/logging/' + appLoggerType).create(app.config.logging[appLoggerType]);
+  debug('Loading models');
 
-  process.on('uncaughtException', function(err) {
-    app.logger.error('Uncaught exception', err.stack);
-  });
+  app.models = {};
 
-  app.on('error', function(err, ctx){
-    app.logger.error(err.stack);
+  modelModuleFiles.forEach(function(modulePath) {
+    var name = _.str.capitalize(
+      path.basename(modulePath, path.extname(modulePath))
+    );
+
+    var modelClass = waigo.load(modulePath)(app.db);
+    
+    debug('Adding model: ' + name);
+
+    app.models[modelClass.modelName || name] = modelClass;
   });
 };</code></pre>
             </div>
@@ -173,7 +172,7 @@
       </div>
     </main>
     <footer role="contentinfo">
-      <div><p>Waigo &copy; <a href="https://github.com/hiddentao">Ramesh Nair</a>. Page <a href="https://github.com/waigo/waigo.github.io">generated</a> on Fri, 08 Aug 2014 10:29:53 GMT</p>
+      <div><p>Waigo &copy; <a href="https://github.com/hiddentao">Ramesh Nair</a>. Page <a href="https://github.com/waigo/waigo.github.io">generated</a> on Fri, 08 Aug 2014 10:29:54 GMT</p>
 
       </div>
     </footer>

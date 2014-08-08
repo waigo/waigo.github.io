@@ -79,16 +79,21 @@ $rays-height-xs 320px
       margin-bottom 2em
 
     .features
-      margin 0 0 1em
+      & > div
+        margin 0 0 1.5em
 
-      ul 
-        margin 0 0 0 1em
-        padding 0
+      .glyphicon
+        display inline-block
+        background-color $theme-color5
+        color $body-bg
+        font-size 120%
+        padding 1em
+        margin 0 1em 1em 0
+        border-radius 5px
 
-        li 
-          margin 0 0 0.5em 0
-          padding 0
-        
+        & + h3
+          display inline-block
+
   #details2
     background-color #eee
       

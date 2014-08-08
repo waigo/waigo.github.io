@@ -151,7 +151,7 @@ var compileJs = function(options) {
       fs.readFileAsync(path.join(jsFolder, 'prism.js'), { encoding: 'utf-8' })
     ].concat(
       (['affix', 'transition', 'collapse', 'dropdown', 'scrollspy'].map(function(libName) {
-        return fs.readFileAsync(path.join(options.srcFolder, 'bower_components', 'sass-bootstrap', 'js', libName + '.js'), { encoding: 'utf-8' });
+        return fs.readFileAsync(path.join(options.srcFolder, 'bower_components', 'bootstrap-stylus', 'js', libName + '.js'), { encoding: 'utf-8' });
       })),
       fs.readFileAsync(path.join(jsFolder, 'page.js'), { encoding: 'utf-8' })
     ))
@@ -202,7 +202,7 @@ var compileFonts = function(options) {
     return Promise.try(function() {
       shell.rm('-rf', path.join(options.buildFolder, 'fonts'));
       shell.cp('-rf', fontsFolder, options.buildFolder);
-      shell.cp('-rf', path.join(options.srcFolder, 'bower_components', 'bootstrap-stylus', 'fonts', '*.*') , options.buildFolder);
+      shell.cp('-rf', path.join(options.srcFolder, 'bower_components', 'bootstrap-stylus', 'fonts') , options.buildFolder);
     });
 
   }, fontsFolder, options);
