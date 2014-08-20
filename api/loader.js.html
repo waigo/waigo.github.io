@@ -116,6 +116,15 @@
               </div>
             </div>
             <div role="main" class="col-md-7 waigo-api-content">
+              <section id="_">
+                <h1>_</h1>
+                <div class="description"><p>Reference to <code>lodash</code>.</p><p>Once waigo.load(&#39;application&#39;) has been called this will have been extended<br />with <code>underscore.string</code> module and Waigo&#39;s<br />enhanced mixins (see <code>support/underscore.js</code>).</p> </div>
+                <h5 class="subheader"></h5>
+                <p>
+                  <div class="label label-success radius ctx-type">property</div>
+                </p>
+              </section>
+              <pre><code class="language-javascript">loader._ = _;</code></pre>
               <section id="init">
                 <h1>init</h1>
                 <div class="description"><p>Initialise the Waigo module file loader.</p><p>This scans the folder trees of the core framework, plugins and your<br />application to map out what&#39;s available and to ensure that there are no<br />instances of any given module file being provided by two or more plugins.<br />For more information on how Waigo decides where to load modules from see<br />the <code>load()</code> method.</p><p>If <code>options.plugins</code> is provided then those named plugins get loaded. If<br />not then the remaining options are used to first work out which plugins to<br />load and then those plugins get loaded. By default the plugins to load are<br />filtered from the dependencies listed within the <code>package.json</code> file.</p> </div>
@@ -407,6 +416,7 @@ module.exports = loader;</code></pre>
             <div class="col-md-2">
               <div role="complementary" class="waigo-content-menu hidden-print">
                 <ul class="nav">
+                  <li><a href="#_"><span>_</span></a></li>
                   <li><a href="#init"><span>init()</span></a></li>
                   <li><a href="#load"><span>load()</span></a></li>
                   <li><a href="#getModulesInPath"><span>getModulesInPath()</span></a></li>
@@ -420,7 +430,7 @@ module.exports = loader;</code></pre>
       </div>
     </main>
     <footer role="contentinfo">
-      <div><p>Waigo &copy; <a href="https://github.com/hiddentao">Ramesh Nair</a>. Page <a href="https://github.com/waigo/waigo.github.io">generated</a> on Fri, 08 Aug 2014 16:49:15 GMT</p>
+      <div><p>Waigo &copy; <a href="https://github.com/hiddentao">Ramesh Nair</a>. Page <a href="https://github.com/waigo/waigo.github.io">generated</a> on Wed, 20 Aug 2014 16:10:41 GMT</p>
 
       </div>
     </footer>
