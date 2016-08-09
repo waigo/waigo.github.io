@@ -1,0 +1,7 @@
+retina-image(path, w = auto, h = auto, min_pixel_ratio = 1.5)
+  image(path, w, h, min_pixel_ratio)
+  if w in (cover contain) and h == auto
+    h = null
+  background-size w h
+
+

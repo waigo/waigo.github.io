@@ -1,0 +1,57 @@
+header
+  @extend $HeaderFont
+  position relative
+  margin-bottom 1.5em
+  background-color $white
+  box-shadow 0px 7px 26px -1px rgba(0,0,0,0.23)
+  width 100vw
+  height 64px
+  
+  .brand
+    position absolute
+    height 64px
+    display flex
+    flex-flow row no-wrap    
+    justify-content center
+    align-items center
+    a
+      @extend $NoLinkStyle
+      text-indent -9999px 
+      width 48px
+      height 48px
+      .small-logo
+        width 100%
+        height 100%
+    span.tagline
+      @extend $HeaderFontThin
+      font-size 1em
+      +below($width-xs)
+        display none
+      
+  ul.nav
+    position absolute
+    height 64px
+    right 15px
+    list-style none
+    display flex
+    flex-flow row no-wrap    
+    justify-content center
+    align-items center
+    li
+      display inline-block    
+      height 48px
+      margin-left 2em
+      +below($width-s)
+        margin-left 1em
+      a
+        @extend $NavLinkStyle
+        @extend $HeaderFontThin
+        font-size 1.2em
+        display inline-block
+        height 100%
+        line-height 48px
+        i
+          display inline-block
+          width 32px
+          height 32px
+          margin 8px 5px 0

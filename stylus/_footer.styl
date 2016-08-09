@@ -1,0 +1,26 @@
+footer
+  width 100vw
+  height 50px
+  border-top 1px solid $gray-light
+  padding 1em
+  margin-top 60px
+  color $gray-dark
+  text-align center
+  .tagline
+    @extend $HeaderFont
+    margin 0 0 1em
+  .credits
+    font-size 50%
+  .social
+    margin-top 1em
+    a
+      @extend $NoLinkStyle
+      @extend $HeaderFontThin
+      display inline-block
+      margin 0 0.5em
+      width 24px
+      height 24px
+      opacity 0.5
+      transition all 0.3s linear
+      &:hover
+        opacity 1
