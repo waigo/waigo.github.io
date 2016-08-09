@@ -14,4 +14,16 @@ a
   
 
 h1, h2, h3
-  @extend $HeaderFontThin
+  @extend $HeaderFont
+
+
+.page
+  position relative
+  min-height 100vh
+  width 100vw
+  
+  main
+    min-height "calc(100vh - %s)" % ($headerHeight)
+    padding 2em 1.5em 0
+    +below($width-xs)
+      padding 1em

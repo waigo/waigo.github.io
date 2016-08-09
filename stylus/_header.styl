@@ -1,12 +1,19 @@
 header
   @extend $HeaderFont
-  position relative
-  margin-bottom 1.5em
-  background-color $white
-  box-shadow 0px 7px 26px -1px rgba(0,0,0,0.23)
   width 100vw
-  height 64px
+  height $headerHeight
+  margin-bottom 1.5em
+  transition all 0.5s linear
   
+  .headroom--unfixed &
+    background-color transparent
+    color $white
+
+  .headroom--pinned &
+    background-color $color1
+    color $white
+    box-shadow 0px 7px 26px -1px rgba(0,0,0,0.23)
+
   .brand
     position absolute
     height 64px

@@ -8,6 +8,7 @@ import { config } from 'config';
 
 
 
+
 export default class Index extends React.Component {
   render () {
     return (
@@ -15,8 +16,12 @@ export default class Index extends React.Component {
         <div className="page home">
           <Header activeNav="home" />
           <main>
-            <h1>{config.siteTitle}</h1>
-            <p className="tagline quoted">{config.tagLine}</p>
+            <div className="splash">
+              <div className="large logo" />
+              <h1>Waigo.js</h1>
+              <p className="tagline">Node.js MVC web framework for building scalable apps</p>
+              <p className="description">{config.tagLine}</p>
+            </div>
           </main>
           <Footer />
         </div>
