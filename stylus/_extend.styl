@@ -1,18 +1,4 @@
-$HeaderFont
-  font-family "Josefin Sans", Roboto, Arial, sans-serif
-  font-weight 400
 
-$HeaderFontThin
-  @extend $HeaderFont
-  font-weight 300
-
-$BodyFont
-  font-family "Raleway", Arial, sans-serif
-  font-weight 300
-
-$BodyFontBold
-  @extend $BodyFont
-  font-weight 500
 
 $LinkStyle
   color $black
@@ -26,23 +12,26 @@ $LinkStyle
 
 $NavLinkStyle
   @extend $LinkStyle
-  color $black
+  color $white
   text-decoration none
   border-bottom none
+  transition all 0.2s linear
+  padding 0 0.5em
+  border-radius 5px
   &:hover
     color $black
     background-color $white
-    border-radius 0px
-    border-bottom 1px solid $black
   
 
 
 $NoLinkStyle
   @extend $LinkStyle
   color inherit
+  background-color inherit    
   text-decoration none
   border-bottom none
   &:hover
     color inherit
+    background-color inherit
     border-radius 0px
     border-bottom none

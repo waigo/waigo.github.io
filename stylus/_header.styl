@@ -1,9 +1,11 @@
 header
   @extend $HeaderFont
+  letter-spacing 1px
+  position relative
   width 100vw
   height $headerHeight
   margin-bottom 1.5em
-  transition all 0.5s linear
+  transition all 0.3s linear
   
   .headroom--unfixed &
     background-color transparent
@@ -16,28 +18,16 @@ header
 
   .brand
     position absolute
-    height 64px
-    display flex
-    flex-flow row no-wrap    
-    justify-content center
-    align-items center
+    height $headerHeight
     a
       @extend $NoLinkStyle
-      text-indent -9999px 
-      width 48px
-      height 48px
-      .small-logo
-        width 100%
-        height 100%
-    span.tagline
-      @extend $HeaderFontThin
-      font-size 1em
-      +below($width-xs)
-        display none
+      padding 0 0.5em
+      line-height $headerHeight
+      font-size 1.5rem
       
   ul.nav
     position absolute
-    height 64px
+    height $headerHeight
     right 15px
     list-style none
     display flex
@@ -52,7 +42,6 @@ header
         margin-left 1em
       a
         @extend $NavLinkStyle
-        @extend $HeaderFontThin
         font-size 1.2em
         display inline-block
         height 100%

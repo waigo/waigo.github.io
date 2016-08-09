@@ -38,7 +38,7 @@ export default class Header extends React.Component {
         <header>
           <section className="brand">
             <Link to={prefixLink('/')}>
-              <div className="small-logo" alt={`${config.siteTitle} logo`} />
+              Waigo.js
             </Link>
           </section>
           <ul className="nav">

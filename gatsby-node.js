@@ -8,7 +8,7 @@ exports.modifyWebpackConfig = function(config, env) {
     // if ('develop' !== env) {
     //   cfg.loader = ExtractTextPlugin.extract("css?-url&minimize!stylus");
     // } else {
-    cfg.loader = 'style!css!stylus-relative';
+    cfg.loader = 'style!css?-url!stylus-relative';
     // }
     return cfg;
   });

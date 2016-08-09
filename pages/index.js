@@ -19,8 +19,8 @@ export default class Index extends React.Component {
             <div className="splash">
               <div className="large logo" />
               <h1>Waigo.js</h1>
-              <p className="tagline">Node.js MVC web framework for building scalable apps</p>
-              <p className="description">{config.tagLine}</p>
+              <p className="tagline">Node.js MVC framework for building scalable apps.</p>
+              <p className="description">An ES6-based framework for building reactive APIs and apps. Uses Koa and RethinkDB.</p>
             </div>
           </main>
           <Footer />

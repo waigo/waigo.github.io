@@ -3,6 +3,7 @@ import DocumentTitle from 'react-document-title';
 import { prefixLink } from 'gatsby-helpers';
 
 
+
 const BUILD_TIME = new Date().getTime();
 
 
@@ -33,7 +34,6 @@ module.exports = React.createClass({
           <meta name="msapplication-TileColor" content="#fff" />
           <meta name="msapplication-TileImage" content="favicon.png" />
           <title>{title}</title>
-          <link href="https://fonts.googleapis.com/css?family=Josefin Sans:300,400|Raleway:300,500" rel="stylesheet" />
           {css}
         </head>
         <body>
