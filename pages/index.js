@@ -29,8 +29,12 @@ export default class Index extends React.Component {
                 <span>v2.1 "Harambe"</span>
               </div>
               <div className="social">
-                <Link to="https://twitter.com/waigojs">Follow us on Twitter</Link>
-                <Link to="https://github.com/waigo/waigo">Star us on Github</Link>
+                <Link to="https://twitter.com/waigojs">
+                  <i className="twitter" /><span>Follow us on Twitter</span>
+                </Link>
+                <Link to="https://github.com/waigo/waigo">
+                  <i className="github" /><span>Star us on Github</span>
+                </Link>
               </div>
             </div>
           </main>
