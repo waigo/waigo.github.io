@@ -1,3 +1,9 @@
+$SplashLinkStyle
+  @extend $NavLinkStyle
+  &:hover
+    color $black
+    background-color $white
+
 .page.home
   position relative
   
@@ -51,8 +57,9 @@
     .social
       margin-top 0.8em
       a
-        @extend $NavLinkStyle
+        @extend $SplashLinkStyle
         font-size 50%
         color $white
+        margin 0 0.5em
 
         
