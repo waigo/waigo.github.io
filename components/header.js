@@ -8,6 +8,12 @@ import { config } from 'config';
 
 const NAV = [
   {
+    label: 'Get started',
+    title: 'Get started',
+    link: prefixLink('/get_started/'),
+    tag: 'get_started',
+  },
+  {
     label: 'Docs',
     title: 'Documentation',
     link: prefixLink('/docs/'),
