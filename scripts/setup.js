@@ -120,31 +120,72 @@ Q.coroutine(function*() {
   exec('cp -rf ' + path.join(DIR, 'waigo/docs') + ' ' + path.join(DIR, 'pages/docs'));
 
   // go through doc files
-  yield walkFolder(path.join(DIR, 'pages/docs'), /\.md/i, (file) => {
-    logCmd(`Updating links in ${file}`);
+  const docsNav = {
+    url: '/docs',
+    children: {},
+  };
 
-    // all links to .md files should goto same-named folders instead
+  yield walkFolder(path.join(DIR, 'pages/docs'), /\.md/i, (file) => {
     let content = readFile(file);
 
+    // if README.md then extract links
+    if (0 < file.indexOf('README.md')) {
+      let re = /^\*\s+\[(.+)\]\((.+)(\/|\.md)\)$/igm,
+        links = [],
+        m;
+
+      while ( (m = re.exec(content)) !== null ) {
+        links.push(m);
+      }
+
+      let parentFolder = path.dirname(file).split(path.sep).pop();
+
+      let parentNode =  ('docs' === parentFolder) 
+        ? docsNav
+        : docsNav.children[parentFolder];
+
+      if (parentNode) {
+        links.forEach((l) => {
+          let label = l[1],
+            subFolder = l[2];
+
+          parentNode.children[subFolder] = {
+            label: label,
+            url: `${parentNode.url}/${subFolder}/`,
+            children: {},
+          };
+        });
+      } else {
+        console.log(`Skipping ${file} because parent node not found.`);
+      }
+    }
+
+    logCmd(`Updating links in ${file}`);
+
     // replace .md links
-    let newContent = content.replace(/\.md\)/img, '/)');
+    content = content.replace(/\.md\)/img, '/)');
+
+    logCmd(`Writing front-matter to ${file}`);
 
     // write front matter
-    let title = newContent.match(/#\s(.+)\n/i);
+    let title = content.match(/#\s(.+)\n/i);
     if (title && title[1]) {
-      newContent = `---\ntitle: ${title[1]}\n---\n${newContent}`;
+      content = `---\ntitle: ${title[1]}\n---\n${content}`;
     }
 
     // write to file
-    writeFile(file, newContent);
+    writeFile(file, content);
 
-    // rename README.md -> index.md      
+    // rename README.md -> index.md
     if (0 < file.indexOf('README.md')) {
       let newName = file.replace('README.md', 'index.md');
       
       exec(`mv ${file} ${newName}`);
     }
   });
+
+  // write docs nav to data file
+  writeFile(path.join(DIR, 'data/docsNav.json'), JSON.stringify(docsNav, null, 2));
 })()
   .then(() => {
     console.log('Setup complete.');

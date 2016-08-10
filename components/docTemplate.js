@@ -4,6 +4,8 @@ import Header from './header';
 import Footer from './footer';
 
 
+
+
 export default class Layout extends React.Component {
   render () {
     const page = this.props.page;

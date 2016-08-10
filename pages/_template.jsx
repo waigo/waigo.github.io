@@ -10,11 +10,7 @@ module.exports = React.createClass({
     }
   },
   render () {
-    return (
-      <div className="layout">
-        {this.props.children}
-      </div>
-    );
+    return this.props.children;
   },
 });
 
