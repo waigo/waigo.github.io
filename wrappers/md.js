@@ -1,6 +1,10 @@
 import React from 'react';
 import DocumentTitle from 'react-document-title';
 import { config } from 'config';
+import Header from '../components/header';
+import Footer from '../components/footer';
+
+
 
 module.exports = React.createClass({
   propTypes () {
@@ -9,15 +13,20 @@ module.exports = React.createClass({
     }
   },
   render () {
+    console.log(this.props.route.page);
+
     const post = this.props.route.page.data;
 
     return (
-      <DocumentTitle title={`${post.title} | ${config.siteTitle}`}>
-        <div className="markdown">
-          <h1>{post.title}</h1>
-          <div dangerouslySetInnerHTML={{ __html: post.body }} />
+      <DocumentTitle title={post.title}>
+        <div className="page docs">
+          <Header activeNav="docs" />
+          <main>{post.body}</main>
+          <Footer />
         </div>
       </DocumentTitle>
-    )
+    );
   },
-})
+});
+
+

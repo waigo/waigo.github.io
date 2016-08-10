@@ -54,7 +54,8 @@
     "typography": "^0.12.2",
     "underscore.string": "^3.2.2",
     "url-loader": "^0.5.7",
-    "webpack": "^1.13.1"
+    "webpack": "^1.13.1",
+    "yargs": "^4.8.1"
   },
   "keywords": [
     "gatsby"

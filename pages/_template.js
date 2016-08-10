@@ -1,6 +1,6 @@
 import React from 'react';
 
-import './stylus/app.styl';
+import '../stylus/app.styl';
 
 
 module.exports = React.createClass({

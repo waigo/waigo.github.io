@@ -22,8 +22,8 @@ export default class Index extends React.Component {
               <p className="tagline">Node.js MVC framework for building scalable apps.</p>
               <p className="description">An ES6-based framework for building reactive APIs and web apps. Uses Koa and RethinkDB.</p>
               <div className="actions">
-                <Link to="/get_started">Get started</Link>
-                <Link to="/docs">Read full docs</Link>
+                <Link to="/get_started/">Get started</Link>
+                <Link to="/docs/">Read full docs</Link>
               </div>
               <div className="meta">
                 <span>v2.1 "Harambe"</span>

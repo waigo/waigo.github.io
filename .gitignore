@@ -4,3 +4,4 @@ public/
 waigo
 pages/fonts/*
 pages/docs
+.DS_Store

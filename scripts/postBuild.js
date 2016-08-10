@@ -3,4 +3,3 @@
 const shell = require('shelljs');
 
 shell.cp('CNAME', 'public');
-shell.cp('img/favicon.*', 'public');

@@ -6,14 +6,19 @@ header
   margin-bottom 1.5em
   transition all 0.3s linear
   
-  .headroom--unfixed &
+  background-color $color1
+  color $white
+  box-shadow 0px 7px 26px -1px rgba(0,0,0,0.23)
+
+  .page.home .headroom--unfixed &
     background-color transparent
     color $white
+    box-shadow none
 
-  .headroom--pinned &
+  .page.home .headroom--pinned &
     background-color $color1
     color $white
-    box-shadow 0px 7px 26px -1px rgba(0,0,0,0.23)
+    box-shadow 0px 7px 26px -1px rgba(0,0,0,0.53)
 
   .brand
     position absolute
