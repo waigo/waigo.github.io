@@ -3,3 +3,4 @@ public/
 .gatsby-context.js
 waigo
 pages/fonts/*
+pages/docs
