@@ -16,6 +16,12 @@ const argv = require('yargs')
         describe: 'Skip cloning waigo repo, use existing.',
         type: ' boolean',
     },
+    'verbose': {
+        alias: 'v',
+        demand: false,
+        describe: 'Verbose logging.',
+        type: ' boolean',
+    },
   })
   .help('h')
   .alias('h', 'help')
@@ -26,7 +32,9 @@ const DIR = path.join(__dirname, '..');
 
 
 function logCmd(str) {
-  console.log(`\n>> ${str}`);
+  if (argv.verbose) {
+    console.log(`\n>> ${str}`);
+  }
 }
 
 
@@ -110,7 +118,6 @@ Q.coroutine(function*() {
   // create docs markdown
   exec('rm -rf ' + path.join(DIR, 'pages/docs'));
   exec('cp -rf ' + path.join(DIR, 'waigo/docs') + ' ' + path.join(DIR, 'pages/docs'));
-  exec('cp -rf ' + path.join(DIR, 'pages/docs-template/*') + ' ' + path.join(DIR, 'pages/docs'));
 
   // go through doc files
   yield walkFolder(path.join(DIR, 'pages/docs'), /\.md/i, (file) => {
@@ -119,12 +126,17 @@ Q.coroutine(function*() {
     // all links to .md files should goto same-named folders instead
     let content = readFile(file);
 
+    // replace .md links
     let newContent = content.replace(/\.md\)/img, '/)');
 
-    writeFile(file, content);
-
     // write front matter
-    let title = newContent.match(/#\s(.+)\n/ig);
+    let title = newContent.match(/#\s(.+)\n/i);
+    if (title && title[1]) {
+      newContent = `---\ntitle: ${title[1]}\n---\n${newContent}`;
+    }
+
+    // write to file
+    writeFile(file, newContent);
 
     // rename README.md -> index.md      
     if (0 < file.indexOf('README.md')) {
@@ -134,4 +146,7 @@ Q.coroutine(function*() {
     }
   });
 })()
+  .then(() => {
+    console.log('Setup complete.');
+  })
   .error(console.error);
