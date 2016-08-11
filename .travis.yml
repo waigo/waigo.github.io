@@ -27,3 +27,4 @@ after_success:
 notifications:
   slack:
     secure: "mzQUmiTt0iAK24eJEgDs2qOVD9ZeUvqw+hRh6rquouUIYJQsKcwbFdk4rKP4I6PFTQRrRVP9YxnxfdjSZzPDeGE5us5HWKQBYaAjSeHEdMEa+UXmdbxRtej3fvAZAWXRWq01k+d697fU+tS1rGbN467tAuXaBWFEWOuubGWBOlA="
+
