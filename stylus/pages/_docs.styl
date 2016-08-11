@@ -50,25 +50,28 @@ $EmbedObject
 
 
   aside
+    @extend $BodyFont
     display inline-block
     vertical-align top
-    @extend $BodyFont
     padding 0 20px 0 0
     border-right 1px solid $color3
-    font-size 1.1rem
+    font-size 1rem
     width 20%
     overflow hidden
+    
     a
       border-bottom none
       &:hover
         border-bottom 1px dashed $black
+        
     li.active > a
       @extend $BodyFontBold
-      font-size 140%
+      font-size 150%
       color $black
       border-bottom 1px dashed $black
       &:hover
         color $white
+        
     > ul
       > li
         line-height 2em

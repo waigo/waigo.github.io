@@ -5,11 +5,12 @@ import { Link } from 'react-router';
 import DocumentTitle from 'react-document-title';
 import HtmlToReact from 'html-to-react';
 import Classnames from 'classnames';
+import { config } from 'config';
 import Header from './header';
 import Footer from './footer';
 
 
-const NAV = require('../data/docsNav');
+const NAV = require('../data/docsNav.json');
 
 
 
@@ -22,11 +23,13 @@ export default class Layout extends React.Component {
       content = this._buildContent(page.data.body, page);
 
     return (
-      <DocumentTitle title={page.data.title}>
+      <DocumentTitle title={`${page.data.title} | ${config.siteTitle}`}>
         <div className="page docs">
           <Header activeNav="docs" />
           <main>
-            <aside>{navMenu}</aside>
+            <aside>
+              {navMenu}
+            </aside>
             <section className="content">{content}</section>
           </main>
           <Footer />
