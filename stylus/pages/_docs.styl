@@ -1,12 +1,40 @@
 .page.docs
   position relative
   
+  main
+    padding-top 2em
+
+  section.content
+    display inline-block
+    vertical-align top
+    width 70%
+    padding-left 20px
+    font-size 1rem
+    line-height 1.5em
+    h1
+      font-size 250%
+      margin 0 0 1em
+    h2
+      font-size 160%
+      margin 0 0 1em
+    p
+      margin 1em 0
+      
+    ul
+      list-style disc
+      margin-left 1.1em
+      li
+        padding 0.2em 0
+      
+
   aside
+    display inline-block
+    vertical-align top
     @extend $BodyFont
-    padding 0 0.5em 0 0
+    padding 0 20px 0 0
     border-right 1px solid $color3
     font-size 1.1rem
-    width 30%
+    width 20%
     a
       border-bottom none
       &:hover
@@ -20,7 +48,7 @@
         color $white
     > ul
       > li
-        padding 0.5em 0
+        line-height 2em
         > ul
           display none
         &.active
@@ -30,4 +58,4 @@
             font-size 80%
             margin 0.7em 0 0 2em
             > li
-              padding 0.4em 0
+              line-height 1.8em
