@@ -19,7 +19,7 @@ export default class Index extends React.Component {
           <main>
             <section className="splash">
               <div className="logo" />
-              <p className="tagline">Node.js MVC framework for extendable, scalable apps.</p>
+              <p className="tagline">Node.js ES6 framework for extendable, scalable back-ends.</p>
               <div className="actions">
                 <Link to="/docs/GettingStarted/">Get started</Link>
                 <Link to="/docs/">Read full docs</Link>
