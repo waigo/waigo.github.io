@@ -2,7 +2,7 @@ node_modules/
 public/
 .gatsby-context.js
 waigo
-pages/fonts/*
+pages/fonts
 pages/docs
 data/*
 .DS_Store

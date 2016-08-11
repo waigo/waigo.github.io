@@ -106,6 +106,8 @@ function walkFolder(rootFolder, regex, cb) {
 Q.coroutine(function*() {
 
   // copy in fonts
+  exec('rm -rf ' + path.join(DIR, 'pages/fonts'));
+  exec('mkdir -p ' + path.join(DIR, 'pages/fonts'));
   exec('cp ' + path.join(DIR, 'node_modules/fa-stylus/fonts/*') + ' ' + path.join(DIR, 'pages/fonts'));
 
   // clone waigo
