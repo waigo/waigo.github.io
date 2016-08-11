@@ -103,7 +103,6 @@ function walkFolder(rootFolder, regex, cb) {
 }
 
 
-
 Q.coroutine(function*() {
 
   // copy in fonts
@@ -151,7 +150,7 @@ Q.coroutine(function*() {
 
           parentNode.children[subFolder] = {
             label: label,
-            url: `${parentNode.url}/${subFolder}/`,
+            url: `${parentNode.url}/${subFolder}`,
             children: {},
           };
         });
