@@ -186,6 +186,8 @@ Q.coroutine(function*() {
   });
 
   // write docs nav to data file
+  exec('rm -rf ' + path.join(DIR, 'data'));
+  exec('mkdir -p ' + path.join(DIR, 'data'));
   writeFile(path.join(DIR, 'data/docsNav.json'), JSON.stringify(docsNav, null, 2));
 })()
   .then(() => {
