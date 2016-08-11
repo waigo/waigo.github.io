@@ -67,7 +67,7 @@
   "main": "n/a",
   "scripts": {
     "setup": "./scripts/setup.js",
-    "build": "rm -rf ./public && gatsby build && npm run postbuild",
+    "build": "rm -rf ./public && gatsby build && npm run postBuild",
     "postBuild": "./scripts/postBuild.js",
     "deploy": "gh-pages -d public -o origin -b master"
   }

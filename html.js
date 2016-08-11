@@ -29,10 +29,10 @@ module.exports = React.createClass({
             name="viewport"
             content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"
           />
-          <link rel="shortcut icon" href="/img/favicon.ico" />
-          <link rel="shortcut icon" href="/img/favicon.png" />
+          <link rel="shortcut icon" href="/img/logo.ico" />
+          <link rel="shortcut icon" href="/img/logo.png" />
           <meta name="msapplication-TileColor" content="#fff" />
-          <meta name="msapplication-TileImage" content="/img/favicon.png" />
+          <meta name="msapplication-TileImage" content="/img/logo.png" />
           <title>{title}</title>
           {css}
         </head>

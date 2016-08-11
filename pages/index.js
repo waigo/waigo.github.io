@@ -17,11 +17,9 @@ export default class Index extends React.Component {
         <div className="page home">
           <Header activeNav="home" />
           <main>
-            <div className="splash">
-              <div className="large logo" />
-              <h1>Waigo.js</h1>
+            <section className="splash">
+              <div className="logo" />
               <p className="tagline">Node.js MVC framework for extendable, scalable apps.</p>
-              <p className="description">An ES6-based framework for building APIs and reactive web apps. Uses Koa and RethinkDB.</p>
               <div className="actions">
                 <Link to="/docs/GettingStarted/">Get started</Link>
                 <Link to="/docs/">Read full docs</Link>
@@ -40,7 +38,10 @@ export default class Index extends React.Component {
                   <i className="github" /><span>Star on Github</span>
                 </Link>
               </div>
-            </div>
+            </section>
+            <section className="features-1">
+              <p className="description">An ES6-based framework for building APIs and reactive web apps. Uses Koa and RethinkDB.</p>
+            </section>
           </main>
           <Footer />
         </div>

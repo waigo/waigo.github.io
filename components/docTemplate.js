@@ -17,7 +17,6 @@ const NAV = require('../data/docsNav.json');
 export default class Layout extends React.Component {
   render () {
     const page = this.props.page;
-    console.log(page);
 
     let navMenu = this._buildNavMenu(NAV, page.path),
       content = this._buildContent(page.data.body, page);
