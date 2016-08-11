@@ -10,7 +10,7 @@ before_script:
 - openssl aes-256-cbc -K $encrypted_fa34bcccd2fa_key -iv $encrypted_fa34bcccd2fa_iv 
   -in .travis.config.tgz.enc -out .travis.config.tgz -d
 - tar -xzvf .travis.config.tgz
-- npm run setup
+- ./scripts/setup.js --verbose
 script:
 - npm run build
 after_success:
