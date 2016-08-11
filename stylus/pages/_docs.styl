@@ -14,18 +14,37 @@
     h1
       font-size 250%
       margin 0 0 1em
+      line-height 1em
     h2
       font-size 160%
       margin 0 0 1em
+      line-height 1em
     p
-      margin 1em 0
-      
+      margin 1em 0      
+    ol
+      list-style decimal
     ul
       list-style disc
-      margin-left 1.1em
+    ol,ul
+      margin 1em 0 1em 3em
       li
         padding 0.2em 0
-      
+    code
+      @extend $CodeFont
+      &[class*='hljs']
+        display block
+        border-radius 5px
+        max-width 100%
+        overflow-x scroll
+        box-shadow 0px 0px 11px 0px rgba(0,0,0,0.5)
+      &:not([class*='hljs'])
+        display inline
+        font-size 110%
+        padding 0.1em 0.2em
+        background-color $color3
+        border-radius 5px
+
+
 
   aside
     display inline-block
@@ -35,6 +54,7 @@
     border-right 1px solid $color3
     font-size 1.1rem
     width 20%
+    overflow hidden
     a
       border-bottom none
       &:hover

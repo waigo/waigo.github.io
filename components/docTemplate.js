@@ -1,4 +1,5 @@
 import _ from 'lodash';
+import path from 'path';
 import React from 'react';
 import { Link } from 'react-router';
 import DocumentTitle from 'react-document-title';
@@ -18,7 +19,7 @@ export default class Layout extends React.Component {
     console.log(page);
 
     let navMenu = this._buildNavMenu(NAV, page.path),
-      content = this._buildContent(page.data.body, page.path);
+      content = this._buildContent(page.data.body, page);
 
     return (
       <DocumentTitle title={page.data.title}>
@@ -35,7 +36,10 @@ export default class Layout extends React.Component {
   }
 
 
-  _buildContent (htmlStr, currentPath) {
+  _buildContent (htmlStr, page) {
+    let currentPath = page.path,
+      isLeaf = ('index.md' !== page.file.basename);
+
     /* replace all internal Anchor links to <Link /> tags  */
 
     let processNodeDefinitions = new HtmlToReact.ProcessNodeDefinitions(React);
@@ -49,11 +53,32 @@ export default class Layout extends React.Component {
             && 0 > _.get(node, 'attribs.href', '://').indexOf('://');
         },
         processNode: (node, children) => {
+          let href = node.attribs.href;
+
+          href = (isLeaf ? '../' : './') + href;
+
+          let p = path.resolve(currentPath, href);
+
+          if ('/' !== p.charAt(p.length-1)) {
+            p += '/';
+          }
+
           return (
-            <Link to={currentPath + node.attribs.href}>{_.get(node, 'children.0.data')}</Link>
+            <Link to={p}>{_.get(node, 'children.0.data')}</Link>
           );
         }
-      }, {
+      },
+      {
+        shouldProcessNode: (node) => {
+          return _.get(node, 'name', '') === 'code' && _.get(node, 'parent.name') === 'pre';
+        },
+        processNode: (node, children) => {
+          node.attribs.class += ' hljs';
+
+          return processNodeDefinitions.processDefaultNode.call(this, node, children);
+        }
+      },
+      {
         // Anything else
         shouldProcessNode: function(node) {
           return true;
