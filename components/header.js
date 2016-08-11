@@ -10,13 +10,13 @@ const NAV = [
   {
     label: 'Get started',
     title: 'Get started',
-    link: prefixLink('/get_started/'),
+    link: prefixLink('/docs/GettingStarted/'),
     tag: 'get_started',
   },
   {
     label: 'Docs',
     title: 'Documentation',
-    link: prefixLink('/docs/'),
+    link: prefixLink('/docs/Introduction/'),
     tag: 'docs',
   }
 ];

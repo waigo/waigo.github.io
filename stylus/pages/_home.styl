@@ -49,19 +49,18 @@ $SplashLinkStyle
           background-color $white
           color $black
 
-    .meta
+    .install
+      @extend $CodeFont
       font-size 60%
-      span
-        display inline-block
-        
-    .social
+      text-bg-color-border-radius($color1, 0.3em, 0.4em)      
+      
+    .meta
       margin-top 0.8em
       a
         @extend $SplashLinkStyle
         font-size 50%
         color $white
-        margin 0 0.1em
-        span
+        margin 0 0.5em
+        i + span
           margin-left 0.3em
-
         
