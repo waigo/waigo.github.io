@@ -23,7 +23,7 @@ after_success:
 - git init
 - git add .
 - git commit -m "Deploy to Github Pages"
-- git push --force "git@github.com:waigo/waigo.github.io.git" master:master
+# - git push --force "git@github.com:waigo/waigo.github.io.git" master:master
 notifications:
   slack:
     secure: "mzQUmiTt0iAK24eJEgDs2qOVD9ZeUvqw+hRh6rquouUIYJQsKcwbFdk4rKP4I6PFTQRrRVP9YxnxfdjSZzPDeGE5us5HWKQBYaAjSeHEdMEa+UXmdbxRtej3fvAZAWXRWq01k+d697fU+tS1rGbN467tAuXaBWFEWOuubGWBOlA="
