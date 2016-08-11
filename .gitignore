@@ -6,3 +6,7 @@ pages/fonts/*
 pages/docs
 data/*
 .DS_Store
+
+# Build data
+.config/
+.travis.config.tgz
