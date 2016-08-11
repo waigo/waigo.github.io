@@ -15,7 +15,6 @@ export default class Layout extends React.Component {
     const page = this.props.page;
 
     let navMenu = this._buildNavMenu(NAV, page);
-    console.log(page);
 
 /*            <section 
               className="content" 
