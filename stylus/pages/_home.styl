@@ -7,12 +7,16 @@ $SplashLinkStyle
 .page.home
   position relative
   
-  .splash
-    position absolute
-    top 0
-    left 0
-    width 100vw
-    height 100vh
+  .headroom-wrapper
+    background-color $color4
+
+  
+  main
+    padding 0
+  
+  section.splash
+    z-index 2
+    height "calc(100vh - %s)" % ($headerHeight)
     background-color $color4
     display flex
     flex-flow column no-wrap
@@ -64,3 +68,6 @@ $SplashLinkStyle
         i + span
           margin-left 0.3em
         
+  section.features-1
+    padding 1em
+
