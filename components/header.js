@@ -10,13 +10,13 @@ const NAV = [
   {
     label: 'Get started',
     title: 'Get started',
-    link: prefixLink('/docs/GettingStarted/'),
+    link: prefixLink(config.gettingStartedLink),
     tag: 'get_started',
   },
   {
     label: 'Docs',
     title: 'Documentation',
-    link: prefixLink('/docs/Introduction/'),
+    link: prefixLink(config.docsLink),
     tag: 'docs',
   }
 ];
@@ -50,7 +50,7 @@ export default class Header extends React.Component {
           <ul className="nav">
             {navItems}
             <li key="twitter">
-              <a title="Twitter" href='https://www.twitter.com/waigojs'>
+              <a title="Twitter" href={config.twitterUrl}>
                 <i className="twitter" />
               </a>
             </li>

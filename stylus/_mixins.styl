@@ -11,3 +11,17 @@ text-bg-color-border-radius(color, paddingV = 0.1em, paddingH = 0.2em)
   background-color color
   border-radius 5px
   
+
+button(btnColor = $color4, textHoverColor = $white)
+  @extend $NoLinkStyle
+  @extend $HeaderFontBold
+  border-radius 10px
+  border 1px solid btnColor
+  padding 0.7em 1em
+  transition all 0.2s linear
+  color btnColor
+  &:hover
+    border-radius 10px
+    border 1px solid btnColor
+    color textHoverColor
+    background-color btnColor

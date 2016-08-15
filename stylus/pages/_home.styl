@@ -44,14 +44,9 @@ $SplashLinkStyle
     .actions
       margin 1em 0 2em
       a
-        @extend $ButtonStyle
+        button($white, $black)
         font-size 80%
-        color $white
-        border 1px solid $white
         margin 0 0.5em
-        &:hover
-          background-color $white
-          color $black
 
     .install
       @extend $CodeFont
@@ -136,10 +131,15 @@ $SplashLinkStyle
 
 
   section.quick-start
+    margin 2em 0
     background-color $color1
-    padding 3em 0
+    padding 3em 1em
     color $white
     text-align center
+
+    a
+      color $color4
+      border-color $color4
         
     .wrapper
       display inline-block
@@ -181,4 +181,24 @@ $SplashLinkStyle
         line-height 1.5em       
         width 100%
         
+  section.next-links
+    margin-top 2em
+    display flex
+    flex-flow row wrap
+    justify-content center
+    align-items center
+    font-size 1rem
+    > div
+      margin 2em 0
+      text-align center
+      a
+        button()
+        display inline-block
+        margin 0 0.5em
+        font-size 140%
+      p
+        width 70%
+        margin 1em auto 0
+        line-height 1.2em
+
 

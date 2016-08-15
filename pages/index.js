@@ -19,10 +19,10 @@ export default class Index extends React.Component {
           <main>
             <section className="splash">
               <div className="logo" />
-              <p className="tagline">Node.js ES6 framework for extendable, scalable back-ends.</p>
+              <p className="tagline">{config.tagLine}</p>
               <div className="actions">
-                <Link to="/docs/GettingStarted/">Get started</Link>
-                <Link to="/docs/">Read full docs</Link>
+                <Link to={prefixLink(config.gettingStartedLink)}>Get started</Link>
+                <Link to={prefixLink(config.docsLink)}>Read full docs</Link>
               </div>
               <div className="install">
                 npm i -g waigo
@@ -31,11 +31,11 @@ export default class Index extends React.Component {
                 <Link to="https://github.com/waigo/waigo/blob/master/CHANGELOG.md" title="View release notes for current version">
                   <i className="version" /><span>{waigoPackageJson.version}</span>
                 </Link>
-                <Link to="https://twitter.com/waigojs" title="Follow us on twitter">
+                <Link to={config.twitterUrl} title="Follow us on twitter">
                   <i className="twitter" /><span>Follow on Twitter</span>
                 </Link>
-                <Link to="https://github.com/waigo/waigo" title="Star us on Github">
-                  <i className="github" /><span>Star on Github</span>
+                <Link to={config.githubUrl} title="Star us on Github">
+                  <i className="github" /><span>Code on Github</span>
                 </Link>
               </div>
             </section>
@@ -47,8 +47,8 @@ export default class Index extends React.Component {
                   <div className="description">
                     Waigo builds on Koa, the ES6-based spiritual successor to Express.
                     Elegantly compose complex middleware patterns. 
-                    Use the flexible database layer (<a href="https://hiddentao.github.io/thinodium/">Thinodium</a>) 
-                    to build fully end-to-end <strong>reactive</strong> applications.
+                    Use the reactivity of RethinkDB to build fully 
+                    end-to-end <strong>reactive</strong> applications.
                   </div>   
                 </li>
                 <li>
@@ -121,7 +121,7 @@ export default class Index extends React.Component {
                   <div className="description">
                     Create and run a skeleton app in seconds using the command-line client.
                     Generate gulp scripts to enable live-reload in the browser during development.
-                    Install the <a href="https://github.com/waigo/admin">Admin interface</a> for 
+                    Install the <Link to="https://github.com/waigo/admin">Admin interface</Link> for 
                     easy data management.
                   </div>   
                 </li>
@@ -133,12 +133,22 @@ export default class Index extends React.Component {
                 <pre>{`$ npm init                
 $ waigo init
 $ waigo init-gulp
-$ gulp dev`}
+$ gulp`}
                 </pre>
                 <div>
-                  <p>Visit <strong>http://localhost:3000</strong> in your browser to see it. </p>
+                  <p>Visit <Link to="http://localhost:3000 ">http://localhost:3000</Link> in your browser to see it. </p>
                   <p>Now start editing files and the browser page will auto-reload!</p>
                 </div>
+              </div>
+            </section>
+            <section className="next-links">
+              <div>
+                <Link to={prefixLink(config.docsLink)}>Read the docs &raquo;</Link>
+                <p>Get an in-depth introduction to Waigo and how to use it.</p>
+              </div>
+              <div>
+                <Link to={config.githubUrl}>View on Github &raquo;</Link>
+                <p>Check out upcoming features and contribute.</p>
               </div>
             </section>
           </main>
