@@ -70,4 +70,115 @@ $SplashLinkStyle
         
   section.features-1
     padding 1em
+    
+    .intro
+      @extend $BodyFont
+      width 80%
+      font-size 2.2rem
+      text-align center
+      margin 1em auto 1.5em
+      line-height 1.5em
+    
+    ul
+      display flex
+      flex-flow row wrap
+      justify-content space-between
+      align-items flex-start
+      margin 0 auto
+      width 90%
+      +below($width-s)
+        width 100%
+      +below($width-xs)
+        flex-flow column no-wrap
+      li
+        display block        
+        width 30%
+        font-size 1rem
+        margin 1.5em auto
+        +below($width-s)
+          width 40%
+        +below($width-xs)
+          display block
+          width 100%
+        .title
+          @extend $HeaderFontBold
+          display inline-block
+          font-size 140%
+          &:before
+            display inline-block
+            vertical-align top
+            margin 0 0.5em 0.3em 0
+            content " "
+            width 32px
+            height 32px
+        .description
+          margin-top 1em
+          line-height 1.4em
+          
+        &:nth-child(1) .title:before
+          retina-image("/img/icon-rocket.png", contain)
+        &:nth-child(2) .title:before
+          retina-image("/img/icon-plugin.png", contain)
+        &:nth-child(3) .title:before
+          retina-image("/img/icon-text-field.png", contain)
+        &:nth-child(4) .title:before
+          retina-image("/img/icon-routing.png", contain)
+        &:nth-child(5) .title:before
+          retina-image("/img/icon-template.png", contain)
+        &:nth-child(6) .title:before
+          retina-image("/img/icon-users.png", contain)
+        &:nth-child(7) .title:before
+          retina-image("/img/icon-email.png", contain)
+        &:nth-child(8) .title:before
+          retina-image("/img/icon-cron.png", contain)
+        &:nth-child(9) .title:before
+          retina-image("/img/icon-setup.png", contain)
+
+
+  section.quick-start
+    background-color $color1
+    padding 3em 0
+    color $white
+    text-align center
+        
+    .wrapper
+      display inline-block
+      width 80%
+      text-align left
+      +below($width-xs)
+        width 100%
+
+    h2
+      display block
+      @extend $HeaderFont
+      font-size 200%
+      margin-bottom 0.8em
+    pre
+    div
+      display inline-block
+    pre
+      @extend $CodeFont
+      line-height 1.5em
+      background-color $black
+      width 40%
+      padding 1em
+      margin-right 2em
+    div
+      vertical-align top
+      width 50%
+      font-size 110%
+      line-height 1.3em      
+      p
+        margin-bottom 1em
+      
+    +below($width-s)
+      pre
+        display block
+        width 100%
+      div
+        display block
+        margin-top 1.5em
+        line-height 1.5em       
+        width 100%
+        
 
