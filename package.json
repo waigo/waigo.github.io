@@ -69,6 +69,6 @@
     "setup": "./scripts/setup.js",
     "build": "rm -rf ./public && gatsby build && npm run postBuild",
     "postBuild": "./scripts/postBuild.js",
-    "deploy": "gh-pages -d public -o origin -b master"
+    "deploy": "gh-pages -r git@github.com:waigo/waigo.github.io.git -d public -o origin -b master"
   }
 }
