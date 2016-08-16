@@ -28,18 +28,18 @@ export default class Index extends React.Component {
                 npm i -g waigo
               </div>
               <div className="meta">
-                <Link to="https://github.com/waigo/waigo/blob/master/CHANGELOG.md" title="View release notes for current version">
+                <a href="https://github.com/waigo/waigo/blob/master/CHANGELOG.md" title="View release notes for current version">
                   <i className="version" /><span>{waigoPackageJson.version}</span>
-                </Link>
-                <Link to={config.twitterUrl} title="Follow us on twitter">
+                </a>
+                <a href={config.twitterUrl} title="Follow us on twitter">
                   <i className="twitter" /><span>Follow on Twitter</span>
-                </Link>
-                <Link to={config.githubUrl} title="View on Github">
+                </a>
+                <a href={config.githubUrl} title="View on Github">
                   <i className="github" /><span>View the code</span>
-                </Link>
-                <Link to={config.discussUrl} title="Discuss on Discord">
+                </a>
+                <a href={config.discussUrl} title="Discuss on Discord">
                   <i className="discuss" /><span>Discuss issues</span>
-                </Link>
+                </a>
               </div>
             </section>
             <section className="features-1">
@@ -150,11 +150,11 @@ $ gulp`}
                 <p>Get an in-depth introduction to Waigo and how to use it.</p>
               </div>
               <div>
-                <Link to={config.githubUrl}>View the code &raquo;</Link>
+                <a href={config.githubUrl}>View the code &raquo;</a>
                 <p>Check out upcoming features and contribute.</p>
               </div>
               <div>
-                <Link to={config.discussUrl}>Discuss and share &raquo;</Link>
+                <a href={config.discussUrl}>Discuss and share &raquo;</a>
                 <p>Provide feedback, ask questions and share with the community.</p>
               </div>
             </section>

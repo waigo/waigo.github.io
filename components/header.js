@@ -26,6 +26,7 @@ const NAV = [
     link: config.twitterUrl,
     tag: 'twitter',
     type: 'social',
+    external: true,
   },
   {
     label: <i className="github" />,
@@ -33,6 +34,7 @@ const NAV = [
     link: config.githubUrl,
     tag: 'github',
     type: 'social',
+    external: true,
   },
   {
     label: <i className="discuss" />,
@@ -40,6 +42,7 @@ const NAV = [
     link: config.discussUrl,
     tag: 'discuss',
     type: 'social',
+    external: true,
   },
 ];
 
@@ -51,16 +54,29 @@ export default class Header extends React.Component {
     let header = null;
 
     if (this.props.show) {
-      const navItems = NAV.map((item) => (
-        <li key={item.tag} className={Classnames(item.type)}>
-          <Link 
+      const navItems = NAV.map((item) => {
+        let lnk;
+
+        if (item.external) {
+          lnk = (<a
+            title={item.title}
+            href={item.link} 
+            className={Classnames({active: activeNav === item.tag})}>
+              {item.label}
+          </a>);
+        } else {
+          lnk = (<Link 
             title={item.title}
             to={item.link} 
             className={Classnames({active: activeNav === item.tag})}>
               {item.label}
-          </Link>
-        </li>
-      ));
+          </Link>);
+        }
+
+        return (
+          <li key={item.tag} className={Classnames(item.type)}>{lnk}</li>
+        );
+      });
 
       header = (
         <header>
