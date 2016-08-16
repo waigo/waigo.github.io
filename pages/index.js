@@ -150,6 +150,10 @@ $ gulp`}
                 <Link to={config.githubUrl}>View on Github &raquo;</Link>
                 <p>Check out upcoming features and contribute.</p>
               </div>
+              <div>
+                <Link to={config.gitterUrl}>Discuss on Gitter &raquo;</Link>
+                <p>Provide feedback, ask questions and share with the community.</p>
+              </div>
             </section>
           </main>
           <Footer />

@@ -3,6 +3,7 @@ import { Link } from 'react-router';
 import { prefixLink } from 'gatsby-helpers';
 import Headroom from 'react-headroom';
 import { config } from 'config';
+import Classnames from 'classnames';
 
 
 
@@ -18,7 +19,28 @@ const NAV = [
     title: 'Documentation',
     link: prefixLink(config.docsLink),
     tag: 'docs',
-  }
+  },
+  {
+    label: <i className="twitter" />,
+    title: 'Twitter',
+    link: config.twitterUrl,
+    tag: 'twitter',
+    type: 'social',
+  },
+  {
+    label: <i className="github" />,
+    title: 'Github',
+    link: config.githubUrl,
+    tag: 'github',
+    type: 'social',
+  },
+  {
+    label: <i className="gitter" />,
+    title: 'Gitter',
+    link: config.gitterUrl,
+    tag: 'gitter',
+    type: 'social',
+  },
 ];
 
 
@@ -30,11 +52,11 @@ export default class Header extends React.Component {
 
     if (this.props.show) {
       const navItems = NAV.map((item) => (
-        <li key={item.tag}>
+        <li key={item.tag} className={Classnames(item.type)}>
           <Link 
             title={item.title}
             to={item.link} 
-            className={activeNav === item.tag ? 'active' : null}>
+            className={Classnames({active: activeNav === item.tag})}>
               {item.label}
           </Link>
         </li>
@@ -49,11 +71,6 @@ export default class Header extends React.Component {
           </section>
           <ul className="nav">
             {navItems}
-            <li key="twitter">
-              <a title="Twitter" href={config.twitterUrl}>
-                <i className="twitter" />
-              </a>
-            </li>
           </ul>
         </header>
       );

@@ -57,13 +57,19 @@ header
     li
       display inline-block    
       height 48px
-      margin-left 1.3em
+      margin-right 1.3em
       +below($width-s)
-        margin-left 1em
+        margin-right 1em
+      &:last-child
+        margin-right 0
       a
         @extend $NavLinkStyle
         font-size 1.2em
         display inline-block
         height 100%
         line-height 48px
+      &.social
+        margin-right 0.3em
+        a
+          font-size 1em
         
