@@ -23,6 +23,7 @@ after_success:
 - git init
 - git add .
 - git commit -m "Deploy to Github Pages"
+- npm run deploy
 # - git push --force "git@github.com:waigo/waigo.github.io.git" master:master
 notifications:
   slack:
