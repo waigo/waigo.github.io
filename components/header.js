@@ -35,10 +35,10 @@ const NAV = [
     type: 'social',
   },
   {
-    label: <i className="gitter" />,
-    title: 'Gitter',
-    link: config.gitterUrl,
-    tag: 'gitter',
+    label: <i className="discuss" />,
+    title: 'Discuss',
+    link: config.discussUrl,
+    tag: 'discuss',
     type: 'social',
   },
 ];

@@ -34,8 +34,11 @@ export default class Index extends React.Component {
                 <Link to={config.twitterUrl} title="Follow us on twitter">
                   <i className="twitter" /><span>Follow on Twitter</span>
                 </Link>
-                <Link to={config.githubUrl} title="Star us on Github">
-                  <i className="github" /><span>Code on Github</span>
+                <Link to={config.githubUrl} title="View on Github">
+                  <i className="github" /><span>View the code</span>
+                </Link>
+                <Link to={config.discussUrl} title="Discuss on Discord">
+                  <i className="discuss" /><span>Discuss issues</span>
                 </Link>
               </div>
             </section>
@@ -147,11 +150,11 @@ $ gulp`}
                 <p>Get an in-depth introduction to Waigo and how to use it.</p>
               </div>
               <div>
-                <Link to={config.githubUrl}>View on Github &raquo;</Link>
+                <Link to={config.githubUrl}>View the code &raquo;</Link>
                 <p>Check out upcoming features and contribute.</p>
               </div>
               <div>
-                <Link to={config.gitterUrl}>Discuss on Gitter &raquo;</Link>
+                <Link to={config.discussUrl}>Discuss and share &raquo;</Link>
                 <p>Provide feedback, ask questions and share with the community.</p>
               </div>
             </section>

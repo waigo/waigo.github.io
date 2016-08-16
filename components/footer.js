@@ -18,8 +18,8 @@ export default class Footer extends React.Component {
           <a title="Twitter" href={config.twitterUrl}>
             <i className="twitter" />
           </a>
-          <a title="Gitter" href={config.gitterUrl}>
-            <i className="gitter" />
+          <a title="discuss" href={config.discussUrl}>
+            <i className="discuss" />
           </a>
         </div>
       </footer>
