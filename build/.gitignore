@@ -1,6 +1,0 @@
-node_modules
-frontend/bower_components
-.repos/waigo
-.repos/examples
-npm-debug.log
-.DS_Store
