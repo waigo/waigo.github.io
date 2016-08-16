@@ -1,0 +1,30 @@
+<!DOCTYPE html><html lang="en"><head><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" charset="utf-8"><title>Waigo - next-gen web framework</title><!--[if IE]><link rel="shortcut icon" href="http://waigojs.com/examples/img/logo_32x32.ico" /><![endif]--><link rel="shortcut icon" href="../img/logo_114x114.png"><meta name="msapplication-TileColor" content="#fff"><meta name="msapplication-TileImage" content="/img/logo_144x144.png"><link href="http://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet" type="text/css"><link rel="stylesheet" media="screen" href="../style.css"></head><body class="examples"><header id="top" class="clearfix"><nav role="banner" class="navbar navbar-fixed-top"><div class="navbar-header"><button type="button" data-toggle="collapse" data-target="#topmenu-navbar-collapse" class="navbar-toggle collapsed"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button><a href="../index.html" class="navbar-brand">Waigo</a></div><div id="topmenu-navbar-collapse" role="navigation" class="navbar-collapse collapse"><ul class="nav navbar-nav"><li><a href="../guide.html">Guide</a></li><li><a href="../api/index.html">API</a></li><li class="active"><a href="index.html">Examples</a></li><li><a href="../projects.html">Projects</a></li></ul><ul class="nav navbar-nav navbar-right"><li><a href="https://github.com/waigo/waigo">Github</a></li></ul></div></nav></header><main id="content"><section id="examples"><div class="row"><div class="col-md-2 hidden-xs hidden-sm"><ul class="nav nav-pills nav-stacked"><li><a href="index.html">Introduction</a></li><li class="active"><a href="hello-world.html">&raquo; Hello world</a></li><li><a href="upload.html">&raquo; File upload</a></li></ul></div><div class="col-md-10"><div class="example"><div class="intro"><div><h1 id="hello-world">Hello world</h1>
+<p>This simple example demonstrates the basics of a Waigo app. It uses a 
+controller and a view to send  &#39;Hello world&#39; back to the browser.</p>
+</div><p>Available files:</p><ul></ul><li><a href="hello-world.html#controllers/main.js">controllers/main.js</a></li><li><a href="hello-world.html#views/index.jade">views/index.jade</a></li></div><br><br><ul class="files"><li id="controllers/main.js"><a name="controllers/main.js"></a><p>controllers/main.js</p><pre><code class="lang-javascript">"use strict";
+
+
+exports.index = function*(next) {
+  yield* this.render('index', {
+    text: 'Hello world!'
+  });
+};
+</code></pre></li><li id="views/index.jade"><a name="views/index.jade"></a><p>views/index.jade</p><pre><code class="lang-jade">doctype html
+html
+  head
+    title Hello world
+  body
+    h1= text
+</code></pre></li></ul></div></div></div></section></main><footer role="contentinfo"><div><p>Waigo &copy; <a href="https://github.com/hiddentao">Ramesh Nair</a>. Page <a href="https://github.com/waigo/waigo.github.io">generated</a> on Wed, 20 Aug 2014 16:11:17 GMT</p>
+</div></footer><script type="text/javascript" src="../scripts.js"></script><script type="text/javascript">var _paq = _paq || [];
+_paq.push(["setDomains", ["*.waigojs.com","*.waigo.github.io"]]);
+_paq.push(["trackPageView"]);
+_paq.push(["enableLinkTracking"]);
+(function() {
+  var u=(("https:" == document.location.protocol) ? "https" : "http") + "://piwik.hiddentao.com/";
+  _paq.push(["setTrackerUrl", u+"piwik.php"]);
+  _paq.push(["setSiteId", "3"]);
+  var d=document, g=d.createElement("script"), s=d.getElementsByTagName("script")[0]; g.type="text/javascript";
+  g.defer=true; g.async=true; g.src=u+"piwik.js"; s.parentNode.insertBefore(g,s);
+})();
+</script></body></html>

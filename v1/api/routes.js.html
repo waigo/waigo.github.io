@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" charset="utf-8">
+    <title>Waigo - next-gen web framework</title><!--[if IE]><link rel="shortcut icon" href="http://waigojs.com/api/img/logo_32x32.ico" /><![endif]-->
+    <link rel="shortcut icon" href="../img/logo_114x114.png">
+    <meta name="msapplication-TileColor" content="#fff">
+    <meta name="msapplication-TileImage" content="/img/logo_144x144.png">
+    <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" media="screen" href="../style.css">
+  </head>
+  <body>
+    <header id="top" class="clearfix">
+      <nav role="banner" class="navbar navbar-fixed-top">
+        <div class="navbar-header">
+          <button type="button" data-toggle="collapse" data-target="#topmenu-navbar-collapse" class="navbar-toggle collapsed"><span class="sr-only">Toggle navigation</span><span class="icon-bar"></span><span class="icon-bar"></span><span class="icon-bar"></span></button><a href="../index.html" class="navbar-brand">Waigo</a>
+        </div>
+        <div id="topmenu-navbar-collapse" role="navigation" class="navbar-collapse collapse">
+          <ul class="nav navbar-nav">
+            <li><a href="../guide.html">Guide</a></li>
+            <li class="active"><a href="index.html">API</a></li>
+            <li><a href="../examples/index.html">Examples</a></li>
+            <li><a href="../projects.html">Projects</a></li>
+          </ul>
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="https://github.com/waigo/waigo">Github</a></li>
+          </ul>
+        </div>
+      </nav>
+    </header>
+    <main id="content">
+      <div id="api">
+        <div class="container">
+          <div class="row">
+            <div role="complementary" class="col-md-3 waigo-api-index">
+              <ul class="nav hidden-sm hidden-xs">
+                <li><a href="index.html">Introduction</a></li>
+                <li><a href="application.js.html">application.js</a></li>
+                <li><a href="cli/init.js.html">cli/init.js</a></li>
+                <li><a href="config/base.js.html">config/base.js</a></li>
+                <li><a href="config/development.js.html">config/development.js</a></li>
+                <li><a href="config/index.js.html">config/index.js</a></li>
+                <li><a href="loader.js.html">loader.js</a></li>
+                <li class="active"><a href="routes.js.html">routes.js</a></li>
+                <li><a href="support/cliCommand.js.html">support/cliCommand.js</a></li>
+                <li><a href="support/errors.js.html">support/errors.js</a></li>
+                <li><a href="support/forms/field.js.html">support/forms/field.js</a></li>
+                <li><a href="support/forms/fields/select.js.html">support/forms/fields/select.js</a></li>
+                <li><a href="support/forms/fields/text.js.html">support/forms/fields/text.js</a></li>
+                <li><a href="support/forms/form.js.html">support/forms/form.js</a></li>
+                <li><a href="support/forms/sanitizers/trim.js.html">support/forms/sanitizers/trim.js</a></li>
+                <li><a href="support/forms/validators/isEmailAddress.js.html">support/forms/validators/isEmailAddress.js</a></li>
+                <li><a href="support/forms/validators/notEmpty.js.html">support/forms/validators/notEmpty.js</a></li>
+                <li><a href="support/logging/winston.js.html">support/logging/winston.js</a></li>
+                <li><a href="support/middleware/bodyParser.js.html">support/middleware/bodyParser.js</a></li>
+                <li><a href="support/middleware/errorHandler.js.html">support/middleware/errorHandler.js</a></li>
+                <li><a href="support/middleware/outputFormats.js.html">support/middleware/outputFormats.js</a></li>
+                <li><a href="support/middleware/sessions.js.html">support/middleware/sessions.js</a></li>
+                <li><a href="support/middleware/staticResources.js.html">support/middleware/staticResources.js</a></li>
+                <li><a href="support/mixins.js.html">support/mixins.js</a></li>
+                <li><a href="support/outputFormats/html.js.html">support/outputFormats/html.js</a></li>
+                <li><a href="support/outputFormats/json.js.html">support/outputFormats/json.js</a></li>
+                <li><a href="support/routeMapper.js.html">support/routeMapper.js</a></li>
+                <li><a href="support/session/store/cookie.js.html">support/session/store/cookie.js</a></li>
+                <li><a href="support/shutdown/listener.js.html">support/shutdown/listener.js</a></li>
+                <li><a href="support/startup/database.js.html">support/startup/database.js</a></li>
+                <li><a href="support/startup/listener.js.html">support/startup/listener.js</a></li>
+                <li><a href="support/startup/logging.js.html">support/startup/logging.js</a></li>
+                <li><a href="support/startup/middleware.js.html">support/startup/middleware.js</a></li>
+                <li><a href="support/startup/models.js.html">support/startup/models.js</a></li>
+                <li><a href="support/startup/routes.js.html">support/startup/routes.js</a></li>
+                <li><a href="support/underscore.js.html">support/underscore.js</a></li>
+              </ul>
+              <div class="visible-sm visible-xs">
+                <button type="button" data-toggle="collapse" data-target="#api-index-xs" class="btn btn-info">Show/hide API index</button>
+                <div id="api-index-xs" class="collapse">
+                  <ul class="nav">
+                    <li><a href="index.html">Introduction</a></li>
+                    <li><a href="application.js.html">application.js</a></li>
+                    <li><a href="cli/init.js.html">cli/init.js</a></li>
+                    <li><a href="config/base.js.html">config/base.js</a></li>
+                    <li><a href="config/development.js.html">config/development.js</a></li>
+                    <li><a href="config/index.js.html">config/index.js</a></li>
+                    <li><a href="loader.js.html">loader.js</a></li>
+                    <li class="active"><a href="routes.js.html">routes.js</a></li>
+                    <li><a href="support/cliCommand.js.html">support/cliCommand.js</a></li>
+                    <li><a href="support/errors.js.html">support/errors.js</a></li>
+                    <li><a href="support/forms/field.js.html">support/forms/field.js</a></li>
+                    <li><a href="support/forms/fields/select.js.html">support/forms/fields/select.js</a></li>
+                    <li><a href="support/forms/fields/text.js.html">support/forms/fields/text.js</a></li>
+                    <li><a href="support/forms/form.js.html">support/forms/form.js</a></li>
+                    <li><a href="support/forms/sanitizers/trim.js.html">support/forms/sanitizers/trim.js</a></li>
+                    <li><a href="support/forms/validators/isEmailAddress.js.html">support/forms/validators/isEmailAddress.js</a></li>
+                    <li><a href="support/forms/validators/notEmpty.js.html">support/forms/validators/notEmpty.js</a></li>
+                    <li><a href="support/logging/winston.js.html">support/logging/winston.js</a></li>
+                    <li><a href="support/middleware/bodyParser.js.html">support/middleware/bodyParser.js</a></li>
+                    <li><a href="support/middleware/errorHandler.js.html">support/middleware/errorHandler.js</a></li>
+                    <li><a href="support/middleware/outputFormats.js.html">support/middleware/outputFormats.js</a></li>
+                    <li><a href="support/middleware/sessions.js.html">support/middleware/sessions.js</a></li>
+                    <li><a href="support/middleware/staticResources.js.html">support/middleware/staticResources.js</a></li>
+                    <li><a href="support/mixins.js.html">support/mixins.js</a></li>
+                    <li><a href="support/outputFormats/html.js.html">support/outputFormats/html.js</a></li>
+                    <li><a href="support/outputFormats/json.js.html">support/outputFormats/json.js</a></li>
+                    <li><a href="support/routeMapper.js.html">support/routeMapper.js</a></li>
+                    <li><a href="support/session/store/cookie.js.html">support/session/store/cookie.js</a></li>
+                    <li><a href="support/shutdown/listener.js.html">support/shutdown/listener.js</a></li>
+                    <li><a href="support/startup/database.js.html">support/startup/database.js</a></li>
+                    <li><a href="support/startup/listener.js.html">support/startup/listener.js</a></li>
+                    <li><a href="support/startup/logging.js.html">support/startup/logging.js</a></li>
+                    <li><a href="support/startup/middleware.js.html">support/startup/middleware.js</a></li>
+                    <li><a href="support/startup/models.js.html">support/startup/models.js</a></li>
+                    <li><a href="support/startup/routes.js.html">support/startup/routes.js</a></li>
+                    <li><a href="support/underscore.js.html">support/underscore.js</a></li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+            <div role="main" class="col-md-7 waigo-api-content">
+              <section id="exports">
+                <h1></h1>
+                <div class="description"><h1>Route map</h1>
+<p>This maps URL routes to handler methods.</p><p><em>Note: Supported request methods are: <code>GET</code>, <code>POST</code>, <code>PUT</code>, <code>DEL</code>, <code>OPTIONS</code> and <code>HEAD</code></em></p><p>You can specify one or more middleware which should get run before running<br />the controller method:</p><pre><code class="lang-javascript">module.exports = { 
+  &#39;GET /&#39; : [&#39;accessControl&#39;, &#39;main.index&#39;] 
+};
+</code></pre>
+<p>As you can see, if the middleware name has a period (<code>.</code>) within it it<br />is assumed to refer to a <code>controller</code>.<code>method</code> combination.<br />Otherwise it is assumed to be the name of a <a href="routes.js.html#middleware">middleware</a> module file.</p><p>The order in which they&#39;re specified determines the order in which they get<br />executed at runtime.</p><p>An example...</p><pre><code class="lang-javascript">module.exports = { 
+  &#39;GET /&#39; : [&#39;accessControl&#39;, &#39;user.load&#39;, &#39;main.index&#39;] 
+};
+</code></pre>
+<p>For the above example, Waigo will process the request in the following<br />order:</p><ul>
+<li>Load <code>support/middleware/acccessControl.js</code> and pass request to its exported method</li>
+<li>Load <code>controllers/user.js</code> and pass request to its <code>load</code> method </li>
+<li>Load <code>controllers/main.js</code> and pass request to its <code>index</code> method</li>
+</ul>
+<p>If you wish to initialise a particular middleware with options then you can<br />specify it as an object. For example:</p><pre><code class="lang-javascript">module.exports = { 
+  &#39;POST /signup&#39; : [ { id: &#39;bodyParser&#39;, limit: &#39;1kb&#39; }, &#39;main.signup&#39; ] 
+};
+</code></pre>
+<p>For the above configuration an instance of the <code>bodyParser</code> middleware will<br />get initialized for this route with the request body size limit set to <code>1KB</code>.</p> </div>
+                <h5 class="subheader"></h5>
+                <p>
+                  <div class="label label-success radius ctx-type">property</div>
+                </p>
+              </section>
+              <pre><code class="language-javascript">module.exports = {
+  
+};</code></pre>
+            </div>
+            <div class="col-md-2">
+              <div role="complementary" class="waigo-content-menu hidden-print">
+                <ul class="nav">
+                  <li><a href="routes.js.html#exports"><span>exports</span></a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+    <footer role="contentinfo">
+      <div><p>Waigo &copy; <a href="https://github.com/hiddentao">Ramesh Nair</a>. Page <a href="https://github.com/waigo/waigo.github.io">generated</a> on Wed, 20 Aug 2014 16:10:42 GMT</p>
+
+      </div>
+    </footer>
+    <script type="text/javascript" src="../scripts.js"></script>
+    <script type="text/javascript">
+      var _paq = _paq || [];
+      _paq.push(["setDomains", ["*.waigojs.com","*.waigo.github.io"]]);
+      _paq.push(["trackPageView"]);
+      _paq.push(["enableLinkTracking"]);
+      (function() {
+        var u=(("https:" == document.location.protocol) ? "https" : "http") + "://piwik.hiddentao.com/";
+        _paq.push(["setTrackerUrl", u+"piwik.php"]);
+        _paq.push(["setSiteId", "3"]);
+        var d=document, g=d.createElement("script"), s=d.getElementsByTagName("script")[0]; g.type="text/javascript";
+        g.defer=true; g.async=true; g.src=u+"piwik.js"; s.parentNode.insertBefore(g,s);
+      })();
+      
+    </script>
+  </body>
+</html>
