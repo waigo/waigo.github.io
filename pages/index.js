@@ -6,7 +6,6 @@ import Header from 'components/header';
 import Footer from 'components/footer';
 import { config } from 'config';
 
-import waigoPackageJson from '../waigo/package.json';
 
 
 
@@ -28,17 +27,17 @@ export default class Index extends React.Component {
                 npm i -g waigo
               </div>
               <div className="meta">
-                <a href="https://github.com/waigo/waigo/blob/master/CHANGELOG.md" title="View release notes for current version">
-                  <i className="version" /><span>{waigoPackageJson.version}</span>
+                <a className="changelog" href="https://github.com/waigo/waigo/blob/master/CHANGELOG.md" title="View release notes for current version">
+                  <i className="changelog" /><span>Changelog</span>
                 </a>
-                <a href={config.twitterUrl} title="Follow us on twitter">
-                  <i className="twitter" /><span>Follow on Twitter</span>
+                <a className="twitter" href={config.twitterUrl} title="Follow us on twitter">
+                  <i className="twitter" /><span>Twitter</span>
                 </a>
-                <a href={config.githubUrl} title="View on Github">
-                  <i className="github" /><span>View the code</span>
+                <a className="github" href={config.githubUrl} title="View on Github">
+                  <i className="github" /><span>Github</span>
                 </a>
-                <a href={config.discussUrl} title="Discuss on Discord">
-                  <i className="discuss" /><span>Discuss issues</span>
+                <a className="discuss" href={config.discussUrl} title="Discuss on Discord">
+                  <i className="discuss" /><span>Discuss</span>
                 </a>
               </div>
             </section>
