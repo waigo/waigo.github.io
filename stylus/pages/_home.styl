@@ -9,10 +9,10 @@ $SplashLinkStyle
   
   .headroom-wrapper
     background-color $color4
-
   
   main
     padding 0
+    margin-top -1px  /* to eliminate strange thin white line above */
   
   section.splash
     z-index 2
@@ -25,6 +25,8 @@ $SplashLinkStyle
     color $white
     font-size 1.7rem
     text-align center
+    +below($width-xs)
+      font-size 1.3rem
 
     .logo
       display block
@@ -43,10 +45,16 @@ $SplashLinkStyle
     
     .actions
       margin 1em 0 2em
+      +below($width-xs)
+        margin-bottom 1em
       a
         button($white, $black)
         font-size 80%
         margin 0 0.5em
+        +below($width-xs)
+          display block
+          margin 0.5em auto
+          font-size 120%
 
     .install
       @extend $CodeFont
@@ -62,6 +70,9 @@ $SplashLinkStyle
         margin 0 0.5em
         i + span
           margin-left 0.3em
+        span
+          +below($width-xs)
+            display none
         
   section.features-1
     padding 1em
@@ -73,6 +84,8 @@ $SplashLinkStyle
       text-align center
       margin 1em auto 1.5em
       line-height 1.5em
+      +below($width-xs)
+        font-size 1.8rem
     
     ul
       display flex
@@ -136,6 +149,10 @@ $SplashLinkStyle
     padding 3em 1em
     color $white
     text-align center
+    font-size 1rem
+    +below($width-xs)
+      padding 1em
+      font-size 0.8rem
 
     .wrapper
       display inline-block
