@@ -1,18 +1,3 @@
-$NavLinkStyle
-  @extend $LinkStyle
-  color $white
-  text-decoration none
-  border 1px solid transparent
-  transition all 0.2s linear
-  padding 0 0.5em
-  border-radius 5px
-  &:hover, &.active
-    color $white
-    background-color transparent
-    border 1px solid $white
-  
-
-
 header
   @extend $HeaderFont
   position relative
@@ -40,7 +25,7 @@ header
     position absolute
     height $headerHeight
     a
-      @extend $NoLinkStyle
+      nolink()
       padding 0 0.5em
       line-height $headerHeight
       font-size 1.5rem
@@ -63,7 +48,7 @@ header
       &:last-child
         margin-right 0
       a
-        @extend $NavLinkStyle
+        navlink()
         font-size 1.2em
         display inline-block
         height 100%
@@ -72,4 +57,48 @@ header
         margin-right 0.3em
         a
           font-size 1em
+    
+    +below($width-xs)
+      opacity 0
+      z-index 2
+      pointer-events none
+      transition opacity 0.3s linear
+      display block
+      top $headerHeight - 16px
+      border-radius 10px
+      li
+        display block
+        background-color $white
+        margin 0
+        border-bottom 1px solid $black
+        &.social
+          margin 0
+        &:last-child
+          border-bottom none
+        a
+          navlink($black, $white, $black, transparent)
+          font-size 1em
+          display block
+          border-radius 0
+          text-align center
+      &.active
+        opacity 1
+        pointer-events auto
+
         
+  button.mobile-toggle
+    button($white, $color4)
+    display none
+    position absolute
+    right 15px
+    top ($headerHeight - 32px) * 0.5
+    width 32px
+    height 32px
+    padding 0px
+    cursor pointer
+    i
+      display block
+    +below($width-xs)
+      display block
+
+

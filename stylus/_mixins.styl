@@ -12,8 +12,41 @@ text-bg-color-border-radius(color, paddingV = 0.1em, paddingH = 0.2em)
   border-radius 5px
   
 
+link(textColor = $color4, hoverTextColor = $white)
+  color textColor
+  text-decoration none
+  border-bottom 1px solid textColor
+  transition all 0.2s linear
+  &:hover
+    color hoverTextColor
+    background-color textColor
+    
+navlink(textColor = $white, hoverTextColor = $white, hoverBgColor = transparent, hoverBorderColor = $white)
+  color textColor
+  text-decoration none
+  border 1px solid transparent
+  transition all 0.2s linear
+  padding 0 0.5em
+  border-radius 5px
+  &:hover, &.active
+    color hoverTextColor
+    background-color hoverBgColor
+    border 1px solid hoverBorderColor
+
+
+nolink()
+  color inherit
+  background-color inherit    
+  text-decoration none
+  border-bottom none
+  &:hover
+    color inherit
+    background-color inherit
+    border-radius 0px
+    border-bottom none
+
 button(btnColor = $color4, textHoverColor = $white)
-  @extend $NoLinkStyle
+  nolink()
   @extend $HeaderFontBold
   border-radius 10px
   border 1px solid btnColor
@@ -25,3 +58,16 @@ button(btnColor = $color4, textHoverColor = $white)
     border 1px solid btnColor
     color textHoverColor
     background-color btnColor
+    
+
+    
+
+
+
+    
+
+
+
+
+
+    

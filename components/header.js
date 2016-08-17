@@ -48,6 +48,17 @@ const NAV = [
 
 
 export default class Header extends React.Component {
+  constructor (props) {
+    super(props);
+
+    this.state = {
+      mobileActive: null,
+    };
+
+    _.bindAll(this, '_toggleMobileMenu');
+  }
+
+
   render () {
     const activeNav = this.props.activeNav;
 
@@ -85,7 +96,12 @@ export default class Header extends React.Component {
               Waigo.js
             </Link>
           </section>
-          <ul className="nav">
+          <button 
+            className="mobile-toggle"
+            onClick={this._toggleMobileMenu}>
+              <i className={Classnames('menu', {open: this.state.mobileActive})} />
+          </button>
+          <ul className={Classnames('nav', { active: this.state.mobileActive})}>
             {navItems}
           </ul>
         </header>
@@ -98,6 +114,16 @@ export default class Header extends React.Component {
       </Headroom>
     );
   }
+
+
+  _toggleMobileMenu (e) {
+    e.preventDefault();
+
+    this.setState({
+      mobileActive: !this.state.mobileActive,
+    });
+  }
+
 }
 
 

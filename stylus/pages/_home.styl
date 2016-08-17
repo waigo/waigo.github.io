@@ -1,14 +1,10 @@
-$SplashLinkStyle
-  @extend $NavLinkStyle
-  &:hover
-    color $black
-    background-color $white
-
 .page.home
   position relative
   
   .headroom-wrapper
     background-color $color4
+    +below($width-xs)
+      height $headerHeight !important
   
   main
     padding 0
@@ -49,7 +45,7 @@ $SplashLinkStyle
       +below($width-xs)
         margin-bottom 1em
       a
-        button($white, $black)
+        button($white, $color4)
         font-size 80%
         margin 0 0.5em
         +below($width-xs)
@@ -65,7 +61,7 @@ $SplashLinkStyle
     .meta
       margin-top 1.2em
       a
-        @extend $SplashLinkStyle
+        navlink($white, $black, $white, transparent)
         font-size 50%
         color $white
         margin 0 0.5em
