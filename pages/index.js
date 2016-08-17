@@ -50,8 +50,8 @@ export default class Index extends React.Component {
                   <div className="description">
                     Waigo builds on Koa, the ES6-based spiritual successor to Express.
                     Elegantly compose complex middleware patterns. 
-                    Use RethinkDB to build fully 
-                    end-to-end <strong>reactive</strong> applications.
+                    Use RethinkDB to build fully <strong>end-to-end 
+                    reactive applications</strong>.
                   </div>   
                 </li>
                 <li>
@@ -83,12 +83,13 @@ export default class Index extends React.Component {
                   </div>   
                 </li>
                 <li>
-                  <div className="title">View templates</div>
+                  <div className="title">Frontend is yours</div>
                   <div className="description">
-                    Effortlessly build pages using the Pug (formerly Jade) 
-                    templating language. Built-in template helpers for 
-                    dynamically generating route URLs. Templating extends to 
-                    emails too - no more hard-coding.
+                    Effortlessly build basic HTML 
+                    using <a href="https://github.com/pugjs/pug">Pug</a> templating 
+                    and the built-in template helpers. <strong>Use 
+                    whatever Javascript frameworks  
+                    (e.g. Angular/React) and CSS languages you want</strong> the rest of the way.
                   </div>   
                 </li>
                 <li>
