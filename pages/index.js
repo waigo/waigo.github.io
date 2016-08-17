@@ -50,7 +50,7 @@ export default class Index extends React.Component {
                   <div className="description">
                     Waigo builds on Koa, the ES6-based spiritual successor to Express.
                     Elegantly compose complex middleware patterns. 
-                    Use the reactivity of RethinkDB to build fully 
+                    Use RethinkDB to build fully 
                     end-to-end <strong>reactive</strong> applications.
                   </div>   
                 </li>
@@ -85,9 +85,9 @@ export default class Index extends React.Component {
                 <li>
                   <div className="title">View templates</div>
                   <div className="description">
-                    Effortlessly build pages in using the Pug (formerly Jade) 
+                    Effortlessly build pages using the Pug (formerly Jade) 
                     templating language. Built-in template helpers for 
-                    dyhamically generating route URLs. Templating extends to 
+                    dynamically generating route URLs. Templating extends to 
                     emails too - no more hard-coding.
                   </div>   
                 </li>
@@ -95,9 +95,9 @@ export default class Index extends React.Component {
                   <div className="title">Users and Roles</div>
                   <div className="description">
                     Built-in user accounts. Authenticate 
-                    users via password, OAuth and your own mechanism.
-                    Assign roles to users, elegantly control who gets 
-                    access to what in your app via the Access Control 
+                    users via password, OAuth or custom mechanisms.
+                    Assign roles to users, and elegantly control who gets 
+                    access to what via the Access Control 
                     List (ACL).
                   </div>   
                 </li>
@@ -105,9 +105,9 @@ export default class Index extends React.Component {
                   <div className="title">Email notifications</div>
                   <div className="description">
                     Built-in configurable notifications via email and Slack. 
-                    Target notifications to specific users and trigger them
-                    from any part of your app. Send emails to console, via 
-                    localhost or any mailing provider (e.g. Mailgun).
+                    Target notifications to specific users or roles and trigger 
+                    them asynchronously. Send emails to console, 
+                    using SMTP or a provider (e.g. Mailgun).
                   </div>   
                 </li>
                 <li>
@@ -115,7 +115,7 @@ export default class Index extends React.Component {
                   <div className="description">
                     Built-in Cron system for task scheduling. 
                     Tasks run within the full application context, giving you 
-                    access to your data and all other parts of the app. 
+                    access to all your data and other parts of the app. 
                     Programmatically start, stop and run tasks.
                   </div>   
                 </li>
