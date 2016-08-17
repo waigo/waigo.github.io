@@ -39,6 +39,7 @@ $SplashLinkStyle
       @extend $HeaderFont
       margin 0.7em 0
       font-size 120%
+      line-height 1.2em
       width 50%
       +below($width-s)
         width 80%
@@ -70,8 +71,10 @@ $SplashLinkStyle
         margin 0 0.5em
         i + span
           margin-left 0.3em
-        span
-          +below($width-xs)
+        +below($width-xs)
+          font-size 80%
+          margin 0 0.1em
+          span
             display none
         
   section.features-1
