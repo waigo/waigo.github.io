@@ -1,5 +1,5 @@
 siteTitle="Waigo.js"
-tagLine="Node.js ES6 framework for extendable, scalable back-ends."
+tagLine="Node.js ES6 framework for reactive, data-driven apps and APIs"
 linkPrefix = "/"
 githubUrl = "https://github.com/waigo/waigo"
 twitterId = "waigojs"
