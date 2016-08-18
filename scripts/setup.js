@@ -90,7 +90,7 @@ function walkFolder(rootFolder, regex, cb) {
 
         return reject(err);
       }
-    });  
+    });
 
     walker.on('end', function() {
       if (done) {
@@ -98,7 +98,7 @@ function walkFolder(rootFolder, regex, cb) {
       }
 
       resolve();
-    });  
+    });
   });
 }
 
@@ -113,24 +113,48 @@ Q.coroutine(function*() {
   // clone waigo
   if (!argv['skip-clone']) {
     exec('rm -rf ' + path.join(DIR, 'waigo'));
-    exec('git clone --depth 1 https://github.com/waigo/waigo.git ' + path.join(DIR, 'waigo'));    
+    exec('git clone --depth 1 https://github.com/waigo/waigo.git ' + path.join(DIR, 'waigo'));
   }
 
-  // create docs markdown
-  exec('rm -rf ' + path.join(DIR, 'pages/docs'));
-  exec('cp -rf ' + path.join(DIR, 'waigo/docs') + ' ' + path.join(DIR, 'pages/docs'));
-
-  // go through doc files
   const docsNav = {
     url: '/docs',
     children: {},
   };
 
-  yield walkFolder(path.join(DIR, 'pages/docs'), /\.md/i, (file) => {
+  // copy docs
+  yield walkFolder(path.join(DIR, 'waigo/docs'), /\.md/i, (file) => {
+    // read content
     let content = readFile(file);
 
-    // if README.md then extract links
-    if (0 < file.indexOf('README.md')) {
+    logCmd(`Updating links in content`);
+
+    // remove ".md" and lowercase the links
+    content = content
+      .replace(/\.md\)/img, '/)')
+      .replace(/\]\(.+\/\)/img, (str) => str.toLowerCase());
+
+    logCmd(`Writing front-matter to ${file}`);
+
+    // write front matter
+    let title = content.match(/#\s(.+)\n/i);
+    if (title && title[1]) {
+      content = `---\ntitle: ${title[1]}\n---\n${content}`;
+    }
+
+    // build destination filename
+    let relativePath = file.substr(path.join(DIR, 'waigo/docs/').length),
+      finalFile = path.join(DIR, 'pages/docs', relativePath.toLowerCase()),
+      finalFolder = path.dirname(finalFile);
+
+    // create final folder
+    exec(`mkdir -p ${finalFolder}`);
+
+    // README.md?
+    if (0 <= finalFile.indexOf('readme.md')) {
+      // README.md -> index.md
+      finalFile = finalFile.replace('readme.md', 'index.md');
+
+      // grab links from within content
       let re = /^\*\s+\[(.+)\]\((.+)(\/|\.md)\)$/igm,
         links = [],
         m;
@@ -139,9 +163,9 @@ Q.coroutine(function*() {
         links.push(m);
       }
 
-      let parentFolder = path.dirname(file).split(path.sep).pop();
+      let parentFolder = finalFolder.split(path.sep).pop();
 
-      let parentNode =  ('docs' === parentFolder) 
+      let parentNode =  ('docs' === parentFolder)
         ? docsNav
         : docsNav.children[parentFolder];
 
@@ -161,28 +185,8 @@ Q.coroutine(function*() {
       }
     }
 
-    logCmd(`Updating links in ${file}`);
-
-    // replace .md links
-    content = content.replace(/\.md\)/img, '/)');
-
-    logCmd(`Writing front-matter to ${file}`);
-
-    // write front matter
-    let title = content.match(/#\s(.+)\n/i);
-    if (title && title[1]) {
-      content = `---\ntitle: ${title[1]}\n---\n${content}`;
-    }
-
     // write to file
-    writeFile(file, content);
-
-    // rename README.md -> index.md
-    if (0 < file.indexOf('README.md')) {
-      let newName = file.replace('README.md', 'index.md');
-      
-      exec(`mv ${file} ${newName}`);
-    }
+    writeFile(finalFile, content);
   });
 
   // write docs nav to data file
