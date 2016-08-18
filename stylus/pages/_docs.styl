@@ -15,9 +15,12 @@ $EmbedObject
     padding-left 20px
     font-size 1rem
     line-height 1.5em
+    word-wrap break-word
+
     +below($width-xs)
       width 100%
       padding 0 1em
+
     h1
       font-size 250%
       margin 0 0 1em
@@ -49,6 +52,7 @@ $EmbedObject
         display block
         border-radius 5px
         // overflow-x scroll
+        word-wrap normal
         margin-bottom 1.7em
       &:not([class*='hljs'])
         display inline
