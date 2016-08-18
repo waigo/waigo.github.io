@@ -8,10 +8,22 @@ import Classnames from 'classnames';
 import { config } from 'config';
 import Header from './header';
 import Footer from './footer';
+import UrlUtils from '../utils/url';
 
 
 const NAV = require('../data/docsNav.json');
 
+const NAV_FLAT = _.flatMap(NAV.children, (info, id) => {
+  return [{
+    label: info.label,
+    url: info.url,
+  }].concat(_.map(info.children || [], v => {
+    return {
+      label: `${info.label}: ${v.label}`,
+      url: v.url,
+    }
+  }));
+});
 
 
 export default class Layout extends React.Component {
@@ -54,7 +66,9 @@ export default class Layout extends React.Component {
             <aside className={Classnames({'mobile visible': this.state.mobileVisible})}>
               {navMenu}
             </aside>
-            <section className="content">{content}</section>
+            <section className="content">
+              {content}
+            </section>
           </main>
           <Footer />
         </div>
@@ -92,11 +106,7 @@ export default class Layout extends React.Component {
 
           href = (isLeaf ? '../' : './') + href;
 
-          let p = path.resolve(currentPath, href);
-
-          if ('/' !== p.charAt(p.length-1)) {
-            p += '/';
-          }
+          let p = UrlUtils.trailingSlashIt(path.resolve(currentPath, href));
 
           return (
             <Link to={p}>{_.get(node, 'children.0.data')}</Link>
@@ -124,8 +134,27 @@ export default class Layout extends React.Component {
 
     let htmlToReactParser = new HtmlToReact.Parser(React);
 
-    return htmlToReactParser.parseWithInstructions(
+    const content = htmlToReactParser.parseWithInstructions(
       `<div>${htmlStr}</div>`, () => true, processingInstructions
+    );
+
+    let prevNext = this._calculatePrevAndNextNavLinks(NAV_FLAT, currentPath);
+
+    let prev = !prevNext.prev ? null : (
+      <Link to={UrlUtils.trailingSlashIt(prevNext.prev.url)}
+        className="prev">&laquo; {prevNext.prev.label}</Link>
+    );
+
+    let next = !prevNext.next ? null : (
+      <Link to={UrlUtils.trailingSlashIt(prevNext.next.url)}
+        className="next">{prevNext.next.label} &raquo;</Link>
+    );
+
+    return (
+      <div>
+        {content}
+        <div className="prev-next">{prev}{next}</div>
+      </div>
     );
   }
 
@@ -148,6 +177,7 @@ export default class Layout extends React.Component {
       );
 
       let classes = {};
+
       if (0 <= currentPath.indexOf(info.url)) {
         classes.active = true;
       }
@@ -161,7 +191,38 @@ export default class Layout extends React.Component {
       <ul>{links}</ul>
     );
   }
+
+
+  _calculatePrevAndNextNavLinks(navFlat, currentPath) {
+    let prev;
+
+    let ret = {};
+
+    for (let i in navFlat) {
+      let info = navFlat[i];
+
+      if (0 <= currentPath.indexOf(info.url)) {
+        ret = {
+          prev: prev,
+          current: info,
+        };
+
+        /* we keep going since we may find a more specific match further down
+        the chain */
+      }
+      // set next item
+      else if (prev === ret.current) {
+        ret.next = info;
+      }
+
+      prev = info;
+    }
+
+    return ret;
+  }
 }
+
+
 
 
 Layout.propTypes = {
