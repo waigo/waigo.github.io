@@ -5,12 +5,12 @@ header
   height $headerHeight
   margin-bottom 1.5em
   transition all 0.3s linear
-  
+
   background-color $color1
   color $white
-  box-shadow 0px 7px 26px -1px rgba(0,0,0,0.23)
+  standard-box-shadow()
 
-  
+
   .page.home .headroom--unfixed &
     background-color $color4
     color $white
@@ -19,7 +19,7 @@ header
   .page.home .headroom--pinned &
     background-color $color1
     color $white
-    box-shadow 0px 7px 26px -1px rgba(0,0,0,0.53)
+    standard-box-shadow()
 
   .brand
     position absolute
@@ -29,18 +29,18 @@ header
       padding 0 0.5em
       line-height $headerHeight
       font-size 1.5rem
-      
+
   ul.nav
     position absolute
     height $headerHeight
     right 15px
     list-style none
     display flex
-    flex-flow row no-wrap    
+    flex-flow row no-wrap
     justify-content center
     align-items center
     li
-      display inline-block    
+      display inline-block
       // height 48px
       margin-right 1.3em
       +below($width-s)
@@ -57,10 +57,10 @@ header
         margin-right 0.3em
         a
           font-size 1em
-    
+
     +below($width-xs)
       opacity 0
-      z-index 2
+      z-index 10
       pointer-events none
       transition opacity 0.3s linear
       display block
@@ -68,7 +68,7 @@ header
       height auto
       border-radius 10px
       background-color $color5
-      box-shadow 0px 7px 26px -1px rgba(0,0,0,0.53)
+      standard-box-shadow()
       li
         display block
         background-color transparent
@@ -89,7 +89,7 @@ header
         opacity 1
         pointer-events auto
 
-        
+
   button.mobile-toggle
     button($white, $color4)
     display none
@@ -104,5 +104,3 @@ header
       display block
     +below($width-xs)
       display block
-
-

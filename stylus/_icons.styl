@@ -1,6 +1,7 @@
 i
   @extend .{$fa-css-prefix}
   display inline-block
+  transition all 0.2s linear
   &.twitter
     fa-icon 'twitter'
   &.github
@@ -9,11 +10,13 @@ i
     fa-icon 'comments'
   &.menu
     fa-icon 'bars'
-    transition all 0.2s linear
     &.open
       fa-icon-rotate(90deg, 1)
   &.changelog
     fa-icon 'code-fork'
-    
-
-
+  &.arrow
+    &.right
+      fa-icon 'angle-double-right'
+    &.left
+      fa-icon 'angle-double-right'
+      fa-icon-rotate(180deg, 1)

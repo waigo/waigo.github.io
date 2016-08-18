@@ -2,10 +2,9 @@ import React from 'react';
 import { Link } from 'react-router';
 import { prefixLink } from 'gatsby-helpers';
 import DocumentTitle from 'react-document-title';
-import Header from 'components/header';
-import Footer from 'components/footer';
+import Header from '../components/header';
+import Footer from '../components/footer';
 import { config } from 'config';
-
 
 
 
@@ -48,92 +47,92 @@ export default class Index extends React.Component {
                   <div className="title">Koa and RethinkDB</div>
                   <div className="description">
                     Waigo builds on Koa, the ES6-based spiritual successor to Express.
-                    Elegantly compose complex middleware patterns. 
-                    Use RethinkDB to build fully <strong>end-to-end 
+                    Elegantly compose complex middleware patterns.
+                    Use RethinkDB to build fully <strong>end-to-end
                     reactive applications</strong>.
-                  </div>   
+                  </div>
                 </li>
                 <li>
                   <div className="title">Plugin architecture</div>
                   <div className="description">
-                    Extend or override any part of the core framework as you 
-                    see fit. Only use what you need. Publish your 
-                    customizations as plugins (NPM modules) to re-use across 
+                    Extend or override any part of the core framework as you
+                    see fit. Only use what you need. Publish your
+                    customizations as plugins (NPM modules) to re-use across
                     your other Waigo projects.
-                  </div>   
+                  </div>
                 </li>
                 <li>
                   <div className="title">Form handling</div>
                   <div className="description">
-                    Declaratively build 
-                    forms with automatic sanitization and validation. Initialize 
-                    and submit forms from any part of your application. Output a 
+                    Declaratively build
+                    forms with automatic sanitization and validation. Initialize
+                    and submit forms from any part of your application. Output a
                     form's configuration as JSON. CSRF-prevention comes built-in.
-                  </div>   
+                  </div>
                 </li>
                 <li>
                   <div className="title">Routing and APIs</div>
                   <div className="description">
-                    Powerful route configuration with intelligent nesting and 
+                    Powerful route configuration with intelligent nesting and
                     per-route and per-HTTP-method middleware customization.
-                    All routes double-up as JSON API endpoints. 
-                    Control the output format of any route using query 
+                    All routes double-up as JSON API endpoints.
+                    Control the output format of any route using query
                     parameters. Easily add your own custom output formats.
-                  </div>   
+                  </div>
                 </li>
                 <li>
                   <div className="title">Frontend is yours</div>
                   <div className="description">
-                    Effortlessly build basic HTML 
-                    using <a href="https://github.com/pugjs/pug">Pug</a> templating 
-                    and the built-in template helpers. <strong>Use 
-                    whatever Javascript frameworks  
+                    Effortlessly build basic HTML
+                    using <a href="https://github.com/pugjs/pug">Pug</a> templating
+                    and the built-in template helpers. <strong>Use
+                    whatever Javascript frameworks
                     (e.g. Angular/React) and CSS languages you want</strong> the rest of the way.
-                  </div>   
+                  </div>
                 </li>
                 <li>
                   <div className="title">Users and Roles</div>
                   <div className="description">
-                    Built-in user accounts. Authenticate 
+                    Built-in user accounts. Authenticate
                     users via password, OAuth or custom mechanisms.
-                    Assign roles to users, and elegantly control who gets 
-                    access to what via the Access Control 
+                    Assign roles to users, and elegantly control who gets
+                    access to what via the Access Control
                     List (ACL).
-                  </div>   
+                  </div>
                 </li>
                 <li>
                   <div className="title">Email notifications</div>
                   <div className="description">
-                    Built-in configurable notifications via email and Slack. 
-                    Target notifications to specific users or roles and trigger 
-                    them asynchronously. Send emails to console, 
+                    Built-in configurable notifications via email and Slack.
+                    Target notifications to specific users or roles and trigger
+                    them asynchronously. Send emails to console,
                     using SMTP or a provider (e.g. Mailgun).
-                  </div>   
+                  </div>
                 </li>
                 <li>
                   <div className="title">Scheduled Tasks</div>
                   <div className="description">
-                    Built-in Cron system for task scheduling. 
-                    Tasks run within the full application context, giving you 
-                    access to all your data and other parts of the app. 
+                    Built-in Cron system for task scheduling.
+                    Tasks run within the full application context, giving you
+                    access to all your data and other parts of the app.
                     Programmatically start, stop and run tasks.
-                  </div>   
+                  </div>
                 </li>
                 <li>
                   <div className="title">Quick Setup</div>
                   <div className="description">
                     Create and run a skeleton app in seconds using the command-line client.
                     Generate gulp scripts to enable live-reload in the browser during development.
-                    Install the <Link to="https://github.com/waigo/admin">Admin interface</Link> for 
+                    Install the <Link to="https://github.com/waigo/admin">Admin interface</Link> for
                     easy data management.
-                  </div>   
+                  </div>
                 </li>
               </ul>
             </section>
             <section className="quick-start">
               <div className="wrapper">
                 <h2>Quick start</h2>
-                <pre>{`$ npm init                
+                <pre>{`$ npm init
 $ waigo init
 $ waigo init-gulp
 $ gulp`}
@@ -168,7 +167,7 @@ $ gulp`}
 
   componentDidMount () {
     if (window.twttr) {
-      twttr.widgets.load();  
+      window.twttr.widgets.load();
     }
   }
 }

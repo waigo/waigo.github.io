@@ -15,6 +15,25 @@ const NAV = require('../data/docsNav.json');
 
 
 export default class Layout extends React.Component {
+  constructor (props) {
+    super(props);
+
+    this.state = {
+      mobileVisible: false,
+    };
+
+    _.bindAll(this, '_toggleMobileNav');
+  }
+
+  componentWillReceiveProps(newProps) {
+    // hide mobile nav menu if path changed (which means user probably clicked an item in the nav menu)
+    if (newProps.page.path !== this.props.page.path) {
+      this.setState({
+        mobileVisible: false,
+      });
+    }
+  }
+
   render () {
     const page = this.props.page;
 
@@ -26,7 +45,13 @@ export default class Layout extends React.Component {
         <div className="page docs">
           <Header activeNav="docs" />
           <main>
-            <aside>
+            <button
+              className="nav mobile"
+              title="Toggle nav menu"
+              onClick={this._toggleMobileNav}>
+                <i className={Classnames('arrow', this.state.mobileVisible ? 'left' : 'right')} />
+            </button>
+            <aside className={Classnames({'mobile visible': this.state.mobileVisible})}>
               {navMenu}
             </aside>
             <section className="content">{content}</section>
@@ -37,6 +62,14 @@ export default class Layout extends React.Component {
     );
   }
 
+
+  _toggleMobileNav (e) {
+    e.preventDefault();
+
+    this.setState({
+      mobileVisible: !this.state.mobileVisible,
+    });
+  }
 
   _buildContent (htmlStr, page) {
     let currentPath = page.path,
@@ -51,7 +84,7 @@ export default class Layout extends React.Component {
         // Custom <a> processing
         shouldProcessNode: (node) => {
           // only want anchor tags with internal links
-          return _.get(node, 'name', '') === 'a' 
+          return _.get(node, 'name', '') === 'a'
             && 0 > _.get(node, 'attribs.href', '://').indexOf('://');
         },
         processNode: (node, children) => {
@@ -106,8 +139,8 @@ export default class Layout extends React.Component {
     for (let id in nav.children) {
       let info = nav.children[id];
 
-      let sublist = (_.isEmpty(info.children)) 
-        ? null 
+      let sublist = (_.isEmpty(info.children))
+        ? null
         : this._buildNavMenu(info, currentPath, level+ 1);
 
       let link = (
@@ -134,4 +167,3 @@ export default class Layout extends React.Component {
 Layout.propTypes = {
   page: React.PropTypes.object,
 };
-
