@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 "use strict";
 
-const Q = require('bluebird'),
+const _ = require('lodash'),
+  Q = require('bluebird'),
   fs = require('fs'),
   shell = require('shelljs'),
   path = require('path'),
@@ -119,10 +120,22 @@ Q.coroutine(function*() {
   const docsNav = {
     url: '/docs',
     children: {},
-  };
+  }, docsImages = [];
 
   // copy docs
-  yield walkFolder(path.join(DIR, 'waigo/docs'), /\.md/i, (file) => {
+  yield walkFolder(path.join(DIR, 'waigo/docs'), /\.(md|png|jpg|jpeg|gif)$/i, (file) => {
+    // build destination filename
+    let relativePath = file.substr(path.join(DIR, 'waigo/docs/').length),
+      finalFile = path.join(DIR, 'pages/docs', relativePath.toLowerCase()),
+      finalFolder = path.dirname(finalFile);
+
+    // if it's not markdown then just copy it over
+    if (path.extname(file).toLowerCase() !== '.md') {
+      exec(`cp ${file} ${finalFile}`);
+
+      return;
+    }
+
     // read content
     let content = readFile(file);
 
@@ -133,7 +146,7 @@ Q.coroutine(function*() {
       .replace(/\.md\)/img, '/)')
       .replace(/\]\(.+\/\)/img, (str) => str.toLowerCase());
 
-    logCmd(`Writing front-matter to ${file}`);
+    logCmd(`Writing front-matter`);
 
     // write front matter
     let title = content.match(/#\s(.+)\n/i);
@@ -141,13 +154,11 @@ Q.coroutine(function*() {
       content = `---\ntitle: ${title[1]}\n---\n${content}`;
     }
 
-    // build destination filename
-    let relativePath = file.substr(path.join(DIR, 'waigo/docs/').length),
-      finalFile = path.join(DIR, 'pages/docs', relativePath.toLowerCase()),
-      finalFolder = path.dirname(finalFile);
-
-    // create final folder
-    exec(`mkdir -p ${finalFolder}`);
+    // get parent node
+    let parentNodeName = finalFolder.split(path.sep).pop();
+    let parentNode =  ('docs' === parentNodeName)
+      ? docsNav
+      : docsNav.children[parentNodeName];
 
     // README.md?
     if (0 <= finalFile.indexOf('readme.md')) {
@@ -158,16 +169,9 @@ Q.coroutine(function*() {
       let re = /^\*\s+\[(.+)\]\((.+)(\/|\.md)\)$/igm,
         links = [],
         m;
-
       while ( (m = re.exec(content)) !== null ) {
         links.push(m);
       }
-
-      let parentFolder = finalFolder.split(path.sep).pop();
-
-      let parentNode =  ('docs' === parentFolder)
-        ? docsNav
-        : docsNav.children[parentFolder];
 
       if (parentNode) {
         links.forEach((l) => {
@@ -181,12 +185,41 @@ Q.coroutine(function*() {
           };
         });
       } else {
-        console.log(`Skipping ${file} because parent node not found.`);
+        console.error(`Skipping ${finalFile} because parent node not found.`);
       }
+    } else if ('docs' !== parentNodeName){
+      // grab image links from within content
+      logCmd(`Finding image links`);
+
+      let imgRegex = /\!\[.*\]\((.+)\)/img,
+        images = [],
+        m;
+      while ( (m = imgRegex.exec(content)) ) {
+        images.push(m[1]);
+      }
+      if (images.length) {
+        logCmd(`${images.length} images found`);
+      }
+
+      const childNodeName = path.basename(finalFile, path.extname(finalFile));
+
+      docsImages.push([parentNodeName, childNodeName, images]);
     }
+
+    // create final folder
+    exec(`mkdir -p ${finalFolder}`);
 
     // write to file
     writeFile(finalFile, content);
+  });
+
+  // add image data to nav
+  docsImages.forEach((i) => {
+    if (!_.get(docsNav, `children.${i[0]}.children.${i[1]}`)) {
+      console.error(`Cannot find nav path: ${i[0]}.${i[1]}`);
+    } else {
+      docsNav.children[i[0]].children[i[1]].images = i[2];
+    }
   });
 
   // write docs nav to data file
