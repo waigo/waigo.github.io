@@ -120,7 +120,8 @@ Q.coroutine(function*() {
   const docsNav = {
     url: '/docs',
     children: {},
-  }, docsImages = [];
+  }, docsExtraData = [],
+  docsRepoPaths = [];
 
   // copy docs
   yield walkFolder(path.join(DIR, 'waigo/docs'), /\.(md|png|jpg|jpeg|gif)$/i, (file) => {
@@ -161,7 +162,7 @@ Q.coroutine(function*() {
       : docsNav.children[parentNodeName];
 
     // README.md?
-    if (0 <= finalFile.indexOf('readme.md')) {
+    if (0 <= finalFile.indexOf('readme.md')) {      
       // README.md -> index.md
       finalFile = finalFile.replace('readme.md', 'index.md');
 
@@ -174,6 +175,11 @@ Q.coroutine(function*() {
       }
 
       if (parentNode) {
+        // repo path
+        if (docsNav !== parentNode) {
+          parentNode.repoPath = relativePath;        
+        }
+        
         links.forEach((l) => {
           let label = l[1],
             subFolder = l[2];
@@ -187,7 +193,7 @@ Q.coroutine(function*() {
       } else {
         console.error(`Skipping ${finalFile} because parent node not found.`);
       }
-    } else if ('docs' !== parentNodeName){
+    } else if ('docs' !== parentNodeName) {
       // grab image links from within content
       logCmd(`Finding image links`);
 
@@ -203,7 +209,12 @@ Q.coroutine(function*() {
 
       const childNodeName = path.basename(finalFile, path.extname(finalFile));
 
-      docsImages.push([parentNodeName, childNodeName, images]);
+      docsExtraData.push({
+        parent: parentNodeName,
+        child: childNodeName,
+        images: images,
+        repoPath: relativePath,
+      });
     }
 
     // create final folder
@@ -213,12 +224,15 @@ Q.coroutine(function*() {
     writeFile(finalFile, content);
   });
 
-  // add image data to nav
-  docsImages.forEach((i) => {
-    if (!_.get(docsNav, `children.${i[0]}.children.${i[1]}`)) {
-      console.error(`Cannot find nav path: ${i[0]}.${i[1]}`);
+  // save extra data to nodes
+  docsExtraData.forEach((n) => {
+    let docNode = _.get(docsNav, `children.${n.parent}.children.${n.child}`);
+    
+    if (!docNode) {
+      console.error(`Cannot find nav path: ${n.parent}.${n.child}`);
     } else {
-      docsNav.children[i[0]].children[i[1]].images = i[2];
+      docNode.images = n.images;
+      docNode.repoPath = n.repoPath;
     }
   });
 
