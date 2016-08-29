@@ -17,10 +17,12 @@ const NAV_FLAT = _.flatMap(NAV.children, (info, id) => {
   return [{
     label: info.label,
     url: info.url,
+    repoPath: info.repoPath,
   }].concat(_.map(info.children || [], v => {
     return {
       label: `${info.label}: ${v.label}`,
       url: v.url,
+      repoPath: v.repoPath,
     }
   }));
 });
@@ -138,7 +140,12 @@ export default class Layout extends React.Component {
       `<div>${htmlStr}</div>`, () => true, processingInstructions
     );
 
-    let prevNext = this._calculatePrevAndNextNavLinks(NAV_FLAT, currentPath);
+    const prevNext = this._calculatePrevAndNextNavLinks(NAV_FLAT, currentPath);
+
+    const githubPageUrl = this._calculateGithubPageUrl(NAV_FLAT, currentPath),
+      githubLink = !githubPageUrl ? null : (
+        <a className="github-edit-link" href={githubPageUrl}>Edit page</a>
+      );
 
     let prev = !prevNext.prev ? null : (
       <Link to={UrlUtils.trailingSlashIt(prevNext.prev.url)}
@@ -152,6 +159,7 @@ export default class Layout extends React.Component {
 
     return (
       <div>
+        {githubLink}
         {content}
         <div className="prev-next">{prev}{next}</div>
       </div>
@@ -173,7 +181,7 @@ export default class Layout extends React.Component {
         : this._buildNavMenu(info, currentPath, level+ 1);
 
       let link = (
-        <Link to={info.url + '/'}>{info.label}</Link>
+        <Link to={`${info.url}/`}>{info.label}</Link>
       );
 
       let classes = {};
@@ -220,6 +228,23 @@ export default class Layout extends React.Component {
 
     return ret;
   }
+  
+  
+  _calculateGithubPageUrl (navFlat, currentPath) {
+    let ret = null;
+    
+    for (let info of navFlat) {
+      if (0 <= currentPath.indexOf(info.url)) {
+        ret = `${config.githubDocsBaseUrl}/${info.repoPath}`;
+      }
+      
+      /* we keep going since we may find a more specific match further down
+      the chain */
+    }
+
+    return ret;
+  }
+  
 }
 
 

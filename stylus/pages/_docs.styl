@@ -9,6 +9,7 @@ $EmbedObject
     padding-top 2em
 
   section.content
+    position relative
     display inline-block
     vertical-align top
     width 79%
@@ -61,6 +62,18 @@ $EmbedObject
         display inline
         font-size 110%
         text-bg-color-border-radius($color3)
+        
+    a.github-edit-link
+      border-bottom none
+      position absolute
+      font-size 70%
+      text-transform lowercase
+      top 0
+      right 0
+      icon 'edit'
+      &:before
+        margin-right 0.2em
+
 
     .prev-next
       display flex

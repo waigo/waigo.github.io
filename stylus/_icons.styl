@@ -1,22 +1,27 @@
+icon(name, rotation = 0deg)
+  &:before
+    @extend .{$fa-css-prefix}
+  fa-icon name
+  fa-icon-rotate(rotation, 1)
+
+
 i
-  @extend .{$fa-css-prefix}
   display inline-block
   transition all 0.2s linear
   &.twitter
-    fa-icon 'twitter'
+    icon 'twitter'
   &.github
-    fa-icon 'github'
+    icon 'github'
   &.discuss
-    fa-icon 'comments'
+    icon 'comments'
   &.menu
-    fa-icon 'bars'
+    icon 'bars'
     &.open
-      fa-icon-rotate(90deg, 1)
+      icon('bars' 90deg)
   &.changelog
-    fa-icon 'code-fork'
+    icon 'code-fork'
   &.arrow
     &.right
-      fa-icon 'angle-double-right'
+      icon 'angle-double-right'
     &.left
-      fa-icon 'angle-double-right'
-      fa-icon-rotate(180deg, 1)
+      icon('angle-double-right', 180deg)
