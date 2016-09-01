@@ -9,12 +9,6 @@ import Classnames from 'classnames';
 
 const NAV = [
   {
-    label: 'Get started',
-    title: 'Get started',
-    link: prefixLink(config.gettingStartedLink),
-    tag: 'get_started',
-  },
-  {
     label: 'Docs',
     title: 'Documentation',
     link: prefixLink(config.docsLink),
