@@ -4,6 +4,7 @@ public/
 waigo
 pages/fonts
 pages/docs
+pages/api
 data/*
 .DS_Store
 

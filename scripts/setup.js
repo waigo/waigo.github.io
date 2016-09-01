@@ -35,6 +35,7 @@ Q.coroutine(function*() {
   yield* copyFonts();
   yield* cloneWaigo();
   yield* createGuideDocs();
+  yield* createApiDocs();
 })()
   .then(() => {
     Utils.logAction('Setup complete.');
@@ -43,6 +44,8 @@ Q.coroutine(function*() {
 
 
 function* copyFonts() {
+  Utils.logAction('Copy fonts...');
+
   // copy in fonts
   Utils.exec('rm -rf ' + path.join(DIR, 'pages/fonts'));
   Utils.exec('mkdir -p ' + path.join(DIR, 'pages/fonts'));
@@ -52,12 +55,16 @@ function* copyFonts() {
 function* cloneWaigo() {
   // clone waigo
   if (!argv['skip-clone']) {
+    Utils.logAction('Clone waigo...');
+
     Utils.exec('rm -rf ' + path.join(DIR, 'waigo'));
     Utils.exec('git clone --depth 1 https://github.com/waigo/waigo.git ' + path.join(DIR, 'waigo'));
   }
 }
 
 function* createGuideDocs() {
+  Utils.logAction('Creating guide docs...');
+  
   const docsNav = {
     url: '/docs',
     children: {},
@@ -181,4 +188,32 @@ function* createGuideDocs() {
   Utils.exec('rm -rf ' + path.join(DIR, 'data'));
   Utils.exec('mkdir -p ' + path.join(DIR, 'data'));
   Utils.writeFile(path.join(DIR, 'data/docsNav.json'), JSON.stringify(docsNav, null, 2));  
+}
+
+
+
+
+function* createApiDocs() {
+  Utils.logAction('Create API docs...');
+
+  Utils.exec('rm -rf ' + path.join(DIR, 'pages/api'));
+
+  yield Utils.walkFolder(path.join(DIR, 'waigo/src'), /\.(js)$/i, (file) => {
+    // build destination filename
+    const relativePath = file.substr(path.join(DIR, 'waigo/src/').length),
+      relativePathNoExt = path.join(path.dirname(relativePath), path.basename(relativePath, '.js')),
+      finalFile = path.join(DIR, 'pages/api', relativePathNoExt.toLowerCase()) + '.json',
+      finalFolder = path.dirname(finalFile);
+      
+    // skip cli/data
+    if (0 <= relativePathNoExt.indexOf("cli/data")) {
+      return;
+    }
+      
+    // create folder
+    Utils.exec(`mkdir -p ${finalFolder}`);
+
+    // create resulting JSON
+    Utils.writeFile(finalFile, JSON.stringify({}, null, 2));
+  });
 }
