@@ -3,10 +3,9 @@
 
 const _ = require('lodash'),
   Q = require('bluebird'),
-  fs = require('fs'),
-  shell = require('shelljs'),
-  path = require('path'),
-  walk = require('findit');
+  path = require('path');
+
+const DIR = path.join(__dirname, '..');
 
 
 const argv = require('yargs')
@@ -29,94 +28,36 @@ const argv = require('yargs')
   .parse(process.argv.slice(1));
 
 
-const DIR = path.join(__dirname, '..');
-
-
-function logCmd(str) {
-  if (argv.verbose) {
-    console.log(`\n>> ${str}`);
-  }
-}
-
-
-function exec(cmd) {
-  logCmd(cmd);
-
-  let ret = shell.exec(cmd);
-
-  if (0 !== ret.code) {
-    throw new Error(`Error executing: ${cmd}`, ret.stderr);
-  }
-
-  return ret.stdout;
-}
-
-function readFile(file) {
-  logCmd(`readFile: ${file}`);
-
-  return fs.readFileSync(file, {encoding:"utf-8"}).toString();
-}
-
-function writeFile(file, contents) {
-  logCmd(`writeFile: ${file}`);
-
-  return fs.writeFileSync(file, contents, {encoding:'utf-8'});
-}
-
-
-function walkFolder(rootFolder, regex, cb) {
-  return new Promise(function(resolve, reject) {
-    let done = false;
-
-    let walker = walk(rootFolder, {
-      followSymlinks: false
-    });
-
-    walker.on('file', function(file, stat) {
-      if (done) {
-        return;
-      }
-
-      var dirname = path.dirname(file),
-        filename = path.join(path.relative(rootFolder, dirname), path.basename(file));
-
-      if (!filename.match(regex)) {
-        return;
-      }
-
-      try {
-        cb(file);
-      } catch (err) {
-        done = true;
-
-        return reject(err);
-      }
-    });
-
-    walker.on('end', function() {
-      if (done) {
-        return;
-      }
-
-      resolve();
-    });
-  });
-}
+const Utils = require('./includes/utils').create(argv);
 
 
 Q.coroutine(function*() {
+  yield* copyFonts();
+  yield* cloneWaigo();
+  yield* createGuideDocs();
+})()
+  .then(() => {
+    Utils.logAction('Setup complete.');
+  })
+  .error(Utils.logError);
 
+
+function* copyFonts() {
   // copy in fonts
-  exec('rm -rf ' + path.join(DIR, 'pages/fonts'));
-  exec('mkdir -p ' + path.join(DIR, 'pages/fonts'));
-  exec('cp ' + path.join(DIR, 'node_modules/fa-stylus/fonts/*') + ' ' + path.join(DIR, 'pages/fonts'));
+  Utils.exec('rm -rf ' + path.join(DIR, 'pages/fonts'));
+  Utils.exec('mkdir -p ' + path.join(DIR, 'pages/fonts'));
+  Utils.exec('cp ' + path.join(DIR, 'node_modules/fa-stylus/fonts/*') + ' ' + path.join(DIR, 'pages/fonts'));
+}
 
+function* cloneWaigo() {
   // clone waigo
   if (!argv['skip-clone']) {
-    exec('rm -rf ' + path.join(DIR, 'waigo'));
-    exec('git clone --depth 1 https://github.com/waigo/waigo.git ' + path.join(DIR, 'waigo'));
+    Utils.exec('rm -rf ' + path.join(DIR, 'waigo'));
+    Utils.exec('git clone --depth 1 https://github.com/waigo/waigo.git ' + path.join(DIR, 'waigo'));
   }
+}
 
+function* createGuideDocs() {
   const docsNav = {
     url: '/docs',
     children: {},
@@ -124,7 +65,7 @@ Q.coroutine(function*() {
   docsRepoPaths = [];
 
   // copy docs
-  yield walkFolder(path.join(DIR, 'waigo/docs'), /\.(md|png|jpg|jpeg|gif)$/i, (file) => {
+  yield Utils.walkFolder(path.join(DIR, 'waigo/docs'), /\.(md|png|jpg|jpeg|gif)$/i, (file) => {
     // build destination filename
     let relativePath = file.substr(path.join(DIR, 'waigo/docs/').length),
       finalFile = path.join(DIR, 'pages/docs', relativePath.toLowerCase()),
@@ -132,22 +73,22 @@ Q.coroutine(function*() {
 
     // if it's not markdown then just copy it over
     if (path.extname(file).toLowerCase() !== '.md') {
-      exec(`cp ${file} ${finalFile}`);
+      Utils.exec(`cp ${file} ${finalFile}`);
 
       return;
     }
 
     // read content
-    let content = readFile(file);
+    let content = Utils.readFile(file);
 
-    logCmd(`Updating links in content`);
+    Utils.logAction(`Updating links in content`);
 
     // remove ".md" and lowercase the links
     content = content
       .replace(/\.md\)/img, '/)')
       .replace(/\]\(.+\/\)/img, (str) => str.toLowerCase());
 
-    logCmd(`Writing front-matter`);
+    Utils.logAction(`Writing front-matter`);
 
     // write front matter
     let title = content.match(/#\s(.+)\n/i);
@@ -191,11 +132,11 @@ Q.coroutine(function*() {
           };
         });
       } else {
-        console.error(`Skipping ${finalFile} because parent node not found.`);
+        Utils.logError(`Skipping ${finalFile} because parent node not found.`);
       }
     } else if ('docs' !== parentNodeName) {
       // grab image links from within content
-      logCmd(`Finding image links`);
+      Utils.logAction(`Finding image links`);
 
       let imgRegex = /\!\[.*\]\((.+)\)/img,
         images = [],
@@ -204,7 +145,7 @@ Q.coroutine(function*() {
         images.push(m[1]);
       }
       if (images.length) {
-        logCmd(`${images.length} images found`);
+        Utils.logAction(`${images.length} images found`);
       }
 
       const childNodeName = path.basename(finalFile, path.extname(finalFile));
@@ -218,10 +159,10 @@ Q.coroutine(function*() {
     }
 
     // create final folder
-    exec(`mkdir -p ${finalFolder}`);
+    Utils.exec(`mkdir -p ${finalFolder}`);
 
     // write to file
-    writeFile(finalFile, content);
+    Utils.writeFile(finalFile, content);
   });
 
   // save extra data to nodes
@@ -229,7 +170,7 @@ Q.coroutine(function*() {
     let docNode = _.get(docsNav, `children.${n.parent}.children.${n.child}`);
     
     if (!docNode) {
-      console.error(`Cannot find nav path: ${n.parent}.${n.child}`);
+      Utils.logError(`Cannot find nav path: ${n.parent}.${n.child}`);
     } else {
       docNode.images = n.images;
       docNode.repoPath = n.repoPath;
@@ -237,11 +178,7 @@ Q.coroutine(function*() {
   });
 
   // write docs nav to data file
-  exec('rm -rf ' + path.join(DIR, 'data'));
-  exec('mkdir -p ' + path.join(DIR, 'data'));
-  writeFile(path.join(DIR, 'data/docsNav.json'), JSON.stringify(docsNav, null, 2));
-})()
-  .then(() => {
-    console.log('Setup complete.');
-  })
-  .error(console.error);
+  Utils.exec('rm -rf ' + path.join(DIR, 'data'));
+  Utils.exec('mkdir -p ' + path.join(DIR, 'data'));
+  Utils.writeFile(path.join(DIR, 'data/docsNav.json'), JSON.stringify(docsNav, null, 2));  
+}

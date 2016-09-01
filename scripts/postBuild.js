@@ -4,17 +4,21 @@
 const _ = require('lodash'),
   path = require('path'),
   shell = require('shelljs');
-
+  
 const DATA_SRC_DIR = path.join(__dirname, '..', 'data'),
   PAGES_SRC_DIR = path.join(__dirname, '..', 'pages'),
-  BUILD_DIR = path.join(__dirname, '..', 'public');
+  BUILD_DIR = path.join(__dirname, '..', 'public');  
+  
+const Utils = require('./includes/utils').create({
+  verbose: true
+});
 
-console.log('Running post-build steps...');
+Utils.logAction('Running post-build steps...');
 
-shell.cp('CNAME', BUILD_DIR);
-shell.cp('pages/img/logo.ico', path.join(BUILD_DIR, 'favicon.ico'));
-shell.cp('node_modules/fa-stylus/fonts/*', path.join(BUILD_DIR, 'fonts'));
-shell.cp('-rf', 'v1', path.join(BUILD_DIR, 'v1'));
+Utils.exec('cp CNAME ' + BUILD_DIR);
+Utils.exec('cp pages/img/logo.ico ' + path.join(BUILD_DIR, 'favicon.ico'));
+Utils.exec('cp node_modules/fa-stylus/fonts/* ' + path.join(BUILD_DIR, 'fonts'));
+Utils.exec('cp -rf v1 ' + path.join(BUILD_DIR, 'v1'));
 
 // copy images
 (function copyImages(node) {
@@ -23,7 +27,7 @@ shell.cp('-rf', 'v1', path.join(BUILD_DIR, 'v1'));
       dstPath = path.join(BUILD_DIR, node.url);
 
     _.each(node.images, (i) => {
-      shell.cp(path.join(srcPath, i), path.join(dstPath, i));
+      Utils.exec('cp ' + path.join(srcPath, i) + ' ' + path.join(dstPath, i));
     });
   }
 
@@ -32,4 +36,6 @@ shell.cp('-rf', 'v1', path.join(BUILD_DIR, 'v1'));
   });
 })(require(path.join(DATA_SRC_DIR, 'docsNav.json')));
 
-console.log('Post-build done.');
+Utils.logAction('Post-build done.');
+
+
