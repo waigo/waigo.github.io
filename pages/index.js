@@ -19,8 +19,7 @@ export default class Index extends React.Component {
               <div className="logo" />
               <p className="tagline">{config.tagLine}</p>
               <div className="actions">
-                <Link to={prefixLink(config.gettingStartedLink)}>Get started</Link>
-                <Link to={prefixLink(config.docsLink)}>Read full docs</Link>
+                <Link to={prefixLink(config.docsLink)}>Get started</Link>
               </div>
               <div className="install">
                 npm i -g waigo
