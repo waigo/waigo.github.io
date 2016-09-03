@@ -15,10 +15,10 @@ const Utils = require('./includes/utils').create({
 
 Utils.logAction('Running post-build steps...');
 
-Utils.exec('cp CNAME ' + BUILD_DIR);
-Utils.exec('cp pages/img/logo.ico ' + path.join(BUILD_DIR, 'favicon.ico'));
-Utils.exec('cp node_modules/fa-stylus/fonts/* ' + path.join(BUILD_DIR, 'fonts'));
-Utils.exec('cp -rf v1 ' + path.join(BUILD_DIR, 'v1'));
+Utils.cp('CNAME', BUILD_DIR);
+Utils.cp('pages/img/logo.ico', path.join(BUILD_DIR, 'favicon.ico'));
+Utils.cp('node_modules/fa-stylus/fonts/*', path.join(BUILD_DIR, 'fonts'));
+Utils.cp('v1', path.join(BUILD_DIR, 'v1'));
 
 // copy images
 (function copyImages(node) {
@@ -27,14 +27,14 @@ Utils.exec('cp -rf v1 ' + path.join(BUILD_DIR, 'v1'));
       dstPath = path.join(BUILD_DIR, node.url);
 
     _.each(node.images, (i) => {
-      Utils.exec('cp ' + path.join(srcPath, i) + ' ' + path.join(dstPath, i));
+      Utils.cp(path.join(srcPath, i), path.join(dstPath, i));
     });
   }
 
   _.each(node.children || {}, (c) => {
     copyImages(c);
   });
-})(require(path.join(DATA_SRC_DIR, 'docsNav.json')));
+})(require(path.join(DATA_SRC_DIR, 'guideNav.json')));
 
 Utils.logAction('Post-build done.');
 

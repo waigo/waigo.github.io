@@ -39,7 +39,7 @@ Q.coroutine(function*() {
   yield* createApiDocs();
 })()
   .then(() => {
-    Utils.logAction('Setup complete.');
+    Utils.logAction('Setup done.');
   })
   .error(Utils.logError);
 
@@ -48,9 +48,9 @@ function* copyFonts() {
   Utils.logAction('Copy fonts...');
 
   // copy in fonts
-  Utils.exec('rm -rf ' + path.join(DIR, 'pages/fonts'));
-  Utils.exec('mkdir -p ' + path.join(DIR, 'pages/fonts'));
-  Utils.exec('cp ' + path.join(DIR, 'node_modules/fa-stylus/fonts/*') + ' ' + path.join(DIR, 'pages/fonts'));
+  Utils.rm(path.join(DIR, 'pages/fonts'));
+  Utils.mkdir(path.join(DIR, 'pages/fonts'));
+  Utils.cp(path.join(DIR, 'node_modules/fa-stylus/fonts/*'), path.join(DIR, 'pages/fonts'));
 }
 
 function* cloneWaigo() {
@@ -58,7 +58,7 @@ function* cloneWaigo() {
   if (!argv['skip-clone']) {
     Utils.logAction('Clone waigo...');
 
-    Utils.exec('rm -rf ' + path.join(DIR, 'waigo'));
+    Utils.rm(path.join(DIR, 'waigo'));
     Utils.exec('git clone --depth 1 https://github.com/waigo/waigo.git ' + path.join(DIR, 'waigo'));
   }
 }
@@ -81,7 +81,7 @@ function* createGuideDocs() {
 
     // if it's not markdown then just copy it over
     if (path.extname(file).toLowerCase() !== '.md') {
-      Utils.exec(`cp ${file} ${finalFile}`);
+      Utils.cp(file, finalFile);
 
       return;
     }
@@ -167,7 +167,7 @@ function* createGuideDocs() {
     }
 
     // create final folder
-    Utils.exec(`mkdir -p ${finalFolder}`);
+    Utils.mkdir(finalFolder);
 
     // write to file
     yield Utils.writeFile(finalFile, content);
@@ -186,8 +186,8 @@ function* createGuideDocs() {
   });
 
   // write docs nav to data file
-  Utils.exec('rm -rf ' + path.join(DIR, 'data'));
-  Utils.exec('mkdir -p ' + path.join(DIR, 'data'));
+  Utils.rm(path.join(DIR, 'data'));
+  Utils.mkdir(path.join(DIR, 'data'));
   yield Utils.writeFile(path.join(DIR, 'data/guideNav.json'), JSON.stringify(guideNav, null, 2));  
 }
 
@@ -196,7 +196,7 @@ function* createGuideDocs() {
 function* createApiDocs() {
   Utils.logAction('Create API docs...');
 
-  Utils.exec('rm -rf ' + path.join(DIR, 'pages/api'));
+  Utils.rm(path.join(DIR, 'pages/api'));
   
   let toProcess = [];
 
@@ -222,7 +222,7 @@ function* createApiDocs() {
     }
       
     // create folder
-    Utils.exec(`mkdir -p ${finalFolder}`);
+    Utils.mkdir(finalFolder);
 
     // add to processing list
     toProcess.push({

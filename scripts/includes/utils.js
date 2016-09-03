@@ -24,6 +24,21 @@ exports.create = function (options) {
     logError: function(err) {
       console.error(err);
     },
+    cp: function(f1, f2) {
+      this.logCmd(`cp: ${f1} ${f2}`);
+
+      shell.cp('-rf', f1, f2);
+    },
+    rm: function(p) {
+      this.logCmd(`rm: ${p}`);
+
+      shell.rm('-rf', p);
+    },
+    mkdir: function(d) {
+      this.logCmd(`mkdir: ${d}`);
+
+      shell.mkdir('-p', d);
+    },
     exec: function(cmd) {
       this.logCmd(cmd);
 
