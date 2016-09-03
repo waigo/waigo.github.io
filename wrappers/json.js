@@ -1,10 +1,10 @@
 import React from 'react';
-import GuideTemplate from '../components/guideTemplate';
+import ApiTemplate from '../components/apiTemplate';
 
 
 export default class Layout extends React.Component {
   render () {
-    return <GuideTemplate page={this.props.route.page} />;
+    return <ApiTemplate page={this.props.route.page} />;
   }
 }
 

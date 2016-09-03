@@ -1,12 +1,5 @@
-$EmbedObject
-  max-width 100%
-  box-shadow 0px 0px 11px 0px rgba(0,0,0,0.5)
-
-.page.docs
-  position relative
-
-  main
-    padding-top 2em
+main.side-nav-layout
+  padding-top 2em
 
   section.content
     position relative
@@ -21,59 +14,6 @@ $EmbedObject
     +below($width-xs)
       width 100%
       padding 0 1em
-
-    h1
-      font-size 250%
-      margin 0 0 1em
-      line-height 1em
-    h2
-      font-size 160%
-      margin 1.5em 0 1em
-      line-height 1em
-    h3
-      font-size 130%
-      margin 1.5em 0 1em
-      line-height 1em
-    p
-      margin 1em 0
-    em
-      font-style italic
-      font-size 90%
-    ol
-      list-style decimal
-    ul
-      list-style disc
-    ol,ul
-      margin 1em 0 1em 3em
-      li
-        padding 0.2em 0
-    img
-      @extend $EmbedObject
-    code
-      @extend $CodeFont
-      &[class*='hljs']
-        @extend $EmbedObject
-        display block
-        border-radius 5px
-        // overflow-x scroll
-        word-wrap normal
-        margin-bottom 1.7em
-      &:not([class*='hljs'])
-        display inline
-        font-size 110%
-        text-bg-color-border-radius($color3)
-        
-    a.github-edit-link
-      border-bottom none
-      position absolute
-      font-size 70%
-      text-transform lowercase
-      top 0
-      right 0
-      icon 'edit'
-      &:before
-        margin-right 0.2em
-
 
     .prev-next
       display flex
@@ -158,3 +98,4 @@ $EmbedObject
       border-left none
     +below($width-xs)
       display block
+

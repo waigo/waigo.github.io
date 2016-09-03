@@ -2,6 +2,7 @@
 "use strict";
 
 const _ = require('lodash'),
+  docLite = require('documentation-lite'),
   Q = require('bluebird'),
   path = require('path');
 
@@ -65,14 +66,14 @@ function* cloneWaigo() {
 function* createGuideDocs() {
   Utils.logAction('Creating guide docs...');
   
-  const docsNav = {
+  let guideNav = {
     url: '/docs',
     children: {},
   }, docsExtraData = [],
   docsRepoPaths = [];
 
   // copy docs
-  yield Utils.walkFolder(path.join(DIR, 'waigo/docs'), /\.(md|png|jpg|jpeg|gif)$/i, (file) => {
+  yield Utils.walkFolder(path.join(DIR, 'waigo/docs'), /\.(md|png|jpg|jpeg|gif)$/i, function*(file) {
     // build destination filename
     let relativePath = file.substr(path.join(DIR, 'waigo/docs/').length),
       finalFile = path.join(DIR, 'pages/docs', relativePath.toLowerCase()),
@@ -86,7 +87,7 @@ function* createGuideDocs() {
     }
 
     // read content
-    let content = Utils.readFile(file);
+    let content = yield Utils.readFile(file);
 
     Utils.logAction(`Updating links in content`);
 
@@ -106,9 +107,9 @@ function* createGuideDocs() {
     // get parent node
     let parentNodeName = finalFolder.split(path.sep).pop();
     let parentNode =  ('docs' === parentNodeName)
-      ? docsNav
-      : docsNav.children[parentNodeName];
-
+      ? guideNav
+      : guideNav.children[parentNodeName];
+    
     // README.md?
     if (0 <= finalFile.indexOf('readme.md')) {      
       // README.md -> index.md
@@ -124,14 +125,14 @@ function* createGuideDocs() {
 
       if (parentNode) {
         // repo path
-        if (docsNav !== parentNode) {
+        if (guideNav !== parentNode) {
           parentNode.repoPath = relativePath;        
         }
         
         links.forEach((l) => {
           let label = l[1],
             subFolder = l[2];
-
+            
           parentNode.children[subFolder] = {
             label: label,
             url: `${parentNode.url}/${subFolder}`,
@@ -169,12 +170,12 @@ function* createGuideDocs() {
     Utils.exec(`mkdir -p ${finalFolder}`);
 
     // write to file
-    Utils.writeFile(finalFile, content);
+    yield Utils.writeFile(finalFile, content);
   });
-
+  
   // save extra data to nodes
   docsExtraData.forEach((n) => {
-    let docNode = _.get(docsNav, `children.${n.parent}.children.${n.child}`);
+    let docNode = _.get(guideNav, `children.${n.parent}.children.${n.child}`);
     
     if (!docNode) {
       Utils.logError(`Cannot find nav path: ${n.parent}.${n.child}`);
@@ -187,9 +188,8 @@ function* createGuideDocs() {
   // write docs nav to data file
   Utils.exec('rm -rf ' + path.join(DIR, 'data'));
   Utils.exec('mkdir -p ' + path.join(DIR, 'data'));
-  Utils.writeFile(path.join(DIR, 'data/docsNav.json'), JSON.stringify(docsNav, null, 2));  
+  yield Utils.writeFile(path.join(DIR, 'data/guideNav.json'), JSON.stringify(guideNav, null, 2));  
 }
-
 
 
 
@@ -197,13 +197,24 @@ function* createApiDocs() {
   Utils.logAction('Create API docs...');
 
   Utils.exec('rm -rf ' + path.join(DIR, 'pages/api'));
+  
+  let toProcess = [];
 
-  yield Utils.walkFolder(path.join(DIR, 'waigo/src'), /\.(js)$/i, (file) => {
+  yield Utils.walkFolder(path.join(DIR, 'waigo/src'), /\.(js)$/i, function*(file) {
     // build destination filename
     const relativePath = file.substr(path.join(DIR, 'waigo/src/').length),
-      relativePathNoExt = path.join(path.dirname(relativePath), path.basename(relativePath, '.js')),
-      finalFile = path.join(DIR, 'pages/api', relativePathNoExt.toLowerCase()) + '.json',
-      finalFolder = path.dirname(finalFile);
+      inputFileName = path.basename(relativePath, '.js'),
+      relativePathNoExt = path.join(path.dirname(relativePath), inputFileName);
+      
+    let finalFile = path.join(DIR, 'pages/api', relativePathNoExt);
+    // if filename is index.js then we need to create another subfolder within output folder
+    // because gatsby auto-treats index files as if they're default file for the containing folder
+    if (inputFileName === 'index') {
+      finalFile = path.join(finalFile, 'index');
+    }
+    finalFile += '.json';
+    
+    const finalFolder = path.dirname(finalFile);
       
     // skip cli/data
     if (0 <= relativePathNoExt.indexOf("cli/data")) {
@@ -213,7 +224,45 @@ function* createApiDocs() {
     // create folder
     Utils.exec(`mkdir -p ${finalFolder}`);
 
-    // create resulting JSON
-    Utils.writeFile(finalFile, JSON.stringify({}, null, 2));
+    // add to processing list
+    toProcess.push({
+      nav: relativePathNoExt,
+      inputFile: file,
+      outputFile: finalFile,
+    });
   });
+  
+  Utils.logAction('Create API JSON files...');
+
+  yield Q.all(toProcess.map((item) => {
+    return docLite.processFile(item.inputFile, {
+      includeCode: true
+    })
+    .then((json) => {
+      return Utils.writeFile(item.outputFile, JSON.stringify(json, null, 2));
+    });
+  }));
+
+  Utils.logAction('Create root index.json file...');
+
+  yield Utils.writeFile(path.join(DIR, 'pages/api/index.json'), JSON.stringify({
+    file: {
+      description: [
+        'Welcome to the Waigo API docs.',
+        'Use the menu on the left to navigate to different files.'
+      ]
+    }
+  }, null, 2));
+  
+  Utils.logAction('Create API nav...');
+
+  let navList = _.sortBy(toProcess, (i) => i.nav)
+    .map((i) => i.nav)
+    .filter((i) => (i !== 'index' && i !== 'loader'));
+  
+  yield Utils.writeFile(
+    path.join(DIR, 'data', 'apiNav.json'), 
+    JSON.stringify(navList, null, 2)
+  );
 }
+

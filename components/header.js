@@ -12,7 +12,13 @@ const NAV = [
     label: 'Guide',
     title: 'Documentation guide',
     link: prefixLink(config.docsLink),
-    tag: 'docs',
+    tag: 'guide',
+  },
+  {
+    label: 'API',
+    title: 'API docs',
+    link: prefixLink(config.apiLink),
+    tag: 'api',
   },
   {
     label: <i className="twitter" />,

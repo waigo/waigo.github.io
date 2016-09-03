@@ -38,26 +38,38 @@ exports.create = function (options) {
     readFile: function(file) {
       this.logCmd(`readFile: ${file}`);
 
-      return fs.readFileSync(file, {encoding:"utf-8"}).toString();      
+      return new Q((resolve, reject) => {
+        fs.readFile(file, (err, data) => {
+          if (err) { 
+            return reject(err);
+          }
+          
+          resolve(data.toString());
+        });
+      });
     },
     writeFile: function(file, contents) {
       this.logCmd(`writeFile: ${file}`);
 
-      return fs.writeFileSync(file, contents, {encoding:'utf-8'});
+      return new Q((resolve, reject) => {
+        fs.writeFile(file, contents, (err) => {
+          if (err) { 
+            return reject(err);
+          }
+          
+          resolve();
+        });
+      });
     },
     walkFolder: function(rootFolder, regex, cb) {
+      let promises = [];
+      
       return new Q(function(resolve, reject) {
-        let done = false;
-
         let walker = walk(rootFolder, {
           followSymlinks: false
         });
 
         walker.on('file', function(file, stat) {
-          if (done) {
-            return;
-          }
-
           var dirname = path.dirname(file),
             filename = path.join(path.relative(rootFolder, dirname), path.basename(file));
 
@@ -65,23 +77,14 @@ exports.create = function (options) {
             return;
           }
 
-          try {
-            cb(file);
-          } catch (err) {
-            done = true;
-
-            return reject(err);
-          }
+          promises.push(Q.coroutine(cb)(file));
         });
 
         walker.on('end', function() {
-          if (done) {
-            return;
-          }
-
           resolve();
         });
-      });
+      })
+      .then(() => Q.all(promises));
     },
   };
 }
